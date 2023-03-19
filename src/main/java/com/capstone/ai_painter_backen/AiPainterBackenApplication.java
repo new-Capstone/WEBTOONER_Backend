@@ -9,5 +9,4 @@ public class AiPainterBackenApplication {
     public static void main(String[] args) {
         SpringApplication.run(AiPainterBackenApplication.class, args);
     }
-
 }
