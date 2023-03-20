@@ -1,5 +1,6 @@
-package com.capstone.ai_painter_backen.domain;
+package com.capstone.ai_painter_backen.domain.mentor;
 
+import com.capstone.ai_painter_backen.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -8,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Getter
-public class Category extends BaseEntity{
+public class CategoryEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,5 +17,5 @@ public class Category extends BaseEntity{
     private String categoryName;
 
     @OneToMany(mappedBy = "category")
-    private List<CategoryTutor> categoryTutors = new ArrayList<>();
+    private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 }

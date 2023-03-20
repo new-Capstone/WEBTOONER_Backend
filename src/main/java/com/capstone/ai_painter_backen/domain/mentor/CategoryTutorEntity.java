@@ -1,20 +1,21 @@
-package com.capstone.ai_painter_backen.domain;
+package com.capstone.ai_painter_backen.domain.mentor;
 
+import com.capstone.ai_painter_backen.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class CategoryTutor extends BaseEntity{
+public class CategoryTutorEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
-    private Category category;
+    private CategoryEntity categoryEntity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
-    private Tutor tutor;
+    private TutorEntity tutorEntity;
 }
