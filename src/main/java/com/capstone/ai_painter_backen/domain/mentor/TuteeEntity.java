@@ -16,6 +16,6 @@ public class TuteeEntity extends BaseEntity {
     @JoinColumn(name = "tutor_id")
     private TutorEntity tutorEntity;
 
-    @OneToOne(mappedBy = "tutee", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "tuteeEntity", fetch = FetchType.LAZY)
     private UserEntity userEntity;
 }

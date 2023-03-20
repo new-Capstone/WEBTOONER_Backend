@@ -20,6 +20,6 @@ public class BeforeImageEntity extends BaseEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @OneToMany(mappedBy = "beforeImage")
+    @OneToMany(mappedBy = "beforeImageEntity")
     private List<AfterImageEntity> afterImageEntities = new ArrayList<>();
 }

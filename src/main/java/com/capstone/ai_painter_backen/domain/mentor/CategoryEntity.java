@@ -16,6 +16,6 @@ public class CategoryEntity extends BaseEntity {
 
     private String categoryName;
 
-    @OneToMany(mappedBy = "category")
+    @OneToMany(mappedBy = "categoryEntity")
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 }

@@ -16,7 +16,7 @@ public class MessageEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
-    private RoomEntity room;
+    private RoomEntity roomEntity;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_user_id")

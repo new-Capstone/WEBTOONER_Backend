@@ -16,9 +16,9 @@ public class TutorEntity extends BaseEntity {
 
     private String description;
 
-    @OneToMany(mappedBy = "tutor")
+    @OneToMany(mappedBy = "tutorEntity")
     private List<TuteeEntity> tuteeEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tutor")
+    @OneToMany(mappedBy = "tutorEntity")
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 }
