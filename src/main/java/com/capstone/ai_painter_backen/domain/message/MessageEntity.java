@@ -1,11 +1,13 @@
-package com.capstone.ai_painter_backen.domain;
+package com.capstone.ai_painter_backen.domain.message;
 
+import com.capstone.ai_painter_backen.domain.BaseEntity;
+import com.capstone.ai_painter_backen.domain.UserEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class Message extends BaseEntity{
+public class MessageEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,9 +16,9 @@ public class Message extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "room_id")
-    private Room room;
+    private RoomEntity roomEntity;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_user_id")
-    private User chatUser;
+    private UserEntity chatUserEntity;
 }

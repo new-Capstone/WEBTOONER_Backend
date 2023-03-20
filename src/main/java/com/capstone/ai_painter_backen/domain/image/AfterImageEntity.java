@@ -1,11 +1,12 @@
-package com.capstone.ai_painter_backen.domain;
+package com.capstone.ai_painter_backen.domain.image;
 
+import com.capstone.ai_painter_backen.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
 @Entity
 @Getter
-public class AfterImage extends BaseEntity{
+public class AfterImageEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -14,5 +15,5 @@ public class AfterImage extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "before_image_id")
-    private BeforeImage beforeImage;
+    private BeforeImageEntity beforeImageEntity;
 }
