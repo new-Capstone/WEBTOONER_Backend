@@ -2,13 +2,16 @@ package com.capstone.ai_painter_backen.domain.mentor;
 
 import com.capstone.ai_painter_backen.domain.BaseEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class TutorEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
