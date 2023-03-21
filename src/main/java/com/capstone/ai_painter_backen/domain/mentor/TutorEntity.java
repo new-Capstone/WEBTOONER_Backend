@@ -24,4 +24,10 @@ public class TutorEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "tutorEntity")
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
+
+
+    public void update(String description, List<CategoryTutorEntity> categoryTutorEntities){//변경 메소드 작성
+        this.description = description;
+        this.categoryTutorEntities = categoryTutorEntities;
+    }
 }
