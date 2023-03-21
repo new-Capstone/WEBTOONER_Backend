@@ -2,13 +2,20 @@ package com.capstone.ai_painter_backen.domain.mentor;
 
 import com.capstone.ai_painter_backen.domain.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
-
+import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
+
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class CategoryEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,4 +25,9 @@ public class CategoryEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "categoryEntity")
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
+
+    public void update(RequestUpdateDto requestDto) {
+        this.categoryName = requestDto.getCategoryName();
+    }
 }
+
