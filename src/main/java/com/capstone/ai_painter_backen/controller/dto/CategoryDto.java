@@ -1,9 +1,12 @@
 package com.capstone.ai_painter_backen.controller.dto;
 
+import com.capstone.ai_painter_backen.domain.mentor.CategoryTutorEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 public class CategoryDto {
 
@@ -38,7 +41,7 @@ public class CategoryDto {
      public static class ResponseDto {
          private Long id;
          private String categoryName;
-         //TODO : Tutor list
+         private List<CategoryTutorEntity> categoryTutorEntities;
      }
 }
 

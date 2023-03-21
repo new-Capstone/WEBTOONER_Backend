@@ -28,7 +28,6 @@ public class CategoryServiceImpl implements CategoryService {
     @Transactional
     public Long saveCategory(RequestSaveDto requestSaveDto) {
         CategoryEntity category = categoryMapper.requestSaveDtoToEntity(requestSaveDto);
-        log.info("section1 : name = {}", category.getCategoryName());
 
         if (categoryRepository.existsByCategoryName(category.getCategoryName())) {
             throw new DuplicateNameException();
@@ -63,7 +62,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public List<ResponseDto> findAllCategory() {
         return categoryRepository.findAll().stream()
-                .map(m -> new ResponseDto(m.getId(), m.getCategoryName()))
+                .map(m -> new ResponseDto(m.getId(), m.getCategoryName(), m.getCategoryTutorEntities()))
                 .collect(Collectors.toList());
     }
 }

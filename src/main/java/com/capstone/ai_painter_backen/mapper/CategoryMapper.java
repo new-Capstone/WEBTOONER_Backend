@@ -10,6 +10,7 @@ import org.mapstruct.ReportingPolicy;
 public interface CategoryMapper {
 
 
+
     CategoryEntity requestSaveDtoToEntity(RequestSaveDto dto);
     ResponseDto entityToResponseDto(CategoryEntity entity);
 }
