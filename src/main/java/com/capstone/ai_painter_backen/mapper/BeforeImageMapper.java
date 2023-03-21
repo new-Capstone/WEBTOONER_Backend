@@ -18,7 +18,7 @@ public interface BeforeImageMapper {
     default BeforeImageDto.ResponseDto BeforeImageEntityToBeforeImageResponseDto(BeforeImageEntity beforeImageEntity){
 
         return BeforeImageDto.ResponseDto.builder()
-                .afterImageresponseDtos(new ArrayList<>())
+                .afterImageResponseDtos(new ArrayList<>())
                 .beforeImageId(beforeImageEntity.getId())
                 .beforeImageUri(beforeImageEntity.getBeforeImageUri())
                 .userId(beforeImageEntity.getUserEntity().getId())
