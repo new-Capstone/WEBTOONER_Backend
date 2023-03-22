@@ -11,7 +11,6 @@ import java.util.List;
 
 import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
 
-@Controller
 @RequiredArgsConstructor
 @RequestMapping("/categories")
 @RestController
