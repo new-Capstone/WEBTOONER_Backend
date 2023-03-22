@@ -21,7 +21,7 @@ public interface BeforeImageMapper {
                 .afterImageResponseDtos(new ArrayList<>())
                 .beforeImageId(beforeImageEntity.getId())
                 .beforeImageUri(beforeImageEntity.getBeforeImageUri())
-                .userId(beforeImageEntity.getUserEntity().getId())
+//                .userId(beforeImageEntity.getUserEntity().getId())
                 .build();
     }
 }

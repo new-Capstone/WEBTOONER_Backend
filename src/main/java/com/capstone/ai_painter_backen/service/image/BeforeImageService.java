@@ -4,6 +4,7 @@ import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import com.capstone.ai_painter_backen.mapper.BeforeImageMapper;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
+import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,8 +18,11 @@ public class BeforeImageService {
 
     BeforeImageRepository beforeImageRepository;
     BeforeImageMapper beforeImageMapper;
+    S3FileService s3FileService;
 
     public BeforeImageDto.ResponseDto createBeforeImage(MultipartFile multipartFile){
+        beforeImageMapper.MultipartFileToBeforeImageEntity(multipartFile);
+
 
         BeforeImageEntity savedBeforeImageEntity =
                 beforeImageRepository.save(beforeImageMapper.MultipartFileToBeforeImageEntity(multipartFile));

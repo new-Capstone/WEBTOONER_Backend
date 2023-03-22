@@ -19,6 +19,8 @@ public class BeforeImageDto {
         String beforeImageUri;
         List<AfterImageDto.ResponseDto> afterImageResponseDtos = new ArrayList<>();
     }
+
+
     @AllArgsConstructor
     @NoArgsConstructor
     @Getter
@@ -26,7 +28,9 @@ public class BeforeImageDto {
     @Builder
     @Schema(description = "image file POST DTO")
     public static class PostDto{
+        @Schema(description = "userId")
         Long userId;
+        @Schema(description = "사진파일")
         MultipartFile beforeImageMultipartFile;
     }
 }
