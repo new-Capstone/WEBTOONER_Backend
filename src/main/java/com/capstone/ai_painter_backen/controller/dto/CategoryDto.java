@@ -24,6 +24,7 @@ public class CategoryDto {
      @AllArgsConstructor
      public static class RequestUpdateDto {
           private String categoryName;
+          //TODO :: Tutor 합칠 때 변경
      }
 
      @Getter

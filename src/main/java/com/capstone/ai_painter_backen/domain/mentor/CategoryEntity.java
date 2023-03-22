@@ -26,8 +26,8 @@ public class CategoryEntity extends BaseEntity {
     @OneToMany(mappedBy = "categoryEntity")
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 
-    public void update(RequestUpdateDto requestDto) {
-        this.categoryName = requestDto.getCategoryName();
+    public void update(String CategoryName) {
+        this.categoryName = CategoryName;
     }
 }
 

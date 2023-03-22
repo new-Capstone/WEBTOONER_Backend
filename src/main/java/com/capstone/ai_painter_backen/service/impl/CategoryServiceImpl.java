@@ -42,7 +42,7 @@ public class CategoryServiceImpl implements CategoryService {
         CategoryEntity category = categoryRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException());
 
-        category.update(requestUpdateDto);
+        category.update(requestUpdateDto.getCategoryName()); //TODO :: tutor 합칠 때 수정
     }
 
     @Override
