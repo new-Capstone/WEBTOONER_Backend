@@ -1,10 +1,9 @@
-package com.capstone.ai_painter_backen.service.impl;
+package com.capstone.ai_painter_backen.service.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import com.capstone.ai_painter_backen.exception.DuplicateNameException;
 import com.capstone.ai_painter_backen.mapper.CategoryMapper;
-import com.capstone.ai_painter_backen.repository.CategoryRepository;
-import com.capstone.ai_painter_backen.service.CategoryService;
+import com.capstone.ai_painter_backen.repository.mentor.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +13,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
+import static com.capstone.ai_painter_backen.dto.mentor.CategoryDto.*;
 
 @Service
 @RequiredArgsConstructor

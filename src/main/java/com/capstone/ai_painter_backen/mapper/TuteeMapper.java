@@ -3,7 +3,7 @@ package com.capstone.ai_painter_backen.mapper;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import org.mapstruct.Mapper;
 
-import static com.capstone.ai_painter_backen.controller.dto.TuteeDto.*;
+import static com.capstone.ai_painter_backen.dto.mentor.TuteeDto.*;
 
 @Mapper(componentModel = "spring")
 public interface TuteeMapper {

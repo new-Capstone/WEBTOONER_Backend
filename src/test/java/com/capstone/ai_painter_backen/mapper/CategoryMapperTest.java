@@ -1,14 +1,12 @@
 package com.capstone.ai_painter_backen.mapper;
 
-import com.capstone.ai_painter_backen.controller.dto.CategoryDto;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
+import static com.capstone.ai_painter_backen.dto.mentor.CategoryDto.*;
 import static org.assertj.core.api.Assertions.*;
 
 

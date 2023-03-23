@@ -1,9 +1,8 @@
 package com.capstone.ai_painter_backen.service.impl;
 
-import com.capstone.ai_painter_backen.controller.dto.CategoryDto;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
-import com.capstone.ai_painter_backen.repository.CategoryRepository;
-import com.capstone.ai_painter_backen.service.CategoryService;
+import com.capstone.ai_painter_backen.repository.mentor.CategoryRepository;
+import com.capstone.ai_painter_backen.service.mentor.CategoryService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,8 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
-import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.capstone.ai_painter_backen.dto.mentor.CategoryDto.*;
 
 @Transactional
 @SpringBootTest

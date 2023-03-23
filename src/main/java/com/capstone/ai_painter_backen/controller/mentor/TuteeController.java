@@ -1,14 +1,14 @@
-package com.capstone.ai_painter_backen.controller;
+package com.capstone.ai_painter_backen.controller.mentor;
 
-import com.capstone.ai_painter_backen.controller.dto.TuteeDto.RequestSaveDto;
-import com.capstone.ai_painter_backen.controller.dto.TuteeDto.RequestUpdateDto;
-import com.capstone.ai_painter_backen.controller.dto.TuteeDto.ResponseDto;
-import com.capstone.ai_painter_backen.service.TuteeService;
+import com.capstone.ai_painter_backen.dto.mentor.TuteeDto.RequestSaveDto;
+import com.capstone.ai_painter_backen.dto.mentor.TuteeDto.RequestUpdateDto;
+import com.capstone.ai_painter_backen.dto.mentor.TuteeDto.ResponseDto;
+import com.capstone.ai_painter_backen.service.mentor.TuteeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import static com.capstone.ai_painter_backen.controller.dto.TuteeDto.*;
+import static com.capstone.ai_painter_backen.dto.mentor.TuteeDto.*;
 
 @RestController
 @RequiredArgsConstructor

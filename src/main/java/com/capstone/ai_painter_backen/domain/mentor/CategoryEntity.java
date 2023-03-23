@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
-
 @Entity
 @Getter
 @Builder

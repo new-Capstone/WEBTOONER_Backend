@@ -1,7 +1,7 @@
 package com.capstone.ai_painter_backen.controller.mentor;
 
 import com.capstone.ai_painter_backen.dto.TutorDto;
-import com.capstone.ai_painter_backen.service.TutorService;
+import com.capstone.ai_painter_backen.service.mentor.TutorService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

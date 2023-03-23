@@ -1,10 +1,8 @@
-package com.capstone.ai_painter_backen.service;
-
-import com.capstone.ai_painter_backen.controller.dto.CategoryDto;
+package com.capstone.ai_painter_backen.service.mentor;
 
 import java.util.List;
 
-import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
+import static com.capstone.ai_painter_backen.dto.mentor.CategoryDto.*;
 
 public interface CategoryService {
     Long saveCategory(RequestSaveDto requestSaveDto);

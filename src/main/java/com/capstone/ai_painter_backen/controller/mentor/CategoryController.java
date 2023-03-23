@@ -1,15 +1,14 @@
-package com.capstone.ai_painter_backen.controller;
+package com.capstone.ai_painter_backen.controller.mentor;
 
-import com.capstone.ai_painter_backen.controller.dto.CategoryDto.RequestSaveDto;
-import com.capstone.ai_painter_backen.service.CategoryService;
+import com.capstone.ai_painter_backen.dto.mentor.CategoryDto.RequestSaveDto;
+import com.capstone.ai_painter_backen.service.mentor.CategoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-import static com.capstone.ai_painter_backen.controller.dto.CategoryDto.*;
+import static com.capstone.ai_painter_backen.dto.mentor.CategoryDto.*;
 
 @RequiredArgsConstructor
 @RequestMapping("/categories")

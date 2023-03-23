@@ -1,10 +1,9 @@
 package com.capstone.ai_painter_backen.mapper;
 
-import com.capstone.ai_painter_backen.controller.dto.CategoryDto.RequestSaveDto;
-import com.capstone.ai_painter_backen.controller.dto.CategoryDto.ResponseDto;
+import com.capstone.ai_painter_backen.dto.mentor.CategoryDto.RequestSaveDto;
+import com.capstone.ai_painter_backen.dto.mentor.CategoryDto.ResponseDto;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import org.mapstruct.Mapper;
-import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
 

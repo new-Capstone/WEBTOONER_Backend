@@ -10,10 +10,6 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
-
 public class UserEntity extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +28,4 @@ public class UserEntity extends BaseEntity{
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutee_id")
     private TuteeEntity tuteeEntity;
-
-    public void addTutee(TuteeEntity tutee) {
-        this.tuteeEntity = tutee;
-    }
 }

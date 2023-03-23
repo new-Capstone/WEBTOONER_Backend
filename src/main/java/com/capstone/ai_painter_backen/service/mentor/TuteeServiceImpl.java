@@ -1,22 +1,21 @@
-package com.capstone.ai_painter_backen.service.impl;
+package com.capstone.ai_painter_backen.service.mentor;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import com.capstone.ai_painter_backen.mapper.TuteeMapper;
-import com.capstone.ai_painter_backen.repository.TuteeRepository;
-import com.capstone.ai_painter_backen.repository.TutorRepository;
+import com.capstone.ai_painter_backen.repository.mentor.TuteeRepository;
+import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
 import com.capstone.ai_painter_backen.repository.UserRepository;
-import com.capstone.ai_painter_backen.service.TuteeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import java.util.List;
+
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.capstone.ai_painter_backen.controller.dto.TuteeDto.*;
+import static com.capstone.ai_painter_backen.dto.mentor.TuteeDto.*;
 
 @Service
 @RequiredArgsConstructor
@@ -42,7 +41,6 @@ public class TuteeServiceImpl implements TuteeService {
                 .tutorEntity(tutor.get())
                 .build();
 
-        user.get().addTutee(tutee);
 
         return tuteeRepository.save(tutee).getId();
     }
