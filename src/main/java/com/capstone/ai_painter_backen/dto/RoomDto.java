@@ -17,7 +17,6 @@ public class RoomDto {
     public static class PostDto {
         private UserEntity owner;
         private UserEntity visitor;
-        private List<MessageEntity> messageEntities = new ArrayList<>();
     }
 
     @Getter
