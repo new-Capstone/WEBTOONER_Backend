@@ -3,10 +3,15 @@ package com.capstone.ai_painter_backen.domain.message;
 import com.capstone.ai_painter_backen.domain.BaseEntity;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
+import jakarta.websocket.server.ServerEndpoint;
+import lombok.*;
 
 @Entity
 @Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class MessageEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,4 +26,13 @@ public class MessageEntity extends BaseEntity {
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "chat_user_id")
     private UserEntity chatUserEntity;
+
+    //==생성 로직==//
+    public MessageEntity createMessage(String content, RoomEntity roomEntity, UserEntity userEntity){
+        MessageEntity messageEntity = new MessageEntity();
+        messageEntity.content = content;
+        messageEntity.roomEntity = roomEntity;
+        messageEntity.chatUserEntity = userEntity;
+        return messageEntity;
+    }
 }

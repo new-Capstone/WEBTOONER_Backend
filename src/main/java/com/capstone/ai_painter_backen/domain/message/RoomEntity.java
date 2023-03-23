@@ -3,16 +3,14 @@ package com.capstone.ai_painter_backen.domain.message;
 import com.capstone.ai_painter_backen.domain.BaseEntity;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
