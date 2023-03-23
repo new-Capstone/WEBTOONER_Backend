@@ -31,8 +31,8 @@ public class TuteeController {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}/edit")
-    public void updateTutee(@PathVariable Long id, @RequestBody RequestUpdateDto requestUpdateDto) {
-        tuteeService.updateTutee(id, requestUpdateDto);
+    public ResponseDto updateTutee(@PathVariable Long id, @RequestBody RequestUpdateDto requestUpdateDto) {
+        return tuteeService.updateTutee(id, requestUpdateDto);
     }
 
     @ResponseStatus(HttpStatus.OK)

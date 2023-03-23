@@ -37,8 +37,8 @@ public class CategoryController {
 
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}/edit")
-    public void updateCategory(@PathVariable Long id, @RequestBody RequestUpdateDto requestUpdateDto) {
-        categoryService.updateCategory(id, requestUpdateDto);
+    public ResponseDto updateCategory(@PathVariable Long id, @RequestBody RequestUpdateDto requestUpdateDto) {
+        return categoryService.updateCategory(id, requestUpdateDto);
     }
 
     @ResponseStatus(HttpStatus.OK)
