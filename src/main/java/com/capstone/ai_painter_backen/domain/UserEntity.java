@@ -2,11 +2,18 @@ package com.capstone.ai_painter_backen.domain;
 
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
+import com.capstone.ai_painter_backen.dto.UserDto;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity extends BaseEntity{
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,4 +32,13 @@ public class UserEntity extends BaseEntity{
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutee_id")
     private TuteeEntity tuteeEntity;
+
+    //==갱신 로직==//
+    public void update(UserDto.PatchDto patchDto){
+        this.password = patchDto.getPassword();
+        this.description = patchDto.getDescription();
+        this.profileImage = patchDto.getProfileImage();
+        this.tutorEntity = patchDto.getTutorEntity();
+        this.tuteeEntity = patchDto.getTuteeEntity();
+    }
 }

@@ -1,5 +1,7 @@
 package com.capstone.ai_painter_backen.dto;
 
+import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
+import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import lombok.*;
 
 public class UserDto {
@@ -22,6 +24,7 @@ public class UserDto {
     @NoArgsConstructor
     @Builder
     public static class ResponseDto {
+        private Long userid;
         private String username;
         private String loginId;
         private String description;
@@ -34,9 +37,8 @@ public class UserDto {
     @NoArgsConstructor
     @Builder
     public static class DeleteDto {
-        private String loginId;
+        private Long userid;
     }
-
 
 
     @Getter
@@ -45,10 +47,11 @@ public class UserDto {
     @NoArgsConstructor
     @Builder
     public static class PatchDto {
-        private String loginId;
-        private String username;
+        private Long userid;
         private String password;
         private String description;
         private String profileImage;
+        private TutorEntity tutorEntity;
+        private TuteeEntity tuteeEntity;
     }
 }
