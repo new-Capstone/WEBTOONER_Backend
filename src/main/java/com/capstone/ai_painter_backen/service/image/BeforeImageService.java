@@ -1,6 +1,7 @@
 package com.capstone.ai_painter_backen.service.image;
 
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
+import com.capstone.ai_painter_backen.dto.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import com.capstone.ai_painter_backen.mapper.BeforeImageMapper;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
@@ -21,8 +22,10 @@ public class BeforeImageService {
     S3FileService s3FileService;
 
     public BeforeImageDto.ResponseDto createBeforeImage(MultipartFile multipartFile){
-        beforeImageMapper.MultipartFileToBeforeImageEntity(multipartFile);
 
+        S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(multipartFile);
+
+        log.info(s3ImageInfo.toString());
 
         BeforeImageEntity savedBeforeImageEntity =
                 beforeImageRepository.save(beforeImageMapper.MultipartFileToBeforeImageEntity(multipartFile));

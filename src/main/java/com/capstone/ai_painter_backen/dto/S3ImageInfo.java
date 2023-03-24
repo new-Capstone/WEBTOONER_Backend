@@ -11,4 +11,13 @@ public class S3ImageInfo {
     Long S3ImageInfoId;
     String fileName;
     String fileURI;
+
+    @Override
+    public String toString() {
+        return "S3ImageInfo{" +
+                "S3ImageInfoId=" + S3ImageInfoId +
+                ", fileName='" + fileName + '\'' +
+                ", fileURI='" + fileURI + '\'' +
+                '}';
+    }
 }

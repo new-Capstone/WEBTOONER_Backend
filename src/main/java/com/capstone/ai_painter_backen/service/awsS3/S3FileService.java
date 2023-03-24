@@ -135,7 +135,8 @@ public class S3FileService implements FileServiceCRUD{
 
     @Override
     @Async
-    public String deleteMultiFile(String fileName){
+    public String deleteMultiFile(String fileUri){
+        String fileName = extractObjectKeyFromUri(fileUri);
 
         if(amazonS3.doesObjectExist(s3BucketName,fileName)){
             amazonS3.deleteObject(s3BucketName, fileName);
@@ -146,6 +147,10 @@ public class S3FileService implements FileServiceCRUD{
         }
     }
 
+    public String extractObjectKeyFromUri(String fileUri){//file uri 에서 fileName 을 가져옴
+        String fileName = fileUri.substring(58);
+        return fileName;
+    }
     @Override
     public String getMultiPartFile(String multiPartFileName) {
         return findImgUrl(multiPartFileName);
