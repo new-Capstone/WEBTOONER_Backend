@@ -105,10 +105,8 @@ public class S3FileService implements FileServiceCRUD{
     @Async
     public S3ImageInfo uploadMultiFile(final MultipartFile multipartFile) {
 
-//        s3Client.putObject(new PutObjectRequest(bucket, fileName, file.getInputStream(), null)                .withCannedAcl(CannedAccessControlList.PublicRead));
 
         try {
-//            final File file = convertMultiPartFileToFile(multipartFile);
             final String fileName = UUID.randomUUID() + "_" + Objects.requireNonNull(multipartFile.getOriginalFilename()).substring(multipartFile.getOriginalFilename().indexOf(".")); //change the file name
             LOG.info("Uploading file with name {}", fileName);
 
@@ -118,7 +116,6 @@ public class S3FileService implements FileServiceCRUD{
             putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);//configure upload file permission
             PutObjectResult putObjectResult = amazonS3.putObject(putObjectRequest);//now send the data to S3
             System.out.println("File " + fileName + " was uploaded.");
-//            Files.delete(file.toPath()); // Remove the file locally created in the project folder
             String fileURI = findImgUrl(fileName);
             inputStream.close();//저장한 스트림 닫음
 
@@ -135,7 +132,7 @@ public class S3FileService implements FileServiceCRUD{
 
     @Override
     @Async
-    public String deleteMultiFile(String fileUri){
+    public String deleteMultiFile(String fileUri){// file uri 를 삭제에서 사용할 수 있도록 변경함.
         String fileName = extractObjectKeyFromUri(fileUri);
 
         if(amazonS3.doesObjectExist(s3BucketName,fileName)){

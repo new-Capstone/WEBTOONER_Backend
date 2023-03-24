@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.controller;
+package com.capstone.ai_painter_backen.controller.image;
 
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import com.capstone.ai_painter_backen.service.image.BeforeImageService;
@@ -31,12 +31,31 @@ public class BeforeImageController {
 
         BeforeImageDto.PostDto postDto =
                 BeforeImageDto.PostDto.builder().beforeImageMultipartFile(multipartFile).userId(userId).build();
-        BeforeImageDto.ResponseDto responseDto = beforeImageService.createBeforeImage(postDto.getBeforeImageMultipartFile());
+
+        BeforeImageDto.ResponseDto responseDto = beforeImageService.createBeforeImage(postDto);
         return ResponseEntity.ok().body(responseDto);
     }
 
+    @Operation(summary = "변환전 이미지 가져오기", description = "변환전 이미지를 id를 통해서 읽어오는 메소드입니다.")
+    @ApiResponses({@ApiResponse(responseCode = "201" ,description = "변환전 이미지가 정상적으로 가져와짐",
+            content = @Content(schema = @Schema(implementation = BeforeImageDto.ResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.")})
+    @GetMapping
+    public ResponseEntity<?> getBeforeImage(@RequestParam Long beforeImageId){
+        return ResponseEntity.ok().body(beforeImageService.readBeforeImage(beforeImageId));
+    }
+
+
+    @Operation(summary = "변환전 이미지 삭제하기", description = "변환전 이미지를 id를 통해서 삭제하고 해당하는 변환 후 이미지도 삭제함 메소드입니다.")
+    @ApiResponses({@ApiResponse(responseCode = "201" ,description = "문자열과 함께 삭제된 이미지 파일의 이름이 반환됨"),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!"),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.")})
     @DeleteMapping()
     public ResponseEntity<?> deleteBeforeImage(@RequestParam Long beforeImageId){
+
         return ResponseEntity.ok().body(beforeImageService.deleteBeforeImage(beforeImageId));
     }
 
