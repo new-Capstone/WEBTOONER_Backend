@@ -3,7 +3,7 @@ package com.capstone.ai_painter_backen.service.image;
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
 import com.capstone.ai_painter_backen.dto.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
-import com.capstone.ai_painter_backen.mapper.BeforeImageMapper;
+import com.capstone.ai_painter_backen.mapper.image.BeforeImageMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;

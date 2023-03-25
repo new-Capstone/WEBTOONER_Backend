@@ -1,12 +1,15 @@
-package com.capstone.ai_painter_backen.mapper;
+package com.capstone.ai_painter_backen.mapper.image;
 
+import com.capstone.ai_painter_backen.domain.image.AfterImageEntity;
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
 import com.capstone.ai_painter_backen.dto.S3ImageInfo;
+import com.capstone.ai_painter_backen.dto.image.AfterImageDto;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import org.mapstruct.Mapper;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface BeforeImageMapper {
@@ -18,13 +21,23 @@ public interface BeforeImageMapper {
                 .build();
 
     }
+    default AfterImageDto.ResponseDto afterImageEntityToAfterImageResponseDto(AfterImageEntity afterImageEntity){
+        return AfterImageDto.ResponseDto.builder()
+                .beforeImageId(afterImageEntity.getBeforeImageEntity().getId())
+                .afterImageUri(afterImageEntity.getImageURI())
+                .afterImageId(afterImageEntity.getId())
+                .build();
+    }
+
     default BeforeImageDto.ResponseDto BeforeImageEntityToBeforeImageResponseDto(BeforeImageEntity beforeImageEntity){
 
         return BeforeImageDto.ResponseDto.builder()
-                .afterImageResponseDtos(new ArrayList<>())
+                .afterImageResponseDtos(beforeImageEntity.getAfterImageEntities().stream()
+                        .map(this::afterImageEntityToAfterImageResponseDto).collect(Collectors.toList()))//dto 로 변환해서 전송함.
                 .beforeImageId(beforeImageEntity.getId())
                 .beforeImageUri(beforeImageEntity.getBeforeImageUri())
 //                .userId(beforeImageEntity.getUserEntity().getId())
                 .build();
     }
+
 }
