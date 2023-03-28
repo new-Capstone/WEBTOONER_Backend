@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.dto;
+package com.capstone.ai_painter_backen.dto.Message;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
@@ -14,9 +14,9 @@ public class MessageDto {
     public static class PostDto {
         private String content;
 
-        private RoomEntity roomEntity;
+        private Long roomEntityId;
 
-        private UserEntity chatUserEntity;
+        private Long chatUserEntityId;
     }
 
     @Getter

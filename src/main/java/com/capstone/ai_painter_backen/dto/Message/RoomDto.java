@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.dto;
+package com.capstone.ai_painter_backen.dto.Message;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.message.MessageEntity;
@@ -16,8 +16,8 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class PostDto {
-        private UserEntity owner;
-        private UserEntity visitor;
+        private Long ownerId;
+        private Long visitorId;
     }
 
     @Getter
@@ -39,16 +39,5 @@ public class RoomDto {
     @Builder
     public static class DeleteDto {
         private Long roomid;
-    }
-
-
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    @Builder
-    public static class PatchDto {
-        private Long roomid;
-        private List<MessageEntity> messageEntities = new ArrayList<>();
     }
 }

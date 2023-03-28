@@ -2,7 +2,7 @@ package com.capstone.ai_painter_backen.controller;
 
 import com.capstone.ai_painter_backen.dto.TutorDto;
 import com.capstone.ai_painter_backen.dto.UserDto;
-import com.capstone.ai_painter_backen.service.TutorService;
+
 import com.capstone.ai_painter_backen.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

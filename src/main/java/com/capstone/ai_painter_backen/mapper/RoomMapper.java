@@ -1,7 +1,7 @@
 package com.capstone.ai_painter_backen.mapper;
 
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
-import com.capstone.ai_painter_backen.dto.RoomDto;
+import com.capstone.ai_painter_backen.dto.Message.RoomDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 
@@ -17,8 +17,6 @@ public interface RoomMapper {
             return null;
         } else {
             return RoomEntity.builder()
-                    .owner(roompostDto.getOwner())
-                    .visitor(roompostDto.getVisitor())
                     .messageEntities(new ArrayList<>())
                     .build();
         }

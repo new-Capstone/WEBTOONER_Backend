@@ -1,21 +1,20 @@
 package com.capstone.ai_painter_backen.mapper;
 
 import com.capstone.ai_painter_backen.domain.message.MessageEntity;
-import com.capstone.ai_painter_backen.dto.MessageDto;
+import com.capstone.ai_painter_backen.dto.Message.MessageDto;
+import com.capstone.ai_painter_backen.repository.MessageRepository;
 import org.mapstruct.Mapper;
-
-import java.util.ArrayList;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public interface MessageMapper {
-    default MessageEntity roomRequestPostDtoToRoomEntity(MessageDto.PostDto roompostDto) {
-        if (roompostDto == null) {
+
+    default MessageEntity messageRequestPostDtoToMessageEntity(MessageDto.PostDto postDto) {
+        if (postDto == null) {
             return null;
         } else {
             return MessageEntity.builder()
-                    .content(roompostDto.getContent())
-                    .roomEntity(roompostDto.getRoomEntity())
-                    .chatUserEntity(roompostDto.getChatUserEntity())
+                    .content(postDto.getContent())
                     .build();
         }
     }

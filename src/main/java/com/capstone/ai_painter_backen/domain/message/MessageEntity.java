@@ -27,12 +27,4 @@ public class MessageEntity extends BaseEntity {
     @JoinColumn(name = "chat_user_id")
     private UserEntity chatUserEntity;
 
-    //==생성 로직==//
-    public MessageEntity createMessage(String content, RoomEntity roomEntity, UserEntity userEntity){
-        MessageEntity messageEntity = new MessageEntity();
-        messageEntity.content = content;
-        messageEntity.roomEntity = roomEntity;
-        messageEntity.chatUserEntity = userEntity;
-        return messageEntity;
-    }
 }
