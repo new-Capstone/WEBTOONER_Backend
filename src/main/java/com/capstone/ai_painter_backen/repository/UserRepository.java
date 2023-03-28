@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
 //    public void deleteByLoginId(String loginid);
+
+    boolean existsByLoginId(String LoginId);
 }

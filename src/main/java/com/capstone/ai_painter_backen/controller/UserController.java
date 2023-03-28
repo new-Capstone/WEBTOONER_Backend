@@ -38,7 +38,7 @@ public class UserController {
 
     @DeleteMapping("/deleteuser")
     public ResponseEntity<?> deleteUser(@RequestParam Long userId){
-        userService.deleteTutor(new UserDto.DeleteDto(userId));
+        userService.deleteUser(new UserDto.DeleteDto(userId));
         return ResponseEntity.ok().body("deleted userId:"+userId);
     }
 }

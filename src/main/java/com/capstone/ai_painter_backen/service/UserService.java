@@ -2,6 +2,7 @@ package com.capstone.ai_painter_backen.service;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.dto.UserDto;
+import com.capstone.ai_painter_backen.exception.DuplicateNameException;
 import com.capstone.ai_painter_backen.mapper.UserMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import jakarta.transaction.Transactional;
@@ -20,10 +21,15 @@ public class UserService {
     @Transactional
     public UserDto.ResponseDto createUser(UserDto.PostDto postDto){
         UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(postDto);
+
+        if (userRepository.existsByLoginId(userEntity.getLoginId())) {
+            throw new DuplicateNameException();
+        }
+
         return  userMapper.userEntityToUserResponseDto(userRepository.save(userEntity));
     }
 
-    public void deleteTutor(UserDto.DeleteDto deleteDto){
+    public void deleteUser(UserDto.DeleteDto deleteDto){
         userRepository.deleteById(deleteDto.getUserid());
         log.info("{}: User 삭제됨 !", deleteDto.getUserid());
     }
