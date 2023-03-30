@@ -9,6 +9,7 @@ application-server.yml
 application.properties
 application-test.yml
 application.yml
+application-local.yml
 
 ### STS ###
 .apt_generated
