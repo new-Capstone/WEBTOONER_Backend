@@ -36,7 +36,7 @@ public interface BeforeImageMapper {
                         .map(this::afterImageEntityToAfterImageResponseDto).collect(Collectors.toList()))//dto 로 변환해서 전송함.
                 .beforeImageId(beforeImageEntity.getId())
                 .beforeImageUri(beforeImageEntity.getBeforeImageUri())
-//                .userId(beforeImageEntity.getUserEntity().getId())
+                .userId(beforeImageEntity.getUserEntity().getId())
                 .build();
     }
 

@@ -32,8 +32,8 @@ public class BeforeImageService {
         BeforeImageEntity beforeImageEntity =
                 beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(postDto,s3ImageInfo);
 
-//        Long userId = postDto.getUserId();//todo 나중에 유저 추가되면 연간관계 수행할것.
-//        beforeImageEntity.setUserEntity(userRepository.findById(userId).orElseThrow());
+        Long userId = postDto.getUserId();//todo 나중에 유저 추가되면 연간관계 수행할것.
+        beforeImageEntity.setUserEntity(userRepository.findById(userId).orElseThrow());
 
         BeforeImageEntity savedBeforeImageEntity =
                 beforeImageRepository.save(beforeImageEntity);
