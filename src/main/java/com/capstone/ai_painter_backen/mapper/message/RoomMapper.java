@@ -9,7 +9,6 @@ import java.util.ArrayList;
 
 @Mapper(componentModel = "spring")
 public interface RoomMapper {
-    RoomMapper INSTANCE = Mappers.getMapper(RoomMapper.class);
 
     //    @Mapping(target = "id", ignore = true)
     default RoomEntity roomRequestPostDtoToRoomEntity(RoomDto.PostDto roompostDto) {
