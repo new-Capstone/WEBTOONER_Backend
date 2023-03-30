@@ -5,4 +5,5 @@ import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserRepository extends JpaRepository<UserEntity, Long> {
+
 }
