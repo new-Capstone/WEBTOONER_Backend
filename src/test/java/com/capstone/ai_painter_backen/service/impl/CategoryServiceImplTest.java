@@ -17,7 +17,8 @@ import static com.capstone.ai_painter_backen.dto.mentor.CategoryDto.*;
 @SpringBootTest
 class CategoryServiceImplTest {
 
-    @Autowired CategoryService categoryService;
+    @Autowired
+    CategoryService categoryService;
     @Autowired CategoryRepository categoryRepository;
 
     @Test
