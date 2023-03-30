@@ -1,10 +1,8 @@
-package com.capstone.ai_painter_backen.mapper;
+package com.capstone.ai_painter_backen.mapper.message;
 
 import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.dto.Message.MessageDto;
-import com.capstone.ai_painter_backen.repository.MessageRepository;
 import org.mapstruct.Mapper;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public interface MessageMapper {

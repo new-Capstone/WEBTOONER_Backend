@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.mapper;
+package com.capstone.ai_painter_backen.mapper.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import org.mapstruct.Mapper;

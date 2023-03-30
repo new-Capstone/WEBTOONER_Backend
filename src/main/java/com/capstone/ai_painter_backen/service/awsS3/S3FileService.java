@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.capstone.ai_painter_backen.dto.S3ImageInfo;
+import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import jakarta.transaction.Transactional;

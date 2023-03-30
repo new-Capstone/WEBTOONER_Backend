@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.mapper;
+package com.capstone.ai_painter_backen.mapper.message;
 
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.RoomDto;

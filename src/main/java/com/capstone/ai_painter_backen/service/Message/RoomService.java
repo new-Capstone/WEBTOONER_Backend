@@ -1,13 +1,9 @@
 package com.capstone.ai_painter_backen.service.Message;
 
-import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
-import com.capstone.ai_painter_backen.dto.Message.MessageDto;
 import com.capstone.ai_painter_backen.dto.Message.RoomDto;
-import com.capstone.ai_painter_backen.mapper.MessageMapper;
-import com.capstone.ai_painter_backen.mapper.RoomMapper;
-import com.capstone.ai_painter_backen.repository.MessageRepository;
-import com.capstone.ai_painter_backen.repository.RoomRepository;
+import com.capstone.ai_painter_backen.mapper.message.RoomMapper;
+import com.capstone.ai_painter_backen.repository.message.RoomRepository;
 
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import lombok.RequiredArgsConstructor;

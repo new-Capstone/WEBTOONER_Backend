@@ -1,8 +1,8 @@
 package com.capstone.ai_painter_backen.service.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
-import com.capstone.ai_painter_backen.dto.TutorDto;
-import com.capstone.ai_painter_backen.mapper.TutorMapper;
+import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
+import com.capstone.ai_painter_backen.mapper.mentor.TutorMapper;
 import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;

@@ -1,14 +1,9 @@
 package com.capstone.ai_painter_backen.mapper;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
-import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
-import com.capstone.ai_painter_backen.dto.TutorDto;
 import com.capstone.ai_painter_backen.dto.UserDto;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-
-import java.util.ArrayList;
 
 
 @Mapper(componentModel = "spring")

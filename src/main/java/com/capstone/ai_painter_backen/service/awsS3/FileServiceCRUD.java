@@ -1,6 +1,6 @@
 package com.capstone.ai_painter_backen.service.awsS3;
 
-import com.capstone.ai_painter_backen.dto.S3ImageInfo;
+import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;

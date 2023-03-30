@@ -1,7 +1,7 @@
-package com.capstone.ai_painter_backen.mapper;
+package com.capstone.ai_painter_backen.mapper.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
-import com.capstone.ai_painter_backen.dto.TutorDto;
+import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
 import org.mapstruct.Mapper;
 
 import java.util.ArrayList;
