@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.dto;
+package com.capstone.ai_painter_backen.dto.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.CategoryTutorEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;

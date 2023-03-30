@@ -3,7 +3,7 @@ package com.capstone.ai_painter_backen.service.mentor;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
-import com.capstone.ai_painter_backen.mapper.TuteeMapper;
+import com.capstone.ai_painter_backen.mapper.mentor.TuteeMapper;
 import com.capstone.ai_painter_backen.repository.mentor.TuteeRepository;
 import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
 import com.capstone.ai_painter_backen.repository.UserRepository;

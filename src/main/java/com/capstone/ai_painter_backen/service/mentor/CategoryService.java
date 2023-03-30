@@ -2,7 +2,7 @@ package com.capstone.ai_painter_backen.service.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import com.capstone.ai_painter_backen.exception.DuplicateNameException;
-import com.capstone.ai_painter_backen.mapper.CategoryMapper;
+import com.capstone.ai_painter_backen.mapper.etc.CategoryMapper;
 import com.capstone.ai_painter_backen.repository.mentor.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

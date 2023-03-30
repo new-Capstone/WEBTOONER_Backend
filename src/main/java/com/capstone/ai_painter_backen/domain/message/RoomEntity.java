@@ -3,12 +3,17 @@ package com.capstone.ai_painter_backen.domain.message;
 import com.capstone.ai_painter_backen.domain.BaseEntity;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoomEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.mapper;
+package com.capstone.ai_painter_backen.mapper.etc;
 
 import com.capstone.ai_painter_backen.dto.mentor.CategoryDto.RequestSaveDto;
 import com.capstone.ai_painter_backen.dto.mentor.CategoryDto.ResponseDto;
