@@ -1,6 +1,7 @@
 package com.capstone.ai_painter_backen.domain.mentor;
 
 import com.capstone.ai_painter_backen.domain.BaseEntity;
+import com.capstone.ai_painter_backen.domain.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,6 +26,9 @@ public class TutorEntity extends BaseEntity {
 
     @OneToMany(mappedBy = "tutorEntity")
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
+
+    @OneToOne(mappedBy = "tutorEntity", fetch = FetchType.LAZY)
+    UserEntity userEntity;
 
 
     public void update(String description, List<CategoryTutorEntity> categoryTutorEntities){//변경 메소드 작성

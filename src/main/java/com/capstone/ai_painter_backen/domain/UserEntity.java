@@ -41,4 +41,16 @@ public class UserEntity extends BaseEntity{
         this.tutorEntity = patchDto.getTutorEntity();
         this.tuteeEntity = patchDto.getTuteeEntity();
     }
+
+    //==TutorEnroll==//
+    public void enrollTutor(TutorEntity tutorEntity){
+        this.tutorEntity = tutorEntity;
+    }
+
+    //==TutorEnroll==//
+    public void enrollTutee(TuteeEntity tuteeEntity){
+        this.tuteeEntity = tuteeEntity;
+    }
+
+
 }
