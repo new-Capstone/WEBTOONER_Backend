@@ -29,6 +29,7 @@ public class SwaggerConfiguration {
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
+
                 .info(new Info().title("AI PAINTER API")
                         .description("AI Painter's api docs!!")
                         .version("v0.0.1")
