@@ -1,8 +1,10 @@
 package com.capstone.ai_painter_backen.service.mentor;
 
+import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
 import com.capstone.ai_painter_backen.mapper.mentor.TutorMapper;
+import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
@@ -16,9 +18,12 @@ public class TutorService {
 
     TutorMapper tutorMapper;
     TutorRepository tutorRepository;
+    UserRepository userRepository;
 
     public TutorDto.ResponseDto createTutor(TutorDto.PostDto postDto){
         TutorEntity tutorEntity = tutorMapper.tutorRequestPostDtoToTutorEntity(postDto);
+        UserEntity savedUserEntity  = userRepository.findById(postDto.getUserId()).orElseThrow();
+        savedUserEntity.enrollTutor(tutorEntity);
         return  tutorMapper.tutorEntityToTutorResponseDto(tutorRepository.save(tutorEntity));
     }
 

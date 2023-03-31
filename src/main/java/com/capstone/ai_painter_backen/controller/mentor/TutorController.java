@@ -2,6 +2,8 @@ package com.capstone.ai_painter_backen.controller.mentor;
 
 import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
 import com.capstone.ai_painter_backen.service.mentor.TutorService;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
