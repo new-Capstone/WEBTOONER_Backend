@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 @AllArgsConstructor
 @RequestMapping("beforeimage")
 public class BeforeImageController {
-
+//튜터 이미지..., 진수님 메세지, 재성...유저
     BeforeImageService beforeImageService;
 
 

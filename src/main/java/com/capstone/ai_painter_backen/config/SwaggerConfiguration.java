@@ -14,6 +14,7 @@ public class SwaggerConfiguration {
     @Bean
     public GroupedOpenApi publicApi() {
         return GroupedOpenApi.builder()
+                .packagesToScan("com/capstone/ai_painter_backen")
                 .group("ai_painter_public")//일반 사용자 그룹 설정
                 .pathsToMatch("/**")
                 .build();
@@ -21,6 +22,7 @@ public class SwaggerConfiguration {
     @Bean
     public GroupedOpenApi adminApi() {
         return GroupedOpenApi.builder()
+                .packagesToScan("com/capstone/ai_painter_backen")
                 .group("ai_painter-admin")//관리자 사용자 그룹
                 .pathsToMatch("/admin/**")
                 .build();
@@ -29,6 +31,7 @@ public class SwaggerConfiguration {
     @Bean
     public OpenAPI springShopOpenAPI() {
         return new OpenAPI()
+
                 .info(new Info().title("AI PAINTER API")
                         .description("AI Painter's api docs!!")
                         .version("v0.0.1")
