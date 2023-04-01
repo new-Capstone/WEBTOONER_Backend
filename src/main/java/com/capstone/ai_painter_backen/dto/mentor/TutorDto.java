@@ -16,9 +16,12 @@ public class TutorDto {
     @NoArgsConstructor
     @Builder
     public static class PostDto {
+        @Schema
         Long userId;
+        @Schema
         String description;
-        List<String> category;
+        @Schema
+        List<String> categoryName;
     }
 
     @Getter
@@ -26,6 +29,8 @@ public class TutorDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Schema
+
     public static class ResponseDto {
         Long tutorId;
         String description;
@@ -38,6 +43,8 @@ public class TutorDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    @Schema
+
     public static class DeleteDto {
         Long tutorId; // id 를 이용해서 삭제
     }

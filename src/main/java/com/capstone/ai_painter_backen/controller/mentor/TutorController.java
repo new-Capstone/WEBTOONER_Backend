@@ -4,6 +4,7 @@ import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
 import com.capstone.ai_painter_backen.service.mentor.TutorService;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +16,8 @@ public class TutorController {
 
     TutorService tutorService;
 
-    @PostMapping()
-    public ResponseEntity<?> createTutor(@RequestBody TutorDto.PostDto postDto){
+    @PostMapping()//test pass
+    public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.PostDto.class) TutorDto.PostDto postDto){
         return ResponseEntity.ok().body(tutorService.createTutor(postDto));
     }
 
@@ -26,7 +27,7 @@ public class TutorController {
     }
 
     @PatchMapping()
-    public ResponseEntity<?> modifyTutor(@RequestBody TutorDto.PatchDto patchDto){
+    public ResponseEntity<?> modifyTutor(@RequestBody  @Schema(implementation = TutorDto.PatchDto.class) TutorDto.PatchDto patchDto){
         return ResponseEntity.ok().body(tutorService.modifyTutor(patchDto));
     }
 
