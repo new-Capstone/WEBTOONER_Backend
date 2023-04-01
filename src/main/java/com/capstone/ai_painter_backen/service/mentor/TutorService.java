@@ -24,7 +24,7 @@ public class TutorService {
         TutorEntity tutorEntity = tutorMapper.tutorRequestPostDtoToTutorEntity(postDto);
         UserEntity savedUserEntity  = userRepository.findById(postDto.getUserId()).orElseThrow();
         savedUserEntity.enrollTutor(tutorEntity);
-        return  tutorMapper.tutorEntityToTutorResponseDto(tutorRepository.save(tutorEntity));
+        return  tutorMapper.tutorEntityToTutorResponseDto(tutorRepository.save(tutorEntity));// jpa cacade 로 user 자동 저장
     }
 
     public void deleteTutor(TutorDto.DeleteDto deleteDto){

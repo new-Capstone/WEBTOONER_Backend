@@ -27,8 +27,8 @@ public class TutorEntity extends BaseEntity {
     @OneToMany(mappedBy = "tutorEntity")
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 
-    @OneToOne(mappedBy = "tutorEntity", fetch = FetchType.LAZY)
-    UserEntity userEntity;
+    @OneToOne(mappedBy = "tutorEntity", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private UserEntity userEntity;
 
 
     public void update(String description, List<CategoryTutorEntity> categoryTutorEntities){//변경 메소드 작성

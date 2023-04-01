@@ -2,6 +2,7 @@ package com.capstone.ai_painter_backen.domain.mentor;
 
 import com.capstone.ai_painter_backen.domain.BaseEntity;
 import jakarta.persistence.*;
+import jakarta.validation.Constraint;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,11 +15,13 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+
 public class CategoryEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique=true) // 유니크 제약 조건
     private String categoryName;
 
     @OneToMany(mappedBy = "categoryEntity")
