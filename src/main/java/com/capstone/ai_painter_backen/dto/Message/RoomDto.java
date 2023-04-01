@@ -4,9 +4,9 @@ import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 
 import lombok.*;
+import org.springframework.web.socket.WebSocketSession;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class RoomDto {
 
@@ -40,4 +40,5 @@ public class RoomDto {
     public static class DeleteDto {
         private Long roomid;
     }
+
 }
