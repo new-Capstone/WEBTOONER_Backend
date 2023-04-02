@@ -16,7 +16,6 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,13 +33,13 @@ public class TutorService {
     CategoryRepository categoryRepository;
     CategoryTutorRepository categoryTutorRepository;
 
-    public TutorDto.ResponseDto createTutor(TutorDto.PostDto postDto){
+    public TutorDto.TutorResponseDto createTutor(TutorDto.TutorPostDto tutorPostDto){
 
-        TutorEntity tutorEntity = tutorMapper.tutorRequestPostDtoToTutorEntity(postDto);
-        UserEntity savedUserEntity  = userRepository.findById(postDto.getUserId()).orElseThrow();
+        TutorEntity tutorEntity = tutorMapper.tutorRequestPostDtoToTutorEntity(tutorPostDto);
+        UserEntity savedUserEntity  = userRepository.findById(tutorPostDto.getUserId()).orElseThrow();
         savedUserEntity.enrollTutor(tutorEntity);//user tutor mapping
 
-        tutorEntity.setCategoryTutorEntities(getCategoryTutorEntityList(postDto.getCategoryNames(),tutorEntity));
+        tutorEntity.setCategoryTutorEntities(getCategoryTutorEntityList(tutorPostDto.getCategoryNames(),tutorEntity));
 
         return  tutorMapper.tutorEntityToTutorResponseDto(tutorRepository.save(tutorEntity));// jpa cacade 로 user 자동 저장
     }
@@ -69,38 +68,38 @@ public class TutorService {
 
 
     @Transactional
-    public String deleteTutor(TutorDto.DeleteDto deleteDto){
-        Optional<TutorEntity> tutor = tutorRepository.findById(deleteDto.getTutorId());
+    public String deleteTutor(TutorDto.TutorDeleteDto tutorDeleteDto){
+        Optional<TutorEntity> tutor = tutorRepository.findById(tutorDeleteDto.getTutorId());
         if(tutor.isPresent()){
             Long userId  = tutor.get().getUserEntity().getId();
             userRepository.findById(userId).orElseThrow().unrollTutor();//연관 관계 삭제
-            tutorRepository.deleteById(deleteDto.getTutorId());
-            log.info("{}: 삭제됨 !", deleteDto.getTutorId());
-            return  deleteDto.toString();
+            tutorRepository.deleteById(tutorDeleteDto.getTutorId());
+            log.info("{}: 삭제됨 !", tutorDeleteDto.getTutorId());
+            return  tutorDeleteDto.toString();
         }else{
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
     }
 
-    public TutorDto.ResponseDto modifyTutor( TutorDto.PatchDto patchDto){
+    public TutorDto.TutorResponseDto modifyTutor(TutorDto.TutorPatchDto tutorPatchDto){
         //기존에 리스트를 새로만들어서 삽입하는게 아니라 존재하는 리스트에 하나씩 삽입함 근데 됨.
         //고아 객체 오류를 피하기 위해서는 반드시 리스트를 clear하고 진행해야함.
-        TutorEntity savedTutorEntity = tutorRepository.findById(patchDto.getTutorId()).orElseThrow();
+        TutorEntity savedTutorEntity = tutorRepository.findById(tutorPatchDto.getTutorId()).orElseThrow();
         savedTutorEntity.getCategoryTutorEntities().clear();
-        List<CategoryTutorEntity> categoryTutorEntities = getCategoryTutorEntityList(patchDto.getCategoryNames(),savedTutorEntity);
+        List<CategoryTutorEntity> categoryTutorEntities = getCategoryTutorEntityList(tutorPatchDto.getCategoryNames(),savedTutorEntity);
 
-        savedTutorEntity.update(patchDto.getDescription(),categoryTutorEntities);
+        savedTutorEntity.update(tutorPatchDto.getDescription(),categoryTutorEntities);
         tutorRepository.save(savedTutorEntity);
-        TutorDto.ResponseDto responseDto = tutorMapper.tutorEntityToTutorResponseDto(savedTutorEntity);
+        TutorDto.TutorResponseDto tutorResponseDto = tutorMapper.tutorEntityToTutorResponseDto(savedTutorEntity);
 
 
-        return responseDto;
+        return tutorResponseDto;
     }
 
-    public TutorDto.ResponseDto getTutor(Long tutorId){
-        TutorDto.ResponseDto responseDto = tutorMapper.tutorEntityToTutorResponseDto(
+    public TutorDto.TutorResponseDto getTutor(Long tutorId){
+        TutorDto.TutorResponseDto tutorResponseDto = tutorMapper.tutorEntityToTutorResponseDto(
                 tutorRepository.findById(tutorId).orElseThrow());
 
-        return responseDto;
+        return tutorResponseDto;
     }
 }

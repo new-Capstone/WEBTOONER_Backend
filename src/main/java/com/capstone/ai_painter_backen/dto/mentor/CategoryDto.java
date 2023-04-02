@@ -18,7 +18,7 @@ public class CategoryDto {
      @Schema
 
      public static class RequestSaveDto {
-         private String categoryName;
+          String categoryName;
      }
 
      @Getter
@@ -28,7 +28,7 @@ public class CategoryDto {
      @Schema
 
      public static class RequestUpdateDto {
-          private String categoryName;
+           String categoryName;
           //TODO :: Tutor 합칠 때 변경
      }
 
@@ -37,7 +37,7 @@ public class CategoryDto {
      @Builder
      @AllArgsConstructor
      public static class RequestDeleteDto {
-          private Long categoryId;
+           Long categoryId;
      }
 
      @Getter
@@ -47,9 +47,9 @@ public class CategoryDto {
      @Schema
 
      public static class ResponseDto {
-         private Long id;
-         private String categoryName;
-         private List<CategoryTutorEntity> categoryTutorEntities;
+          Long id;
+          String categoryName;
+          List<CategoryTutorEntity> categoryTutorEntities;
      }
 }
 

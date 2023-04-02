@@ -2,8 +2,6 @@ package com.capstone.ai_painter_backen.controller.mentor;
 
 import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
 import com.capstone.ai_painter_backen.service.mentor.TutorService;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -17,8 +15,8 @@ public class TutorController {
     TutorService tutorService;
 
     @PostMapping()//test pass
-    public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.PostDto.class) TutorDto.PostDto postDto){
-        return ResponseEntity.ok().body(tutorService.createTutor(postDto));
+    public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.TutorPostDto.class) TutorDto.TutorPostDto tutorPostDto){
+        return ResponseEntity.ok().body(tutorService.createTutor(tutorPostDto));
     }
 
     @GetMapping()//test pass
@@ -27,13 +25,13 @@ public class TutorController {
     }
 
     @PatchMapping()//
-    public ResponseEntity<?> modifyTutor(@RequestBody  @Schema(implementation = TutorDto.PatchDto.class) TutorDto.PatchDto patchDto){
-        return ResponseEntity.ok().body(tutorService.modifyTutor(patchDto));
+    public ResponseEntity<?> modifyTutor(@RequestBody  @Schema(implementation = TutorDto.TutorPatchDto.class) TutorDto.TutorPatchDto tutorPatchDto){
+        return ResponseEntity.ok().body(tutorService.modifyTutor(tutorPatchDto));
     }
 
     @DeleteMapping()//test pass
     public ResponseEntity<?> deleteTutor(@RequestParam Long tutorId){
-        tutorService.deleteTutor(new TutorDto.DeleteDto(tutorId));
+        tutorService.deleteTutor(new TutorDto.TutorDeleteDto(tutorId));
         return ResponseEntity.ok().body("deleted tutorId:"+tutorId);
     }
 

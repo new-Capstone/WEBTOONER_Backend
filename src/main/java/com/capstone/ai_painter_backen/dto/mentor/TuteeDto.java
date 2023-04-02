@@ -2,49 +2,59 @@ package com.capstone.ai_painter_backen.dto.mentor;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.*;
+@Getter
 public class TuteeDto {
-
-    @Getter
+    @Schema
+    @Data
     @NoArgsConstructor
     @Builder
     @AllArgsConstructor
-    public static class RequestSaveDto {
-        private Long userId;
-        private Long tutorId;
+    public static class TuteeRequestSaveDto {
+         Long userId;
+         Long tutorId;
     }
-
-    @Getter
+    @Schema
+    @Data
     @NoArgsConstructor
     @Builder
     @AllArgsConstructor
-    public static class RequestUpdateDto {
+    public static class TuteeRequestUpdateDto {
         // TODO :: dto 로 변경
         // user 는 수정 불가
-        private TutorEntity tutor;
+        @Schema
+        Long id; // tutee id
+        @Schema
+        Long tutorId;
     }
-
-    @Getter
+    @Schema
+    @Data
     @NoArgsConstructor
     @Builder
     @AllArgsConstructor
-    public static class RequestDeleteDto {
-        private Long tuteeId;
-    }
+    public static class TuteeRequestDeleteDto {
+        Long tuteeId;
 
-    @Getter
+        @Override
+        public String toString(){
+            return tuteeId + "deleted !!";
+        }
+    }
+    @Schema
+    @Data
     @NoArgsConstructor
     @Builder
     @AllArgsConstructor
-    public static class ResponseDto {
-        private Long tuteeId;
-        // TODO : UserDto 로 변경
-        private UserEntity userEntity;
-        // TODO : TutorDto 로 변경
-        private TutorEntity tutorEntity;
+    public static class TuteeResponseDto {
+        @Schema
+         Long tuteeId;
+        @Schema
+        String tuteeName;
+        @Schema
+        Long tutorId;
+        @Schema
+        String tutorName; //튜터 이름
+
     }
 }
