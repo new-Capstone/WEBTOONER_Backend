@@ -48,9 +48,9 @@ public class UserEntity extends BaseEntity{
     }
 
     //==TutorEnroll==//
-    public void enrollTutee(TuteeEntity tuteeEntity){
-        this.tuteeEntity = tuteeEntity;
-    }
+    public void enrollTutee(TuteeEntity tuteeEntity){this.tuteeEntity = tuteeEntity;}
+
+    public void unrollTutor(){this.tutorEntity = null;}
 
 
 }

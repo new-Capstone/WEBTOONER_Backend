@@ -26,7 +26,6 @@ public class CategoryController {
 
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/new")
-    @Operation
     public ResponseEntity createCategory(@RequestBody @Schema(implementation = RequestSaveDto.class) RequestSaveDto requestSaveDto) {
         return ResponseEntity.ok().body(categoryService.saveCategory(requestSaveDto));
     }

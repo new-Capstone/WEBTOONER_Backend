@@ -24,4 +24,15 @@ public class CategoryTutorEntity extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
     private TutorEntity tutorEntity;
+
+
+    public CategoryTutorEntity(CategoryEntity categoryEntity, TutorEntity tutorEntity) {
+        super();
+        this.categoryEntity = categoryEntity;
+        this.tutorEntity = tutorEntity;
+    }
+
+    public void update(CategoryEntity categoryEntity){
+        this.categoryEntity = categoryEntity;
+    }
 }

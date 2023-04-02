@@ -21,17 +21,17 @@ public class TutorController {
         return ResponseEntity.ok().body(tutorService.createTutor(postDto));
     }
 
-    @GetMapping()
+    @GetMapping()//test pass
     public ResponseEntity<?> getTutor(@RequestParam Long tutorId){
         return ResponseEntity.ok().body(tutorService.getTutor(tutorId));
     }
 
-    @PatchMapping()
+    @PatchMapping()//
     public ResponseEntity<?> modifyTutor(@RequestBody  @Schema(implementation = TutorDto.PatchDto.class) TutorDto.PatchDto patchDto){
         return ResponseEntity.ok().body(tutorService.modifyTutor(patchDto));
     }
 
-    @DeleteMapping()
+    @DeleteMapping()//test pass
     public ResponseEntity<?> deleteTutor(@RequestParam Long tutorId){
         tutorService.deleteTutor(new TutorDto.DeleteDto(tutorId));
         return ResponseEntity.ok().body("deleted tutorId:"+tutorId);

@@ -1,7 +1,9 @@
 package com.capstone.ai_painter_backen.controller.Message;
 
 import com.capstone.ai_painter_backen.dto.Message.RoomDto;
+import com.capstone.ai_painter_backen.dto.mentor.CategoryDto;
 import com.capstone.ai_painter_backen.service.Message.RoomService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,12 @@ public class RoomController {
     private final RoomService roomService;
 
     @PostMapping("/createroom")
-    public ResponseEntity<?> createRoom(@RequestBody RoomDto.PostDto postDto){
+    public ResponseEntity<?> createRoom(@RequestBody @Schema(implementation = RoomDto.PostDto.class)RoomDto.PostDto postDto){
         return ResponseEntity.ok().body(roomService.createRoom(postDto));
     }
 
     @DeleteMapping("deleteroom")
-    public ResponseEntity<?> deleteRoom(RoomDto.DeleteDto deleteDto){
+    public ResponseEntity<?> deleteRoom(@RequestBody @Schema(implementation = RoomDto.DeleteDto.class) RoomDto.DeleteDto deleteDto){
         roomService.deleteRoom(deleteDto);
         return ResponseEntity.ok().body("deleted RoomId:"+deleteDto.getRoomid());
     }

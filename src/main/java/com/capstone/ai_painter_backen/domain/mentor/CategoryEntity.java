@@ -15,7 +15,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CategoryEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +23,15 @@ public class CategoryEntity extends BaseEntity {
     @Column(unique=true) // 유니크 제약 조건
     private String categoryName;
 
-    @OneToMany(mappedBy = "categoryEntity")
+    @OneToMany(mappedBy = "categoryEntity",cascade = CascadeType.PERSIST)
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 
     public void update(String CategoryName) {
         this.categoryName = CategoryName;
+    }
+
+    public CategoryEntity(String categoryName){
+        this.categoryName = categoryName;
     }
 }
 

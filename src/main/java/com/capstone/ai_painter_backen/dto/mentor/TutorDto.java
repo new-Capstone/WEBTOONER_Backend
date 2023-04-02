@@ -21,7 +21,7 @@ public class TutorDto {
         @Schema
         String description;
         @Schema
-        List<String> categoryName;
+        List<String> categoryNames;
     }
 
     @Getter
@@ -34,7 +34,7 @@ public class TutorDto {
     public static class ResponseDto {
         Long tutorId;
         String description;
-        List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
+        List<String> categoryNames = new ArrayList<>();
         List<TuteeEntity> tuteeEntities = new ArrayList<>();
     }
 
@@ -47,6 +47,13 @@ public class TutorDto {
 
     public static class DeleteDto {
         Long tutorId; // id 를 이용해서 삭제
+
+        @Override
+        public String toString() {
+            return "DeleteDto{" +
+                    "tutorId=" + tutorId +
+                    '}';
+        }
     }
 
 
@@ -59,8 +66,9 @@ public class TutorDto {
     @Schema(description = "유저 아이디로 user 에 저장 string type으로 category 받음")
     public static class PatchDto {
         Long tutorId;
+        Long userId;
         String description;
-        List<CategoryTutorEntity> categoryTutorEntities;
+        List<String> categoryNames;
     }
 
 }
