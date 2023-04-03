@@ -20,12 +20,20 @@ public class BeforeImageEntity extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)//단방뱡 관계로 설정
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
     String beforeImageUri;//todo 협의 변환전의 이미지를 s3에 올릴려면 필요함... 아니야 사실 그냥 넣고 싶은듯
 
-    @OneToMany(mappedBy = "beforeImageEntity")
+    @OneToMany(mappedBy = "beforeImageEntity",fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private List<AfterImageEntity> afterImageEntities = new ArrayList<>();
+
+    //user enroll
+    public void setUserEntity(UserEntity userEntity) {
+        this.userEntity = userEntity;
+    }
+    public void unSetUserEntity(){
+        this.userEntity = null;
+    }
 }

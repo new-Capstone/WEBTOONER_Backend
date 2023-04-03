@@ -13,11 +13,11 @@ public class BeforeImageDto {
     @Getter
     @Setter
     @Builder
-    public static class ResponseDto{
+    public static class BeforeImageResponseDto {
         Long beforeImageId;
         Long userId;
         String beforeImageUri;
-        List<AfterImageDto.ResponseDto> afterImageResponseDtos = new ArrayList<>();
+        List<AfterImageDto.AfterImageResponseDto> afterImageAfterImageResponseDtos = new ArrayList<>();
     }
 
 
@@ -27,7 +27,7 @@ public class BeforeImageDto {
     @Setter
     @Builder
     @Schema(description = "image file POST DTO")
-    public static class PostDto{
+    public static class BeforeImagePostDto {
         @Schema(description = "userId")
         Long userId;
         @Schema(description = "사진파일")

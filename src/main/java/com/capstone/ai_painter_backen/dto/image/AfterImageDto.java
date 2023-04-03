@@ -4,9 +4,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class AfterImageDto {
     @Getter
     @Setter
@@ -14,7 +11,7 @@ public class AfterImageDto {
     @NoArgsConstructor
     @Builder
     @Schema
-    public static class ResponseDto{
+    public static class AfterImageResponseDto {
         Long afterImageId;
         String afterImageUri;
         Long beforeImageId;
@@ -26,7 +23,7 @@ public class AfterImageDto {
     @Builder
     @Schema
 
-    public static class PostDto{
+    public static class AfterImagePostDto {
         MultipartFile multipartFile;
         Long beforeImageUri; //변환 전의 이미지의 id 값 필요함.
     }
@@ -36,7 +33,7 @@ public class AfterImageDto {
     @NoArgsConstructor
     @Builder @Schema
 
-    public static class DeleteDto{
+    public static class AfterImageDeleteDto {
         Long afterImageId;//아이디를 이용해서 삭제 사실 필요 없음.
     }
 
@@ -45,7 +42,7 @@ public class AfterImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class GetDto{
+    public static class AfterImageGetDto {
         Long getAfterImageDto;//사실 필요없음.
     }
 }

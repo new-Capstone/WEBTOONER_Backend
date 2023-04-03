@@ -8,8 +8,8 @@ import org.mapstruct.Mapper;
 
 public interface AfterImageMapper {
 
-    default AfterImageDto.ResponseDto afterImageEntityToAfterImageDto(AfterImageEntity afterImageEntity){
-        return AfterImageDto.ResponseDto.builder()
+    default AfterImageDto.AfterImageResponseDto afterImageEntityToAfterImageDto(AfterImageEntity afterImageEntity){
+        return AfterImageDto.AfterImageResponseDto.builder()
                 .afterImageId(afterImageEntity.getId())
                 .afterImageUri(afterImageEntity.getImageURI())
                 .beforeImageId(afterImageEntity.getBeforeImageEntity().getId())
