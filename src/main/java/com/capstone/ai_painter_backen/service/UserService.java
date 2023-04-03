@@ -19,8 +19,8 @@ public class UserService {
     UserRepository userRepository;
 
     @Transactional
-    public UserDto.ResponseDto createUser(UserDto.PostDto postDto){
-        UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(postDto);
+    public UserDto.ResponseDto createUser(UserDto.UserPostDto userPostDto){
+        UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
 
         if (userRepository.existsByLoginId(userEntity.getLoginId())) {
             throw new DuplicateNameException();

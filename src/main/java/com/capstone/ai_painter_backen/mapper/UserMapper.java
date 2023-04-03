@@ -11,7 +11,7 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     //    @Mapping(target = "id", ignore = true)
-    default UserEntity userRequestPostDtoToUserEntity(UserDto.PostDto userpostDto) {
+    default UserEntity userRequestPostDtoToUserEntity(UserDto.UserPostDto userpostDto) {
         if (userpostDto == null) {
             return null;
         } else {

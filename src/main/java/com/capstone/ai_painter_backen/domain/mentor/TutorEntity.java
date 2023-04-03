@@ -24,15 +24,18 @@ public class TutorEntity extends BaseEntity {
     @OneToMany(mappedBy = "tutorEntity")
     private List<TuteeEntity> tuteeEntities = new ArrayList<>();
 
-    @OneToMany(mappedBy = "tutorEntity")
+    @OneToMany(mappedBy = "tutorEntity", cascade = CascadeType.ALL,orphanRemoval=true)
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 
-    @OneToOne(mappedBy = "tutorEntity", fetch = FetchType.LAZY)
-    UserEntity userEntity;
+    @OneToOne(mappedBy = "tutorEntity", fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    private UserEntity userEntity;
 
 
     public void update(String description, List<CategoryTutorEntity> categoryTutorEntities){//변경 메소드 작성
+        //원래 들어 있던 리스트의 값을 비운 후에 update 를 진행해야 orphand 오류를 피할 수 있다.
         this.description = description;
-        this.categoryTutorEntities = categoryTutorEntities;
+        for(CategoryTutorEntity categoryTutorEntity: categoryTutorEntities){
+            this.categoryTutorEntities.add(categoryTutorEntity);
+        }
     }
 }

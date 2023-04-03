@@ -3,9 +3,9 @@ package com.capstone.ai_painter_backen.controller.user;
 import com.capstone.ai_painter_backen.dto.UserDto;
 
 import com.capstone.ai_painter_backen.service.UserService;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,9 +16,9 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/createuser")
-    public ResponseEntity<?> createUser(@RequestBody UserDto.PostDto postDto){
+    public ResponseEntity<?> createUser(@RequestBody @Schema(implementation = UserDto.UserPostDto.class) UserDto.UserPostDto userPostDto){
         System.out.println("createuser");
-        return ResponseEntity.ok().body(userService.createUser(postDto));
+        return ResponseEntity.ok().body(userService.createUser(userPostDto));
 
     }
 
