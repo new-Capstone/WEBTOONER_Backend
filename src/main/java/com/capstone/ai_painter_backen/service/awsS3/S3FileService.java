@@ -145,7 +145,7 @@ public class S3FileService implements FileServiceCRUD{
     }
 
     public String extractObjectKeyFromUri(String fileUri){//file uri 에서 fileName 을 가져옴
-        String fileName = fileUri.substring(58);
+        String fileName = fileUri.substring(59);// 59번째 변경하지 말것...
         return fileName;
     }
     @Override
