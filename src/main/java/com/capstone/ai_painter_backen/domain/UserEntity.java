@@ -34,7 +34,7 @@ public class UserEntity extends BaseEntity{
     private TuteeEntity tuteeEntity;
 
     //==갱신 로직==//
-    public void update(UserDto.PatchDto patchDto){
+    public void update(UserDto.UserPatchDto patchDto){
         this.password = patchDto.getPassword();
         this.description = patchDto.getDescription();
         this.profileImage = patchDto.getProfileImage();

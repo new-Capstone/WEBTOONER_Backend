@@ -11,5 +11,5 @@ public interface ImageHandler {
     public S3ImageInfo deleteImage(final String imgUri);// s3에 이미지 삭제한후 imageUri 넘김.
     public S3ImageInfo postListImage(List<MultipartFile> multipartFileList);
     public S3ImageInfo deleteListImage(List<String> imageUriList);
-
+//#
 }

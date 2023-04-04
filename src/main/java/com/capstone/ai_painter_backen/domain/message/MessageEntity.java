@@ -8,7 +8,6 @@ import lombok.*;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,4 +26,13 @@ public class MessageEntity extends BaseEntity {
     @JoinColumn(name = "chat_user_id")
     private UserEntity chatUserEntity;
 
+    //연관관계 편의 메서드
+    public void addRoomEntity(RoomEntity roomEntity) {
+        this.roomEntity = roomEntity;
+        roomEntity.getMessageEntities().add(this);
+    }
+
+    public void setChatUserEntity(UserEntity userEntity) {
+        this.chatUserEntity = userEntity;
+    }
 }

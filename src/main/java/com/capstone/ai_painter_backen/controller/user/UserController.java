@@ -15,26 +15,25 @@ public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/createuser")
+    @PostMapping("/new")
     public ResponseEntity<?> createUser(@RequestBody @Schema(implementation = UserDto.UserPostDto.class) UserDto.UserPostDto userPostDto){
-        System.out.println("createuser");
         return ResponseEntity.ok().body(userService.createUser(userPostDto));
 
     }
 
-    @GetMapping("/getuser")
+    @GetMapping
     public ResponseEntity<?> getUser(@RequestParam Long userId){
         return ResponseEntity.ok().body(userService.getUser(userId));
     }
 
-    @PatchMapping("/modifyuser")
-    public ResponseEntity<?> modifyUser(@RequestBody UserDto.PatchDto patchDto){
+    @PatchMapping("/edit")
+    public ResponseEntity<?> modifyUser(@RequestBody UserDto.UserPatchDto patchDto){
         return ResponseEntity.ok().body(userService.modifyUser(patchDto));
     }
 
-    @DeleteMapping("/deleteuser")
+    @DeleteMapping("/delete")
     public ResponseEntity<?> deleteUser(@RequestParam Long userId){
-        userService.deleteUser(new UserDto.DeleteDto(userId));
+        userService.deleteUser(new UserDto.UserDeleteDto(userId));
         return ResponseEntity.ok().body("deleted userId:"+userId);
     }
 }

@@ -24,11 +24,11 @@ public interface UserMapper {
         }
     }
 
-    default UserDto.ResponseDto userEntityToUserResponseDto(UserEntity userEntity){
+    default UserDto.UserResponseDto userEntityToUserResponseDto(UserEntity userEntity){
         if (userEntity == null) {
             return null;
         } else {
-            return UserDto.ResponseDto.builder()
+            return UserDto.UserResponseDto.builder()
                     .userid(userEntity.getId())
                     .loginId(userEntity.getLoginId())
                     .username(userEntity.getUsername())

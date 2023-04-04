@@ -20,12 +20,13 @@ public class UserDto {
         private String profileImage;
     }
 
+    @Schema
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class ResponseDto {
+    public static class UserResponseDto {
         private Long userid;
         private String username;
         private String loginId;
@@ -33,22 +34,23 @@ public class UserDto {
         private String profileImage;
     }
 
+    @Schema
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class DeleteDto {
+    public static class UserDeleteDto {
         private Long userid;
     }
 
-
+    @Schema
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class PatchDto {
+    public static class UserPatchDto {
         private Long userid;
         private String password;
         private String description;

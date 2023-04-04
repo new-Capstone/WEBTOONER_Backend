@@ -19,7 +19,7 @@ public class UserService {
     UserRepository userRepository;
 
     @Transactional
-    public UserDto.ResponseDto createUser(UserDto.UserPostDto userPostDto){
+    public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto){
         UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
 
         if (userRepository.existsByLoginId(userEntity.getLoginId())) {
@@ -29,13 +29,13 @@ public class UserService {
         return  userMapper.userEntityToUserResponseDto(userRepository.save(userEntity));
     }
 
-    public void deleteUser(UserDto.DeleteDto deleteDto){
+    public void deleteUser(UserDto.UserDeleteDto deleteDto){
         userRepository.deleteById(deleteDto.getUserid());
         log.info("{}: User 삭제됨 !", deleteDto.getUserid());
     }
 
     @Transactional
-    public UserDto.ResponseDto modifyUser(UserDto.PatchDto patchDto){
+    public UserDto.UserResponseDto modifyUser(UserDto.UserPatchDto patchDto){
 
         UserEntity userEntity = userRepository.findById(patchDto.getUserid()).orElseThrow();
 //        if(!sample.isPresent()) {    ---->orElseThrow()와 동일
@@ -45,7 +45,7 @@ public class UserService {
         return userMapper.userEntityToUserResponseDto(userEntity);
     }
 
-    public UserDto.ResponseDto getUser(Long userId){
+    public UserDto.UserResponseDto getUser(Long userId){
         return userMapper.userEntityToUserResponseDto(
                 userRepository.findById(userId).orElseThrow());
     }

@@ -1,7 +1,9 @@
 package com.capstone.ai_painter_backen.service.Message;
 
 
+import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.message.MessageEntity;
+import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.MessageDto;
 import com.capstone.ai_painter_backen.mapper.message.MessageMapper;
 import com.capstone.ai_painter_backen.repository.message.MessageRepository;
@@ -24,20 +26,25 @@ public class MessageService {
     private final MessageMapper messageMapper;
 
     @Transactional
-    public MessageDto.ResponseDto createMessage(MessageDto.PostDto postDto){
+    public MessageDto.MessageResponseDto createMessage(MessageDto.MessagePostDto postDto){
         MessageEntity messageEntity = messageMapper.messageRequestPostDtoToMessageEntity(postDto);
-        messageEntity.setRoomEntity(roomRepository.findById(postDto.getRoomEntityId()).orElseThrow());
-        messageEntity.setChatUserEntity(userRepository.findById(postDto.getChatUserEntityId()).orElseThrow());
+
+        RoomEntity roomEntity = roomRepository.findById(postDto.getRoomEntityId()).orElseThrow();
+        UserEntity userEntity = userRepository.findById(postDto.getChatUserEntityId()).orElseThrow();
+
+        messageEntity.addRoomEntity(roomEntity);
+        messageEntity.setChatUserEntity(userEntity);
+
         return messageMapper.messageEntityToMessageResponseDto(messageRepository.save(messageEntity));
     }
 
     @Transactional
-    public void deleteMessage(MessageDto.DeleteDto deleteDto){
+    public void deleteMessage(MessageDto.MessageDeleteDto deleteDto){
         messageRepository.deleteById(deleteDto.getMessageId());
         log.info("{}: Message 삭제됨 !", deleteDto.getMessageId());
     }
 
-    public MessageDto.ResponseDto getMessage(Long messageId){
+    public MessageDto.MessageResponseDto getMessage(Long messageId){
         return messageMapper.messageEntityToMessageResponseDto(messageRepository.findById(messageId).orElseThrow());
     }
 }
