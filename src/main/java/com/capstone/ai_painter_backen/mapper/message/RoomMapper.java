@@ -11,25 +11,20 @@ import java.util.ArrayList;
 public interface RoomMapper {
 
     //    @Mapping(target = "id", ignore = true)
-    default RoomEntity roomRequestPostDtoToRoomEntity(RoomDto.PostDto roompostDto) {
-        if (roompostDto == null) {
-            return null;
-        } else {
-            return RoomEntity.builder()
-                    .messageEntities(new ArrayList<>())
-                    .build();
-        }
+    default RoomEntity roomRequestPostDtoToRoomEntity(RoomDto.RoomPostDto roomPostDto) {
+        return RoomEntity.builder()
+                .messageEntities(new ArrayList<>())
+                .build();
     }
 
-    default RoomDto.ResponseDto roomEntityToRoomResponseDto(RoomEntity roomEntity){
+    default RoomDto.RoomResponseDto roomEntityToRoomResponseDto(RoomEntity roomEntity){
         if (roomEntity == null) {
             return null;
         } else {
-            return RoomDto.ResponseDto.builder()
-                    .roomid(roomEntity.getId())
-                    .owner(roomEntity.getOwner())
-                    .visitor(roomEntity.getVisitor())
-                    .messageEntities(roomEntity.getMessageEntities())
+            return RoomDto.RoomResponseDto.builder()
+                    .roomId(roomEntity.getId())
+                    .ownerId(roomEntity.getOwner().getId())
+                    .visitorId(roomEntity.getVisitor().getId())
                     .build();
         }
     }

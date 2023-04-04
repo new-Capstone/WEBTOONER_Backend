@@ -16,18 +16,18 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    @PostMapping("/createroom")
-    public ResponseEntity<?> createRoom(@RequestBody @Schema(implementation = RoomDto.PostDto.class)RoomDto.PostDto postDto){
+    @PostMapping("/new")
+    public ResponseEntity<?> createRoom(@RequestBody @Schema(implementation = RoomDto.RoomPostDto.class)RoomDto.RoomPostDto postDto){
         return ResponseEntity.ok().body(roomService.createRoom(postDto));
     }
 
-    @DeleteMapping("deleteroom")
-    public ResponseEntity<?> deleteRoom(@RequestBody @Schema(implementation = RoomDto.DeleteDto.class) RoomDto.DeleteDto deleteDto){
+    @DeleteMapping("/delete")
+    public ResponseEntity<?> deleteRoom(@RequestBody @Schema(implementation = RoomDto.RoomDeleteDto.class) RoomDto.RoomDeleteDto deleteDto){
         roomService.deleteRoom(deleteDto);
-        return ResponseEntity.ok().body("deleted RoomId:"+deleteDto.getRoomid());
+        return ResponseEntity.ok().body("deleted RoomId:"+deleteDto.getRoomId());
     }
 
-    @GetMapping("getRoom")
+    @GetMapping
     public ResponseEntity<?> getRoom(@RequestParam Long roomId){
         return ResponseEntity.ok().body(roomService.getRoom(roomId));
     }
