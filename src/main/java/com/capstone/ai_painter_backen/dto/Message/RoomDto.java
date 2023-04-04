@@ -15,7 +15,9 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class RoomPostDto {
+        @Schema
         private Long ownerId;
+        @Schema
         private Long visitorId;
     }
 
@@ -26,8 +28,11 @@ public class RoomDto {
     @NoArgsConstructor
     @Builder
     public static class RoomResponseDto {
+        @Schema
         private Long roomId;
+        @Schema
         private Long ownerId;
+        @Schema
         private Long visitorId;
     }
 

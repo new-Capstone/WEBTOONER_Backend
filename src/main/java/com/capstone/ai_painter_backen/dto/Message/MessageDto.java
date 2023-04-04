@@ -17,9 +17,13 @@ public class MessageDto {
     @NoArgsConstructor
     @Builder
     public static class MessagePostDto {
+        @Schema
         private String content;
+        @Schema
         private String writer;
+        @Schema
         private Long roomEntityId;
+        @Schema
         private Long chatUserEntityId;
     }
 
@@ -30,12 +34,13 @@ public class MessageDto {
     @NoArgsConstructor
     @Builder
     public static class MessageResponseDto {
+        @Schema
         private Long messageId;
-
+        @Schema
         private String content;
-
+        @Schema
         private Long roomId;
-
+        @Schema
         private UserResponseDto chatUser;
     }
 
@@ -46,6 +51,7 @@ public class MessageDto {
     @NoArgsConstructor
     @Builder
     public static class MessageDeleteDto {
+        @Schema
         private Long messageId;
     }
 

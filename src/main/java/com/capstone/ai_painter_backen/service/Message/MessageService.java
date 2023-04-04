@@ -7,6 +7,7 @@ import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.MessageDto;
 import com.capstone.ai_painter_backen.mapper.message.MessageMapper;
 import com.capstone.ai_painter_backen.repository.message.MessageRepository;
+import com.capstone.ai_painter_backen.repository.message.NotificationRepository;
 import com.capstone.ai_painter_backen.repository.message.RoomRepository;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +24,10 @@ public class MessageService {
     private final MessageRepository messageRepository;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
     private final MessageMapper messageMapper;
+
+
 
     @Transactional
     public MessageDto.MessageResponseDto createMessage(MessageDto.MessagePostDto postDto){
