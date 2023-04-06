@@ -12,15 +12,17 @@ import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.mentor.CategoryRepository;
 import com.capstone.ai_painter_backen.repository.mentor.CategoryTutorRepository;
 import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import static com.amazonaws.services.cloudformation.model.Replacement.True;
 
 @Service
 @Slf4j
@@ -33,6 +35,7 @@ public class TutorService {
     CategoryRepository categoryRepository;
     CategoryTutorRepository categoryTutorRepository;
 
+    @Transactional
     public TutorDto.TutorResponseDto createTutor(TutorDto.TutorPostDto tutorPostDto){
 
         TutorEntity tutorEntity = tutorMapper.tutorRequestPostDtoToTutorEntity(tutorPostDto);
@@ -81,6 +84,7 @@ public class TutorService {
         }
     }
 
+    @Transactional
     public TutorDto.TutorResponseDto modifyTutor(TutorDto.TutorPatchDto tutorPatchDto){
         //기존에 리스트를 새로만들어서 삽입하는게 아니라 존재하는 리스트에 하나씩 삽입함 근데 됨.
         //고아 객체 오류를 피하기 위해서는 반드시 리스트를 clear하고 진행해야함.
@@ -96,10 +100,13 @@ public class TutorService {
         return tutorResponseDto;
     }
 
+    @Transactional(readOnly = true)
     public TutorDto.TutorResponseDto getTutor(Long tutorId){
         TutorDto.TutorResponseDto tutorResponseDto = tutorMapper.tutorEntityToTutorResponseDto(
                 tutorRepository.findById(tutorId).orElseThrow());
 
         return tutorResponseDto;
     }
+
+
 }
