@@ -23,4 +23,13 @@ public class NotificationEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private UserEntity user;
+
+    public void setUser(UserEntity userEntity) {
+        this.user = userEntity;
+    }
+
+    //알림 확인
+    public void check() {
+        this.checked = true;
+    }
 }

@@ -1,20 +1,23 @@
 package com.capstone.ai_painter_backen.controller.Message;
 
 import com.capstone.ai_painter_backen.dto.Message.MessageDto;
+import com.capstone.ai_painter_backen.dto.Message.NotificationDto;
 import com.capstone.ai_painter_backen.service.Message.MessageService;
+import com.capstone.ai_painter_backen.service.Message.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @Slf4j
 public class ChatController {
 
     private final SimpMessagingTemplate simpMessagingTemplate;
     private final MessageService messageService;
+    private final NotificationService notificationService;
 
     //pub/chat/enter로 client가 요청하면 호출됨.
     @MessageMapping("chat/enter")
@@ -29,6 +32,13 @@ public class ChatController {
     public void message(MessageDto.MessagePostDto messagePostDto) {
         log.info("pub/chat/message");
         simpMessagingTemplate.convertAndSend("/sub/chat/room/" + Long.toString(messagePostDto.getRoomEntityId()), messagePostDto);
-        messageService.createMessage(messagePostDto);
+        MessageDto.MessageResponseDto messageResponseDto = messageService.createMessage(messagePostDto);
+
+        NotificationDto.NotificationPostDto notificationPostDto = NotificationDto.NotificationPostDto.builder()
+                .chatUserEntityId(messagePostDto.getChatUserEntityId())
+                .roodEntityId(messagePostDto.getRoomEntityId())
+                .content(messagePostDto.getContent())
+                .messageEntityId(messageResponseDto.getMessageId()).build();
+        notificationService.createNotification(notificationPostDto);
     }
 }

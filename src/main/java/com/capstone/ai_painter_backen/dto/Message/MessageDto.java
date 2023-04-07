@@ -41,7 +41,7 @@ public class MessageDto {
         @Schema
         private Long roomId;
         @Schema
-        private UserResponseDto chatUser;
+        private Long chatUserId;
     }
 
     @Schema

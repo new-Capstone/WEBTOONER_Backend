@@ -23,26 +23,15 @@ public interface MessageMapper {
         }
     }
 
-    default UserResponseDto userEntityToUserResponseDto(UserEntity userEntity) {
-        return UserResponseDto.builder()
-                .description(userEntity.getDescription())
-                .loginId(userEntity.getLoginId())
-                .userid(userEntity.getId())
-                .username(userEntity.getUsername())
-                .profileImage(userEntity.getProfileImage())
-                .build();
-    }
-
     default MessageDto.MessageResponseDto messageEntityToMessageResponseDto(MessageEntity messageEntity){
         if (messageEntity == null) {
             return null;
         } else {
             return MessageDto.MessageResponseDto.builder()
                     .messageId(messageEntity.getId())
-                    .chatUser(userEntityToUserResponseDto(messageEntity.getChatUserEntity()))
+                    .chatUserId(messageEntity.getChatUserEntity().getId())
                     .content(messageEntity.getContent())
-                    .roomId(messageEntity.getId())
-                    .build();
+                    .roomId(messageEntity.getId()).build();
         }
     }
 
