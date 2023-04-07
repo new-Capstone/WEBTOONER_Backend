@@ -19,9 +19,11 @@ public class NotificationEntity extends BaseEntity {
     private boolean checked;
 
     @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "message_id")
     private MessageEntity message;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
     private UserEntity user;
 
     public void setUser(UserEntity userEntity) {

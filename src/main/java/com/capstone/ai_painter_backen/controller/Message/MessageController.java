@@ -18,18 +18,20 @@ public class MessageController {
 
     private final MessageService messageService;
 
-
+    //사용X
     @PostMapping("/new")
     public ResponseEntity<?> createMessage(@RequestBody MessagePostDto postDto){
         return ResponseEntity.ok().body(messageService.createMessage(postDto));
     }
 
+    //사용X
     @DeleteMapping("/delete")
     public ResponseEntity<?> deleteMessage(MessageDeleteDto deleteDto) {
         messageService.deleteMessage(deleteDto);
         return ResponseEntity.ok().body("deleted MessageId:" + deleteDto.getMessageId());
     }
 
+    //사용X
     @GetMapping
     public ResponseEntity<?> getMessage(@RequestParam Long messageId){
         MessageDto.MessageResponseDto message = messageService.getMessage(messageId);

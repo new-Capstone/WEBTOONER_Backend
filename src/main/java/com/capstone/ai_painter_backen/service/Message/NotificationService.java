@@ -64,4 +64,16 @@ public class NotificationService {
         return notificationEntities.stream()
                 .map(notificationMapper::notificationEntityToNotificationResponseDto).collect(Collectors.toList());
     }
+
+    @Transactional
+    public void deleteNotificationByUserId(Long userId) {
+        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow();
+
+        //조회된 알림 list
+        List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(savedUserEntity, true);
+
+        for (NotificationEntity notificationEntity : notificationEntities) {
+            notificationRepository.delete(notificationEntity);
+        }
+    }
 }

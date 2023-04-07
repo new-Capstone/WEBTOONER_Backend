@@ -15,10 +15,18 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
+    //pass
     //조회할 때 checked 값이 바뀜 -> PostMapping
     @ResponseStatus(HttpStatus.OK)
     @PostMapping()
     public List<NotificationDto.NotificationResponseDto> getNotifications(@RequestParam Long userId) {
         return notificationService.getNotificationsByUserId(userId);
+    }
+
+    //pass
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping()
+    public void deleteNotifications(@RequestParam Long userId) {
+        notificationService.deleteNotificationByUserId(userId);
     }
 }

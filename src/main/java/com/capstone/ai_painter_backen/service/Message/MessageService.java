@@ -40,6 +40,7 @@ public class MessageService {
         return messageMapper.messageEntityToMessageResponseDto(messageRepository.save(messageEntity));
     }
 
+    //사용X, 나중에 메시지 수정 기능 추가하면 그때 수정
     @Transactional
     public void deleteMessage(MessageDto.MessageDeleteDto deleteDto){
         messageRepository.deleteById(deleteDto.getMessageId());

@@ -19,6 +19,7 @@ public class ChatController {
     private final MessageService messageService;
     private final NotificationService notificationService;
 
+    //pass
     //pub/chat/enter로 client가 요청하면 호출됨.
     @MessageMapping("chat/enter")
     public void enter(MessageDto.MessagePostDto messagePostDto) {
@@ -28,6 +29,7 @@ public class ChatController {
         simpMessagingTemplate.convertAndSend("/sub/chat/room/" + Long.toString(messagePostDto.getRoomEntityId()), messagePostDto);
     }
 
+    //pass
     @MessageMapping("chat/message")
     public void message(MessageDto.MessagePostDto messagePostDto) {
         log.info("pub/chat/message");
