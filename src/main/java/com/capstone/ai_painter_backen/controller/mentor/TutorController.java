@@ -6,6 +6,9 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("tutorapi")
@@ -15,7 +18,8 @@ public class TutorController {
     TutorService tutorService;
 
     @PostMapping()//test pass
-    public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.TutorPostDto.class) TutorDto.TutorPostDto tutorPostDto){
+    public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.TutorPostDto.class) TutorDto.TutorPostDto tutorPostDto,
+                                         @RequestPart List<MultipartFile> multipartFiles){
         return ResponseEntity.ok().body(tutorService.createTutor(tutorPostDto));
     }
 

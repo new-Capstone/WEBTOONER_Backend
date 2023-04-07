@@ -29,6 +29,9 @@ public class BeforeImageEntity extends BaseEntity {
     @OneToMany(mappedBy = "beforeImageEntity",fetch = FetchType.LAZY,cascade = CascadeType.MERGE)
     private List<AfterImageEntity> afterImageEntities = new ArrayList<>();
 
+    @Embedded
+    ImageContribute imageContribute;
+
     //user enroll
     public void setUserEntity(UserEntity userEntity) {
         this.userEntity = userEntity;
@@ -36,4 +39,7 @@ public class BeforeImageEntity extends BaseEntity {
     public void unSetUserEntity(){
         this.userEntity = null;
     }
+
+
+
 }
