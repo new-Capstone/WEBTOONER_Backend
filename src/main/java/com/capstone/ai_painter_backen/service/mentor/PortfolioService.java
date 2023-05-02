@@ -33,7 +33,7 @@ public class PortfolioService {
     public List<PortfolioDto.PortfolioResponseDto> createPortfolio(PortfolioDto.PortfolioPostDto postDto){
 
         List<MultipartFile> portfolios = postDto.getMultipartFiles();
-        List<S3ImageInfo> s3ImageInfos = s3FileService.uploadMultiFileList(portfolios);
+        List<S3ImageInfo> s3ImageInfos = s3FileService.uploadMultiFileList(portfolios);//s3 upload
 
         TutorEntity tutor = tutorRepository.findById(postDto.getTutorId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -126,6 +126,9 @@ public class PortfolioService {
     @Transactional
     public String deletePortfolioOne(Long portfolioId){
         try{
+            PortfolioEntity portfolioEntity = portfolioRepository.findById(portfolioId).orElseThrow();
+            portfolioEntity.setTutorNull();
+            s3FileService.deleteMultiFile(portfolioEntity.getImageUri());
             portfolioRepository.deleteById(portfolioId);
             return "deleted portfolio image uri: "+ portfolioId;
 

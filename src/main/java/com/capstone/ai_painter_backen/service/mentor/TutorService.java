@@ -40,11 +40,12 @@ public class TutorService {
 
         TutorEntity tutorEntity = tutorMapper.tutorRequestPostDtoToTutorEntity(tutorPostDto);
         UserEntity savedUserEntity  = userRepository.findById(tutorPostDto.getUserId()).orElseThrow();
+        TutorEntity savedTutorEntity = tutorRepository.save(tutorEntity);
         savedUserEntity.enrollTutor(tutorEntity);//user tutor mapping
 
         tutorEntity.setCategoryTutorEntities(getCategoryTutorEntityList(tutorPostDto.getCategoryNames(),tutorEntity));
 
-        return  tutorMapper.tutorEntityToTutorResponseDto(tutorRepository.save(tutorEntity));// jpa cacade 로 user 자동 저장
+        return  tutorMapper.tutorEntityToTutorResponseDto(tutorEntity);// jpa cacade 로 user 자동 저장
     }
 
     private List<CategoryTutorEntity> getCategoryTutorEntityList(List<String> categoryNames, TutorEntity tutorEntity){
@@ -87,7 +88,7 @@ public class TutorService {
     @Transactional
     public TutorDto.TutorResponseDto modifyTutor(TutorDto.TutorPatchDto tutorPatchDto){
         //기존에 리스트를 새로만들어서 삽입하는게 아니라 존재하는 리스트에 하나씩 삽입함 근데 됨.
-        //고아 객체 오류를 피하기 위해서는 반드시 리스트를 clear하고 진행해야함.
+        //고아 객체 오류를 피하기 위해서는 반드시 리스트를 clear 하고 진행해야함.
         TutorEntity savedTutorEntity = tutorRepository.findById(tutorPatchDto.getTutorId()).orElseThrow();
         savedTutorEntity.getCategoryTutorEntities().clear();
         List<CategoryTutorEntity> categoryTutorEntities = getCategoryTutorEntityList(tutorPatchDto.getCategoryNames(),savedTutorEntity);
@@ -95,7 +96,6 @@ public class TutorService {
         savedTutorEntity.update(tutorPatchDto.getDescription(),categoryTutorEntities);
         tutorRepository.save(savedTutorEntity);
         TutorDto.TutorResponseDto tutorResponseDto = tutorMapper.tutorEntityToTutorResponseDto(savedTutorEntity);
-
 
         return tutorResponseDto;
     }

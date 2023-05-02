@@ -18,8 +18,8 @@ public class TutorController {
     TutorService tutorService;
 
     @PostMapping()//test pass
-    public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.TutorPostDto.class) TutorDto.TutorPostDto tutorPostDto,
-                                         @RequestPart List<MultipartFile> multipartFiles){
+    public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.TutorPostDto.class)
+                                             TutorDto.TutorPostDto tutorPostDto){
         return ResponseEntity.ok().body(tutorService.createTutor(tutorPostDto));
     }
 
@@ -29,7 +29,8 @@ public class TutorController {
     }
 
     @PatchMapping()//
-    public ResponseEntity<?> modifyTutor(@RequestBody  @Schema(implementation = TutorDto.TutorPatchDto.class) TutorDto.TutorPatchDto tutorPatchDto){
+    public ResponseEntity<?> modifyTutor(@RequestBody  @Schema(implementation = TutorDto.TutorPatchDto.class)
+                                             TutorDto.TutorPatchDto tutorPatchDto){
         return ResponseEntity.ok().body(tutorService.modifyTutor(tutorPatchDto));
     }
 
