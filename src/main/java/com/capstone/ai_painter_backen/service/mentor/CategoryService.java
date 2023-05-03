@@ -44,7 +44,6 @@ public class CategoryService {
         return categoryMapper.entityToResponseDto(category);
     }
 
-
     @Transactional
     public void deleteCategory(RequestDeleteDto deleteDto) {
         categoryRepository.deleteById(deleteDto.getCategoryId());
