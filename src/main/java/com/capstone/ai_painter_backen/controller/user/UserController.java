@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,7 +17,7 @@ public class UserController {
     private final UserService userService;
 
     @PostMapping("/new")
-    public ResponseEntity<?> createUser(@RequestBody @Schema(implementation = UserDto.UserPostDto.class) UserDto.UserPostDto userPostDto){
+    public ResponseEntity<?> createUser(@ModelAttribute UserDto.UserPostDto userPostDto){
         return ResponseEntity.ok().body(userService.createUser(userPostDto));
 
     }
@@ -27,8 +28,8 @@ public class UserController {
     }
 
     @PatchMapping("/edit")
-    public ResponseEntity<?> modifyUser(@RequestBody UserDto.UserPatchDto patchDto){
-        return ResponseEntity.ok().body(userService.modifyUser(patchDto));
+    public ResponseEntity<?> modifyUser(@ModelAttribute UserDto.UserPatchDto userPatchDto){
+        return ResponseEntity.ok().body(userService.modifyUser(userPatchDto));
     }
 
     @DeleteMapping("/delete")

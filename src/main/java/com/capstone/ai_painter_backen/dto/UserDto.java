@@ -4,6 +4,7 @@ import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 public class UserDto {
     @Schema
@@ -22,7 +23,7 @@ public class UserDto {
         @Schema
         private String description;
         @Schema
-        private String profileImage;
+        private MultipartFile profileImage;
     }
 
     @Schema
@@ -41,7 +42,7 @@ public class UserDto {
         @Schema
         private String description;
         @Schema
-        private String profileImage;
+        private String profileUri;
     }
 
     @Schema
@@ -69,10 +70,6 @@ public class UserDto {
         @Schema
         private String description;
         @Schema
-        private String profileImage;
-        @Schema
-        private TutorEntity tutorEntity;
-        @Schema
-        private TuteeEntity tuteeEntity;
+        private MultipartFile profileImage;
     }
 }
