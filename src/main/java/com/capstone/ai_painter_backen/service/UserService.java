@@ -22,7 +22,7 @@ public class UserService {
     public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto){
         UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
 
-        if (userRepository.existsByLoginId(userEntity.getLoginId())) {
+        if (userRepository.existsByUserEmail(userEntity.getUserEmail())) {
             throw new DuplicateNameException();
         }
 
@@ -30,14 +30,14 @@ public class UserService {
     }
 
     public void deleteUser(UserDto.UserDeleteDto deleteDto){
-        userRepository.deleteById(deleteDto.getUserid());
-        log.info("{}: User 삭제됨 !", deleteDto.getUserid());
+        userRepository.deleteById(deleteDto.getUserId());
+        log.info("{}: User 삭제됨 !", deleteDto.getUserId());
     }
 
     @Transactional
     public UserDto.UserResponseDto modifyUser(UserDto.UserPatchDto patchDto){
 
-        UserEntity userEntity = userRepository.findById(patchDto.getUserid()).orElseThrow();
+        UserEntity userEntity = userRepository.findById(patchDto.getUserId()).orElseThrow();
 //        if(!sample.isPresent()) {    ---->orElseThrow()와 동일
 //            throw new IllegalArgumentException();
 //        }

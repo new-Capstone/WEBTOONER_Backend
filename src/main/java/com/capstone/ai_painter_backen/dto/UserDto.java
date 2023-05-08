@@ -16,7 +16,7 @@ public class UserDto {
         @Schema
         private String username;
         @Schema
-        private String loginId;
+        private String userEmail;
         @Schema
         private String password;
         @Schema
@@ -33,11 +33,11 @@ public class UserDto {
     @Builder
     public static class UserResponseDto {
         @Schema
-        private Long userid;
+        private Long userId;
         @Schema
         private String username;
         @Schema
-        private String loginId;
+        private String userEmail;
         @Schema
         private String description;
         @Schema
@@ -52,7 +52,7 @@ public class UserDto {
     @Builder
     public static class UserDeleteDto {
         @Schema
-        private Long userid;
+        private Long userId;
     }
 
     @Schema
@@ -63,7 +63,7 @@ public class UserDto {
     @Builder
     public static class UserPatchDto {
         @Schema
-        private Long userid;
+        private Long userId;
         @Schema
         private String password;
         @Schema

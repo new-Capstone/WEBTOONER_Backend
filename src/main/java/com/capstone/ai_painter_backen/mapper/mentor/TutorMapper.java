@@ -26,7 +26,7 @@ public interface TutorMapper {
     default TuteeDto.TuteeResponseDto entityToTuteeResponseDtoAtTutor(TuteeEntity tutee){
         return TuteeDto.TuteeResponseDto.builder()
                 .tuteeId(tutee.getId())
-                .tuteeName(tutee.getUserEntity().getUsername())
+                .tuteeName(tutee.getUserEntity().getUsername())//유저 이메일
                 .build();
     }
 

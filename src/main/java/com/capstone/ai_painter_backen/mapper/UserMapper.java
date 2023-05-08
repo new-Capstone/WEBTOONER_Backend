@@ -16,10 +16,10 @@ public interface UserMapper {
             return null;
         } else {
             return UserEntity.builder()
-                    .loginId(userpostDto.getLoginId())
+                    .userEmail(userpostDto.getUserEmail())
                     .password(userpostDto.getPassword())
                     .profileImage(userpostDto.getProfileImage())
-                    .username(userpostDto.getUsername())
+                    .userRealName(userpostDto.getUsername())
                     .description(userpostDto.getDescription()).build();
         }
     }
@@ -29,9 +29,9 @@ public interface UserMapper {
             return null;
         } else {
             return UserDto.UserResponseDto.builder()
-                    .userid(userEntity.getId())
-                    .loginId(userEntity.getLoginId())
-                    .username(userEntity.getUsername())
+                    .userId(userEntity.getId())
+                    .userEmail(userEntity.getUserEmail())
+                    .username(userEntity.getUserRealName())
                     .description(userEntity.getDescription())
                     .profileImage(userEntity.getProfileImage())
                     .build();
