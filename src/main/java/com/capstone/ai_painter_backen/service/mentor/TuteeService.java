@@ -3,7 +3,9 @@ package com.capstone.ai_painter_backen.service.mentor;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
-import com.capstone.ai_painter_backen.mapper.TuteeMapper;
+import com.capstone.ai_painter_backen.exception.BusinessLogicException;
+import com.capstone.ai_painter_backen.exception.ExceptionCode;
+import com.capstone.ai_painter_backen.mapper.mentor.TuteeMapper;
 import com.capstone.ai_painter_backen.repository.mentor.TuteeRepository;
 import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
 import com.capstone.ai_painter_backen.repository.UserRepository;
@@ -30,42 +32,61 @@ public class TuteeService {
 
 
     @Transactional
-    public Long saveTutee(RequestSaveDto requestSaveDto) {
+    public TuteeResponseDto saveTutee(TuteeRequestSaveDto tuteeRequestSaveDto) {
         // TODO :: mapper 로 작성하기
         // mapper에 repository 넣는게 맞는지 모르겠어서 일단 service 에 구현
-        Optional<UserEntity> user = userRepository.findById(requestSaveDto.getUserId());
-        Optional<TutorEntity> tutor = tutorRepository.findById(requestSaveDto.getTutorId());
+        UserEntity user = userRepository.findById(tuteeRequestSaveDto.getUserId())
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        TutorEntity tutor = tutorRepository.findById(tuteeRequestSaveDto.getTutorId()).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         TuteeEntity tutee = TuteeEntity.builder()
-                .userEntity(user.get())
-                .tutorEntity(tutor.get())
+                .userEntity(user)
+                .tutorEntity(tutor)
                 .build();
 
+        user.enrollTutee(tutee);
 
-        return tuteeRepository.save(tutee).getId();
+
+        return tuteeMapper.entityToTuteeResponseDto(tuteeRepository.save(tutee));
     }
 
 
     @Transactional
-    public ResponseDto updateTutee(Long id, RequestUpdateDto requestUpdateDto) {
-        TuteeEntity tutee = tuteeRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
-        tutee.update(requestUpdateDto.getTutor());
+    public TuteeResponseDto updateTutee(TuteeRequestUpdateDto tuteeRequestUpdateDto) {
 
-        return tuteeMapper.entityToResponseDto(tutee);
+        TuteeEntity savedTuteeEntity = tuteeRepository
+                .findById(tuteeRequestUpdateDto.getId()).orElseThrow(
+                        ()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        TutorEntity savedTutorEntity = tutorRepository.findById(tuteeRequestUpdateDto.getTutorId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        savedTuteeEntity.update(savedTutorEntity);
+
+        return tuteeMapper.entityToTuteeResponseDto(savedTuteeEntity);
     }
 
 
     @Transactional
-    public void deleteTutee(RequestDeleteDto requestDeleteDto) {
-        tuteeRepository.deleteById(requestDeleteDto.getTuteeId());
+    public String deleteTutee(TuteeRequestDeleteDto tuteeRequestDeleteDto) {
+        TuteeEntity tutee = tuteeRepository.findById(tuteeRequestDeleteDto.getTuteeId()).orElseThrow(()->
+                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        UserEntity userEntity = userRepository.findById(tutee.getUserEntity().getId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        userEntity.unrollTutee();
+
+        tuteeRepository.deleteById(tuteeRequestDeleteDto.getTuteeId());
+        return tuteeRequestDeleteDto.toString();
     }
 
 
-    public ResponseDto findTuteeById(Long id) {
+    public TuteeResponseDto findTuteeById(Long id) {
         TuteeEntity tutee = tuteeRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException());
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        return tuteeMapper.entityToResponseDto(tutee);
+        return tuteeMapper.entityToTuteeResponseDto(tutee);
     }
 }

@@ -7,4 +7,6 @@ import java.beans.JavaBean;
 
 public interface TutorRepository extends JpaRepository<TutorEntity,Long> {
 
+    TutorEntity findByUserEntity_Id(Long userId);
+
 }

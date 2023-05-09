@@ -1,6 +1,7 @@
 package com.capstone.ai_painter_backen.dto.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.CategoryTutorEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -14,16 +15,20 @@ public class CategoryDto {
      @NoArgsConstructor
      @Builder
      @AllArgsConstructor
+     @Schema
+
      public static class RequestSaveDto {
-         private String categoryName;
+          String categoryName;
      }
 
      @Getter
      @NoArgsConstructor
      @Builder
      @AllArgsConstructor
+     @Schema
+
      public static class RequestUpdateDto {
-          private String categoryName;
+           String categoryName;
           //TODO :: Tutor 합칠 때 변경
      }
 
@@ -32,17 +37,19 @@ public class CategoryDto {
      @Builder
      @AllArgsConstructor
      public static class RequestDeleteDto {
-          private Long categoryId;
+           Long categoryId;
      }
 
      @Getter
      @NoArgsConstructor
      @Builder
      @AllArgsConstructor
+     @Schema
+
      public static class ResponseDto {
-         private Long id;
-         private String categoryName;
-         private List<CategoryTutorEntity> categoryTutorEntities;
+          Long id;
+          String categoryName;
+          List<CategoryTutorEntity> categoryTutorEntities;
      }
 }
 

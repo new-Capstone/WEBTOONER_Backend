@@ -10,6 +10,7 @@ application.properties
 application-test.yml
 application.yml
 application-local.yml
+spy.properties
 
 ### STS ###
 .apt_generated

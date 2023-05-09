@@ -2,44 +2,56 @@ package com.capstone.ai_painter_backen.dto.Message;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
+import com.capstone.ai_painter_backen.dto.Message.RoomDto.RoomResponseDto;
+import com.capstone.ai_painter_backen.dto.UserDto;
+import com.capstone.ai_painter_backen.dto.UserDto.UserResponseDto;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
 public class MessageDto {
 
+    @Schema
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class PostDto {
+    public static class MessagePostDto {
+        @Schema
         private String content;
-
+        @Schema
+        private String writer;
+        @Schema
         private Long roomEntityId;
-
+        @Schema
         private Long chatUserEntityId;
     }
 
+    @Schema
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class ResponseDto {
+    public static class MessageResponseDto {
+        @Schema
         private Long messageId;
-
+        @Schema
         private String content;
-
-        private RoomEntity roomEntity;
-
-        private UserEntity chatUserEntity;
+        @Schema
+        private Long roomId;
+        @Schema
+        private Long chatUserId;
     }
 
+    @Schema
     @Getter
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class DeleteDto {
+    public static class MessageDeleteDto {
+        @Schema
         private Long messageId;
     }
 

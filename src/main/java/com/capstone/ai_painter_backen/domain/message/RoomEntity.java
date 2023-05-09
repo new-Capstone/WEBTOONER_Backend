@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,6 +26,16 @@ public class RoomEntity extends BaseEntity {
     @JoinColumn(name = "visitor_id")
     private UserEntity visitor;
 
-    @OneToMany(mappedBy = "roomEntity")
+    //room 삭제 -> 메시지 전부 삭제
+    @OneToMany(mappedBy = "roomEntity", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<MessageEntity> messageEntities = new ArrayList<>();
+
+
+    public void setOwner(UserEntity userEntity) {
+        this.owner = userEntity;
+    }
+
+    public void setVisitor(UserEntity userEntity) {
+        this.visitor = userEntity;
+    }
 }

@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.controller.test;
+package com.capstone.ai_painter_backen.controller.Message.test;
 
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
 import lombok.AllArgsConstructor;

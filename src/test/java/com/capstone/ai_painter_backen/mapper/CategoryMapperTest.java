@@ -1,6 +1,7 @@
 package com.capstone.ai_painter_backen.mapper;
 
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
+import com.capstone.ai_painter_backen.mapper.etc.CategoryMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

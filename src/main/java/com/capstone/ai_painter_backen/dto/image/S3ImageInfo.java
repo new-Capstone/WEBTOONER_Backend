@@ -1,4 +1,4 @@
-package com.capstone.ai_painter_backen.dto;
+package com.capstone.ai_painter_backen.dto.image;
 
 import lombok.*;
 

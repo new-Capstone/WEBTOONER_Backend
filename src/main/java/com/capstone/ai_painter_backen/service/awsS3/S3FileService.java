@@ -6,7 +6,7 @@ import com.amazonaws.services.s3.model.CannedAccessControlList;
 import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.services.s3.model.PutObjectResult;
 import com.amazonaws.services.s3.model.S3ObjectInputStream;
-import com.capstone.ai_painter_backen.dto.S3ImageInfo;
+import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import jakarta.transaction.Transactional;
@@ -145,7 +145,7 @@ public class S3FileService implements FileServiceCRUD{
     }
 
     public String extractObjectKeyFromUri(String fileUri){//file uri 에서 fileName 을 가져옴
-        String fileName = fileUri.substring(58);
+        String fileName = fileUri.substring(59);// 59번째 변경하지 말것...
         return fileName;
     }
     @Override

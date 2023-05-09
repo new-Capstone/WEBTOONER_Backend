@@ -1,10 +1,8 @@
 package com.capstone.ai_painter_backen.dto.image;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AfterImageDto {
     @Getter
@@ -12,7 +10,8 @@ public class AfterImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class ResponseDto{
+    @Schema
+    public static class AfterImageResponseDto {
         Long afterImageId;
         String afterImageUri;
         Long beforeImageId;
@@ -22,7 +21,9 @@ public class AfterImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class PostDto{
+    @Schema
+
+    public static class AfterImagePostDto {
         MultipartFile multipartFile;
         Long beforeImageUri; //변환 전의 이미지의 id 값 필요함.
     }
@@ -30,8 +31,9 @@ public class AfterImageDto {
     @Setter
     @AllArgsConstructor
     @NoArgsConstructor
-    @Builder
-    public static class DeleteDto{
+    @Builder @Schema
+
+    public static class AfterImageDeleteDto {
         Long afterImageId;//아이디를 이용해서 삭제 사실 필요 없음.
     }
 
@@ -40,7 +42,7 @@ public class AfterImageDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
-    public static class GetDto{
+    public static class AfterImageGetDto {
         Long getAfterImageDto;//사실 필요없음.
     }
 }

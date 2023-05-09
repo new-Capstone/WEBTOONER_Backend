@@ -1,8 +1,10 @@
 package com.capstone.ai_painter_backen.service.image;
 
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
-import com.capstone.ai_painter_backen.dto.S3ImageInfo;
+import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
+import com.capstone.ai_painter_backen.exception.BusinessLogicException;
+import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.image.BeforeImageMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
@@ -23,39 +25,44 @@ public class BeforeImageService {
     S3FileService s3FileService;
     UserRepository userRepository;
 
-    public BeforeImageDto.ResponseDto createBeforeImage(BeforeImageDto.PostDto postDto){
+    public BeforeImageDto.BeforeImageResponseDto createBeforeImage(BeforeImageDto.BeforeImagePostDto beforeImagePostDto){
 
-        MultipartFile multipartFile = postDto.getBeforeImageMultipartFile();
+        MultipartFile multipartFile = beforeImagePostDto.getBeforeImageMultipartFile();
         S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(multipartFile);
         log.info(s3ImageInfo.toString());
 
         BeforeImageEntity beforeImageEntity =
-                beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(postDto,s3ImageInfo);
+                beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
+                        beforeImagePostDto,
+                        s3ImageInfo,
+                        userRepository.findById(beforeImagePostDto.getUserId())//유저 정보 없으면 오류 던짐.
+                                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
 
-//        Long userId = postDto.getUserId();//todo 나중에 유저 추가되면 연간관계 수행할것.
-//        beforeImageEntity.setUserEntity(userRepository.findById(userId).orElseThrow());
 
         BeforeImageEntity savedBeforeImageEntity =
                 beforeImageRepository.save(beforeImageEntity);
 
-        BeforeImageDto.ResponseDto responseDto =
-                beforeImageMapper.BeforeImageEntityToBeforeImageResponseDto(savedBeforeImageEntity);
 
-        return responseDto;
+        return beforeImageMapper.BeforeImageEntityToBeforeImageResponseDto(savedBeforeImageEntity);
+
     }
 
-    public BeforeImageDto.ResponseDto readBeforeImage(Long beforeImageId){
-        BeforeImageEntity beforeImageEntity = beforeImageRepository.findById(beforeImageId).orElseThrow();
-        return beforeImageMapper.BeforeImageEntityToBeforeImageResponseDto(beforeImageEntity);
+    public BeforeImageDto.BeforeImageResponseDto readBeforeImage(Long beforeImageId){
 
+        BeforeImageEntity beforeImageEntity = beforeImageRepository.findById(beforeImageId)
+                .orElseThrow(()->new BusinessLogicException(ExceptionCode.FILE_IS_NOT_EXIST));
+        return beforeImageMapper.BeforeImageEntityToBeforeImageResponseDto(beforeImageEntity);
     }
 
     @Transactional
     public String deleteBeforeImage(Long beforeImageId){
 
-        BeforeImageEntity beforeImageEntity = beforeImageRepository.findById(beforeImageId).orElseThrow();
-        beforeImageRepository.deleteById(beforeImageId);
+        BeforeImageEntity beforeImageEntity = beforeImageRepository.findById(beforeImageId)
+                .orElseThrow();
+        beforeImageEntity.unSetUserEntity();//FK 제거
         String deletedFileName = s3FileService.deleteMultiFile(beforeImageEntity.getBeforeImageUri());//s3 내부 이미지 삭제함.
+        beforeImageRepository.deleteById(beforeImageId);
+
 
         return "delete complete : "+ String.valueOf(beforeImageId)+"   deletedFileName: "+deletedFileName;
     }
