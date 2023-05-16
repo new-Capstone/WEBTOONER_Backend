@@ -2,12 +2,15 @@ package com.capstone.ai_painter_backen.service;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.dto.UserDto;
+import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.DuplicateNameException;
+import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.UserMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 
@@ -18,13 +21,19 @@ public class UserService {
     UserMapper userMapper;
     UserRepository userRepository;
 
+    PasswordEncoder passwordEncoder;
+
     @Transactional
     public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto){
+
+
         UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
 
         if (userRepository.existsByUserEmail(userEntity.getUserEmail())) {
             throw new DuplicateNameException();
         }
+
+        userEntity.passwordEncode(passwordEncoder);
 
         return  userMapper.userEntityToUserResponseDto(userRepository.save(userEntity));
     }
@@ -48,5 +57,13 @@ public class UserService {
     public UserDto.UserResponseDto getUser(Long userId){
         return userMapper.userEntityToUserResponseDto(
                 userRepository.findById(userId).orElseThrow());
+    }
+    @Transactional
+    public String logOutUser(UserDto.UserLogOutDto userLogOutDto) {
+        UserEntity userEntity = userRepository.findByUserEmail(userLogOutDto.getUserEmail())
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.UNAUTHORIZED_MEMBER));
+        userEntity.userLogOut();
+        return "logOut complete " + userEntity.getUserEmail();
+
     }
 }

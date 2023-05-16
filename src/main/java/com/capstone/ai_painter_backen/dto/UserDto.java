@@ -31,6 +31,19 @@ public class UserDto {
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
+    public static class UserLogOutDto {
+
+        @Schema
+        private String userEmail;
+
+    }
+
+    @Schema
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class UserResponseDto {
         @Schema
         private Long userId;

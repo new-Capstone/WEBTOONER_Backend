@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.domain;
 
+import com.capstone.ai_painter_backen.constant.SocialType;
 import com.capstone.ai_painter_backen.constant.Role;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Collection;
 import java.util.List;
@@ -49,7 +51,14 @@ public class UserEntity extends BaseEntity implements UserDetails{
     private TuteeEntity tuteeEntity;
 
     @Enumerated(EnumType.STRING)
-    Role role;
+    private Role role;
+
+    @Enumerated(EnumType.STRING)
+    private SocialType socialType; // KAKAO, NAVER, GOOGLE
+
+    private String socialId; // 로그인한 소셜 타입의 식별자 값 (일반 로그인인 경우 null)
+
+    private String refreshToken; // 리프레시 토큰
 
     //==갱신 로직==//
     public void update(UserDto.UserPatchDto patchDto){
@@ -70,20 +79,6 @@ public class UserEntity extends BaseEntity implements UserDetails{
     public void enrollTutee(TuteeEntity tuteeEntity){this.tuteeEntity = tuteeEntity;}
     public void unrollTutee(){this.tuteeEntity = null;}
 
-//    @Override
-//    public int hashCode() {//hash 를 오버라이딩 해서 user 객체를 비교할 때는 아이디 이름 비번 권한을 비교하게 만듦
-//        return Objects.hash(id, userEmail, password, role);
-//    }
-//    @Override
-//    public boolean equals(Object o) {//두 유저를 비교할 때 사용하는 함수
-//        if (this == o)
-//            return true;
-//        if (o == null || getClass() != o.getClass())
-//            return false;
-//        UserEntity user = (UserEntity) o;
-//        return Objects.equals(id, user.id) && Objects.equals(userEmail, user.userEmail)
-//                && Objects.equals(password, user.password) && Objects.equals(role, user.role);
-//    }
     @Override
     public String toString() {
         return "User{" + "id=" + id + ", username='" + userEmail + '\'' + ", password='" + password + '\'' + ", authorities="
@@ -126,4 +121,23 @@ public class UserEntity extends BaseEntity implements UserDetails{
     public boolean isEnabled() {
         return true;
     }
+
+
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
+    }
+
+    public void updateRefreshToken(String updateRefreshToken) {
+        this.refreshToken = updateRefreshToken;
+    }
+    // 유저 권한 설정 메소드
+    public void authorizeUser() {
+
+        this.role = Role.USER;
+    }
+
+    public void userLogOut(){
+        this.refreshToken= null;
+    }
+
 }

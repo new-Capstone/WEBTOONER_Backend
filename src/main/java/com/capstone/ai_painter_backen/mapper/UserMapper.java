@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.mapper;
 
+import com.capstone.ai_painter_backen.constant.Role;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.dto.UserDto;
 import org.mapstruct.Mapper;
@@ -11,16 +12,17 @@ public interface UserMapper {
     UserMapper INSTANCE = Mappers.getMapper(UserMapper.class);
 
     //    @Mapping(target = "id", ignore = true)
-    default UserEntity userRequestPostDtoToUserEntity(UserDto.UserPostDto userpostDto) {
-        if (userpostDto == null) {
+    default UserEntity userRequestPostDtoToUserEntity(UserDto.UserPostDto userPostDto) {
+        if (userPostDto == null) {
             return null;
         } else {
             return UserEntity.builder()
-                    .userEmail(userpostDto.getUserEmail())
-                    .password(userpostDto.getPassword())
-                    .profileImage(userpostDto.getProfileImage())
-                    .userRealName(userpostDto.getUsername())
-                    .description(userpostDto.getDescription()).build();
+                    .userEmail(userPostDto.getUserEmail())
+                    .password(userPostDto.getPassword())
+                    .profileImage(userPostDto.getProfileImage())
+                    .userRealName(userPostDto.getUsername())
+                    .role(Role.USER)
+                    .description(userPostDto.getDescription()).build();
         }
     }
 
