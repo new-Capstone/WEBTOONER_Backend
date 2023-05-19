@@ -45,7 +45,7 @@ public class TutorController {
         return ResponseEntity.ok().body(tutorService.getTutor(tutorId));
     }
 
-    @GetMapping
+    @GetMapping("/all") //임시 경로
     @Operation(summary = "튜터 정보를 모두 가져오는 메소드", description = "모든 튜터 정보 가져오는 메서드")
     @ApiResponses({@ApiResponse(responseCode = "200" ,description = "튜터의 정보가 정상적으로 가져와짐",
             content = @Content(schema = @Schema(implementation = TutorDto.TutorResponseDto.class))),
