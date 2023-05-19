@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "스웨거 test", description = "인증 관련 api 입니다.")
 @RestController
-@RequestMapping("/admin")
+@RequestMapping("/api/v1/auth/test")
 public class testController {
-    @GetMapping("/")
+    @GetMapping()
     ResponseEntity<?> swaggerTest(){
         return ResponseEntity.ok().body("hello wrold !");
     }
