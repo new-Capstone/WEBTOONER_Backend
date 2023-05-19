@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.amazonaws.services.cloudformation.model.Replacement.True;
 
@@ -108,5 +109,10 @@ public class TutorService {
         return tutorResponseDto;
     }
 
-
+    @Transactional(readOnly = true)
+    public List<TutorDto.TutorResponseDto> getTutors() {
+        return tutorRepository.findAll().stream()
+                .map(m -> tutorMapper.tutorEntityToTutorResponseDto(m))
+                .collect(Collectors.toList());
+    }
 }

@@ -45,6 +45,17 @@ public class TutorController {
         return ResponseEntity.ok().body(tutorService.getTutor(tutorId));
     }
 
+    @GetMapping
+    @Operation(summary = "튜터 정보를 모두 가져오는 메소드", description = "모든 튜터 정보 가져오는 메서드")
+    @ApiResponses({@ApiResponse(responseCode = "200" ,description = "튜터의 정보가 정상적으로 가져와짐",
+            content = @Content(schema = @Schema(implementation = TutorDto.TutorResponseDto.class))),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
+    public ResponseEntity<?> getTutors() {
+        return ResponseEntity.ok().body(tutorService.getTutors());
+    }
+
     @PatchMapping()//
     @Operation(summary = "튜터 정보를 수정하는 메소드", description = "튜터의 아이디를 이용해서 튜터의 정보를 수정하는 메서드")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "튜터의 정보가 정상적으로 수정됨",
