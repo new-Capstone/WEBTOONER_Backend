@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
 @EnableJpaAuditing
-@OpenAPIDefinition(servers = {@Server(url= "https://capstone-webtooner.com") })
+@OpenAPIDefinition(servers = {@Server(url= "https://capstone-webtooner.com") })//todo 점검
 public class AiPainterBackenApplication {
 
     public static void main(String[] args) {
