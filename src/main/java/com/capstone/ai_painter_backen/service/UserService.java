@@ -2,11 +2,13 @@ package com.capstone.ai_painter_backen.service;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.dto.UserDto;
+import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.DuplicateNameException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.UserMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
+import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,14 +22,14 @@ import org.springframework.stereotype.Service;
 public class UserService {
     UserMapper userMapper;
     UserRepository userRepository;
-
     PasswordEncoder passwordEncoder;
+    S3FileService s3FileService;
 
     @Transactional
     public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto){
 
-
-        UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
+        S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(userPostDto.getProfileImage());
+        UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto, s3ImageInfo);
 
         if (userRepository.existsByUserEmail(userEntity.getUserEmail())) {
             throw new DuplicateNameException();
@@ -50,7 +52,12 @@ public class UserService {
 //        if(!sample.isPresent()) {    ---->orElseThrow()와 동일
 //            throw new IllegalArgumentException();
 //        }
-        userEntity.update(patchDto);
+
+        String imgUrl = s3FileService.findImgUrl(userEntity.getProfileImage());
+        s3FileService.deleteMultiFile(imgUrl);
+        S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(patchDto.getProfileImage());
+
+        userEntity.update(patchDto, s3ImageInfo);
         return userMapper.userEntityToUserResponseDto(userEntity);
     }
 

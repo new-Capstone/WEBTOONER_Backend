@@ -41,7 +41,7 @@ public class UserEntity extends BaseEntity implements UserDetails{
 
     private String password;
     private String description;
-    private String profileUri;
+    private String profileImage;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tutor_id")
@@ -65,7 +65,7 @@ public class UserEntity extends BaseEntity implements UserDetails{
     public void update(UserDto.UserPatchDto patchDto, S3ImageInfo s3ImageInfo){
         this.password = patchDto.getPassword();
         this.description = patchDto.getDescription();
-        this.profileUri = s3ImageInfo.getFileURI();
+        this.profileImage = s3ImageInfo.getFileURI();
 
     }
 

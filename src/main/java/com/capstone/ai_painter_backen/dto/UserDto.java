@@ -55,7 +55,7 @@ public class UserDto {
         @Schema
         private String description;
         @Schema
-        private String profileUri;
+        private String profileImage;
     }
 
     @Schema
