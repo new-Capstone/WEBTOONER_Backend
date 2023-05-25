@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.controller.user;
 
+import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.dto.UserDto;
 
 import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
@@ -12,6 +13,8 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -53,7 +56,8 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    public String jwtTest() {
+    public String jwtTest(@AuthenticationPrincipal UserEntity userEntity) {
+
         return "jwtTest 요청 성공";
     }
 
