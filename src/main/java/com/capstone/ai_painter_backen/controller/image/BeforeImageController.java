@@ -35,8 +35,8 @@ public class BeforeImageController {
                         .userId(userId)
                         .build();
 
-        BeforeImageDto.BeforeImageResponseDto beforeImageResponseDto = beforeImageService.createBeforeImage(beforeImagePostDto);
-        return ResponseEntity.ok().body(beforeImageResponseDto);
+        BeforeImageDto.BeforeImageCreateResponseDto beforeImageCreateResponseDto = beforeImageService.createBeforeImage(beforeImagePostDto);
+        return ResponseEntity.ok().body(beforeImageCreateResponseDto);
     }
 
     @Operation(summary = "변환전 이미지 가져오기", description = "변환전 이미지를 id를 통해서 읽어오는 메소드입니다.")
