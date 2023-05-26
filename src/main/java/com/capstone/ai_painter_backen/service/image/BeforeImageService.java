@@ -15,6 +15,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @Service
 @AllArgsConstructor
 @Slf4j
@@ -24,27 +26,35 @@ public class BeforeImageService {
     BeforeImageMapper beforeImageMapper;
     S3FileService s3FileService;
     UserRepository userRepository;
+    ClientUtils clientUtils;
 
-    public BeforeImageDto.BeforeImageResponseDto createBeforeImage(BeforeImageDto.BeforeImagePostDto beforeImagePostDto){
+    public BeforeImageDto.BeforeImageCreateResponseDto createBeforeImage(BeforeImageDto.BeforeImagePostDto beforeImagePostDto){
 
         MultipartFile multipartFile = beforeImagePostDto.getBeforeImageMultipartFile();
         S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(multipartFile);
         log.info(s3ImageInfo.toString());
 
-        BeforeImageEntity beforeImageEntity =
-                beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
-                        beforeImagePostDto,
-                        s3ImageInfo,
-                        userRepository.findById(beforeImagePostDto.getUserId())//유저 정보 없으면 오류 던짐.
-                                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
+        try {
+            List<MultipartFile> transformedImage = clientUtils.requestImage(multipartFile);
+
+            BeforeImageEntity beforeImageEntity =
+                    beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
+                            beforeImagePostDto,
+                            s3ImageInfo,
+                            userRepository.findById(beforeImagePostDto.getUserId())//유저 정보 없으면 오류 던짐.
+                                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
 
 
-        BeforeImageEntity savedBeforeImageEntity =
-                beforeImageRepository.save(beforeImageEntity);
+            BeforeImageEntity savedBeforeImageEntity =
+                    beforeImageRepository.save(beforeImageEntity);
 
+            //생성되는 이미지 dto에 추가해서 return
+            return beforeImageMapper.BeforeImageEntityToBeforeImageCreateResponseDto(savedBeforeImageEntity, transformedImage);
 
-        return beforeImageMapper.BeforeImageEntityToBeforeImageResponseDto(savedBeforeImageEntity);
-
+        }catch (Exception e) {
+            log.info("Error while server communication");
+            return null;
+        }
     }
 
     public BeforeImageDto.BeforeImageResponseDto readBeforeImage(Long beforeImageId){
@@ -66,8 +76,4 @@ public class BeforeImageService {
 
         return "delete complete : "+ String.valueOf(beforeImageId)+"   deletedFileName: "+deletedFileName;
     }
-
-
-
-
 }

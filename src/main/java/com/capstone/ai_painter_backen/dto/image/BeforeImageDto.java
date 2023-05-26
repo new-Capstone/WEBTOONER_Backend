@@ -20,6 +20,18 @@ public class BeforeImageDto {
         List<AfterImageDto.AfterImageResponseDto> afterImageAfterImageResponseDtos = new ArrayList<>();
     }
 
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @Builder
+    public static class BeforeImageCreateResponseDto {
+        Long beforeImageId;
+        Long userId;
+        String beforeImageUri;
+        List<MultipartFile> createdImages = new ArrayList<>();
+    }
+
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -32,5 +44,14 @@ public class BeforeImageDto {
         Long userId;
         @Schema(description = "사진파일")
         MultipartFile beforeImageMultipartFile;
+    }
+
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @Builder
+    public static class ImageTransformDto {
+        List<String> base64Images = new ArrayList<>();
     }
 }
