@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.controller.user;
 
+import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.dto.UserDto;
 
 import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
@@ -10,10 +11,14 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,19 +28,19 @@ public class UserController {
     private final UserService userService;
 
 
-    @PostMapping("/sign-up")
+    @PostMapping(value ="auth/sign-up",  consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "유저 정보생성 메소드", description = "유저 기본 정보를 이용해서 유저객체 생성하는 메서드")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "유저의 정보가 정상적으로 생성됨",
             content = @Content(schema = @Schema(implementation = UserDto.UserResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    public ResponseEntity<?> signUp(@RequestBody UserDto.UserPostDto userSignUpDto) throws Exception {
-        return ResponseEntity.ok().body(userService.createUser(userSignUpDto));
+    public ResponseEntity<?> signUp( @ModelAttribute UserDto.UserPostDto userSignUpDto) {
+        return ResponseEntity.ok().body(userService.createUser(userSignUpDto, userSignUpDto.getProfileImage()));
 
     }
 
-    @PostMapping("/logout")
+    @PostMapping("auth/logout")
     @Operation(summary = "유저 로그아웃 메소드", description = "유저 이메일을 이용해서 로그아웃하는 메서드")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "로그아웃 정상 처리됨",
             content = @Content(schema = @Schema(implementation = String.class))),
@@ -53,7 +58,8 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    public String jwtTest() {
+    public String jwtTest(@AuthenticationPrincipal UserEntity userEntity) {
+
         return "jwtTest 요청 성공";
     }
 
