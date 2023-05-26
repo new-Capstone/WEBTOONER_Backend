@@ -12,7 +12,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 @EnableJpaAuditing
-@OpenAPIDefinition(servers = {@Server(url= "https://capstone-webtooner.com") })//todo 점검
+@OpenAPIDefinition(servers = {@Server(url = "/", description = "Default Server URL")})
+
 public class AiPainterBackenApplication {
 
     public static void main(String[] args) {
