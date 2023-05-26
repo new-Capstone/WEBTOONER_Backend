@@ -41,7 +41,7 @@ public class SwaggerConfiguration {
                 .info(new Info().title("AI PAINTER API")
                         .description("AI Painter's api docs!!")
                         .version("v0.0.1")
-                        .license(new License().name("Apache 2.0").url("https://aipainter.com")))
+                        .license(new License().name("Apache 2.0").url("https://capstone-webtooner.com")))
                 .externalDocs(new ExternalDocumentation()
                         .description("ai_painter's  Wiki Documentation")
                         .url("https://springshop.wiki.github.org/docs"))
