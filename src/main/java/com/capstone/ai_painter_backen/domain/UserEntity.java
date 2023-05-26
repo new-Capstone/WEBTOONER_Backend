@@ -140,4 +140,8 @@ public class UserEntity extends BaseEntity implements UserDetails{
         this.refreshToken= null;
     }
 
+    public void setProfileImage(String profileImageUrl){
+        this.profileImage = profileImageUrl;
+    }
+
 }

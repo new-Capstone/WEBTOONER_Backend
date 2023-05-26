@@ -14,6 +14,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 
 @Service
@@ -24,12 +25,20 @@ public class UserService {
     UserRepository userRepository;
     PasswordEncoder passwordEncoder;
     S3FileService s3FileService;
-
+    private final String DEFAULT_PROFILE = "https://capstone-webtooner.s3.ap-northeast-2.amazonaws.com/a16ce72a-a9ef-448e-842d-bf3e7c948f56_.41.01.png";
     @Transactional
-    public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto){
+    public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto, MultipartFile profileImage){
+        UserEntity userEntity;
 
-        S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(userPostDto.getProfileImage());
-        UserEntity userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto, s3ImageInfo);
+        if(profileImage.isEmpty()){
+            userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
+            userEntity.setProfileImage(DEFAULT_PROFILE);
+        }else{
+
+            S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(profileImage);
+            userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto, s3ImageInfo);
+        }
+
 
         if (userRepository.existsByUserEmail(userEntity.getUserEmail())) {
             throw new DuplicateNameException();

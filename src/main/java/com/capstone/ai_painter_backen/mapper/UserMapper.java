@@ -27,6 +27,19 @@ public interface UserMapper {
         }
     }
 
+    default UserEntity userRequestPostDtoToUserEntity(UserDto.UserPostDto userPostDto) {
+        if (userPostDto == null) {
+            return null;
+        } else {
+            return UserEntity.builder()
+                    .userEmail(userPostDto.getUserEmail())
+                    .password(userPostDto.getPassword())
+                    .userRealName(userPostDto.getUsername())
+                    .role(Role.USER)
+                    .description(userPostDto.getDescription()).build();
+        }
+    }
+
     default UserDto.UserResponseDto userEntityToUserResponseDto(UserEntity userEntity){
         if (userEntity == null) {
             return null;

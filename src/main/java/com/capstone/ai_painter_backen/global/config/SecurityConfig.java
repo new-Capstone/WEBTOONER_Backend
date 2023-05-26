@@ -9,6 +9,7 @@ import com.capstone.ai_painter_backen.global.login.service.LoginService;
 import com.capstone.ai_painter_backen.global.oauth2.handler.OAuth2LoginFailureHandler;
 import com.capstone.ai_painter_backen.global.oauth2.handler.OAuth2LoginSuccessHandler;
 import com.capstone.ai_painter_backen.global.oauth2.service.CustomOAuth2UserService;
+import com.capstone.ai_painter_backen.mapper.UserMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -28,6 +30,13 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import java.util.Arrays;
 
 /**
  * 인증은 CustomJsonUsernamePasswordAuthenticationFilter에서 authenticate()로 인증된 사용자로 처리
@@ -46,6 +55,8 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
+
+    private final UserMapper usermapper;
 
 //    @Bean
 //    public void filterChain2(HttpSecurity web) throws Exception {
@@ -66,7 +77,7 @@ public class SecurityConfig {
                 .formLogin().disable() // FormLogin 사용 X
                 .httpBasic().disable() // httpBasic 사용 X
                 .csrf().disable() // csrf 보안 사용 X
-                .headers().frameOptions().disable()
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
 
                 // 세션 사용하지 않으므로 STATELESS로 설정
@@ -75,7 +86,9 @@ public class SecurityConfig {
                 .and()
 
                 .authorizeHttpRequests()
-                .requestMatchers("/user/**", "/swagger-ui/index.html/**",
+                .requestMatchers(
+                        "**/auth/**",
+                        "/swagger-ui/index.html/**",
                         "/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",
@@ -86,8 +99,7 @@ public class SecurityConfig {
                         /* swagger v3 */
                         "/v3/api-docs/**",
                         "/swagger-ui/**").permitAll()
-                .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").hasRole("GUEST")
-                .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").hasRole("USER")
+                .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
 
                 //== URL별 권한 관리 옵션 ==//
                 .anyRequest().authenticated()
@@ -133,7 +145,7 @@ public class SecurityConfig {
      */
     @Bean
     public LoginSuccessHandler loginSuccessHandler() {
-        return new LoginSuccessHandler(jwtService, userRepository);
+        return new LoginSuccessHandler(jwtService, userRepository ,usermapper,objectMapper);
     }
 
     /**
@@ -165,4 +177,17 @@ public class SecurityConfig {
         JwtAuthenticationProcessingFilter jwtAuthenticationFilter = new JwtAuthenticationProcessingFilter(jwtService, userRepository);
         return jwtAuthenticationFilter;
     }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowedOrigins(Arrays.asList("*"));
+        config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","PATCH","OPTIONS"));
+        config.setAllowedHeaders(Arrays.asList("*"));
+        config.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
+
 }
