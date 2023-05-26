@@ -36,7 +36,6 @@ public class BeforeImageService {
 
         try {
             List<MultipartFile> transformedImage = clientUtils.requestImage(multipartFile);
-
             BeforeImageEntity beforeImageEntity =
                     beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
                             beforeImagePostDto,
