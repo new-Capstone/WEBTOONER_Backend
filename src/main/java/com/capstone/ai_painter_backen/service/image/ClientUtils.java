@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -58,7 +59,7 @@ public class ClientUtils {
         List<String> base64Images = imageTransformDto.getBase64Images();
         for (String base64Image : base64Images) {
             byte[] bytes = Base64.getDecoder().decode(base64Image);
-            MultipartFile customMultipartFile = new CustomMultipartFile(bytes, filename);
+            MultipartFile customMultipartFile = new CustomMultipartFile(bytes, filename + UUID.randomUUID());
             result.add(customMultipartFile);
         }
 
