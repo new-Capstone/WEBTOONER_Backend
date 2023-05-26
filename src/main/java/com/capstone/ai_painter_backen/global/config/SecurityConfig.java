@@ -75,7 +75,7 @@ public class SecurityConfig {
                 .and()
 
                 .authorizeHttpRequests()
-                .requestMatchers("/user/sign-up", "/swagger-ui/index.html/**",
+                .requestMatchers("/user/**", "/swagger-ui/index.html/**",
                         "/v2/api-docs",
                         "/swagger-resources",
                         "/swagger-resources/**",
