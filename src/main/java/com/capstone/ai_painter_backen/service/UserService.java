@@ -30,7 +30,7 @@ public class UserService {
     public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto, MultipartFile profileImage){
         UserEntity userEntity;
 
-        if(profileImage.isEmpty()){
+        if(profileImage == null){
             userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
             userEntity.setProfileImage(DEFAULT_PROFILE);
         }else{
