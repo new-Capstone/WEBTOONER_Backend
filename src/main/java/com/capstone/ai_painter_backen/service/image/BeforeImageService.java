@@ -27,15 +27,17 @@ public class BeforeImageService {
     S3FileService s3FileService;
     UserRepository userRepository;
     ClientUtils clientUtils;
+    AfterImageService afterImageService;
 
-    public BeforeImageDto.BeforeImageCreateResponseDto createBeforeImage(BeforeImageDto.BeforeImagePostDto beforeImagePostDto){
+
+    public BeforeImageDto.BeforeImageResponseDto createBeforeImage(BeforeImageDto.BeforeImagePostDto beforeImagePostDto){
 
         MultipartFile multipartFile = beforeImagePostDto.getBeforeImageMultipartFile();
         S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(multipartFile);
         log.info(s3ImageInfo.toString());
 
         try {
-            List<MultipartFile> transformedImage = clientUtils.requestImage(multipartFile);
+            List<MultipartFile> transformedImage = clientUtils.requestImage(multipartFile, beforeImagePostDto.getExpression());
             BeforeImageEntity beforeImageEntity =
                     beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
                             beforeImagePostDto,
@@ -47,8 +49,11 @@ public class BeforeImageService {
             BeforeImageEntity savedBeforeImageEntity =
                     beforeImageRepository.save(beforeImageEntity);
 
+            //TODO : refactoring (AfterImageService, BeforeImageService 분리)
+            afterImageService.createAfterImageList(savedBeforeImageEntity.getId(), transformedImage);
+
             //생성되는 이미지 dto에 추가해서 return
-            return beforeImageMapper.BeforeImageEntityToBeforeImageCreateResponseDto(savedBeforeImageEntity, transformedImage);
+            return beforeImageMapper.BeforeImageEntityToBeforeImageResponseDto(savedBeforeImageEntity);
 
         }catch (Exception e) {
             log.info("Error while server communication");

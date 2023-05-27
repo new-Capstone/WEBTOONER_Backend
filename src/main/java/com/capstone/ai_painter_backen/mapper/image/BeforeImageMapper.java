@@ -3,6 +3,7 @@ package com.capstone.ai_painter_backen.mapper.image;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.image.AfterImageEntity;
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
+import com.capstone.ai_painter_backen.domain.image.ImageContribute;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.AfterImageDto;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
@@ -21,6 +22,7 @@ public interface BeforeImageMapper {
                 .beforeImageUri(s3ImageInfo.getFileURI())
                 .userEntity(userEntity)//유저 정보는 따로 넣어야함.
                 .afterImageEntities(new ArrayList<>())//처음 초기화를 해서 null point exception 방지함.
+                .imageContribute(new ImageContribute(beforeImagePostDto.getAngle(), beforeImagePostDto.getExpression()))
                 .build();
 
     }
@@ -44,6 +46,7 @@ public interface BeforeImageMapper {
                 .build();
     }
 
+    /* TODO : refactoring (AfterImageService, BeforeImageService 분리)
     default BeforeImageDto.BeforeImageCreateResponseDto BeforeImageEntityToBeforeImageCreateResponseDto(
             BeforeImageEntity beforeImageEntity, List<MultipartFile> transformedImages) {
         return BeforeImageDto.BeforeImageCreateResponseDto.builder()
@@ -53,5 +56,6 @@ public interface BeforeImageMapper {
                 .userId(beforeImageEntity.getUserEntity().getId())
                 .build();
     }
+    */
 }
 
