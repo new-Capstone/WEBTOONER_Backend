@@ -1,6 +1,8 @@
 package com.capstone.ai_painter_backen.controller.image;
 
+import com.capstone.ai_painter_backen.domain.image.ImageContribute;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
+import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
 import com.capstone.ai_painter_backen.service.image.BeforeImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -27,16 +29,19 @@ public class BeforeImageController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    public ResponseEntity<?> createBeforeImage(@RequestParam Long userId ,@RequestPart MultipartFile multipartFile){
+    public ResponseEntity<?> createBeforeImage(@RequestParam Long userId, @RequestParam String expression,
+                                               @RequestParam int angle, @RequestPart MultipartFile multipartFile){
 
         BeforeImageDto.BeforeImagePostDto beforeImagePostDto =
                 BeforeImageDto.BeforeImagePostDto.builder()
                         .beforeImageMultipartFile(multipartFile)
+                        .expression(expression)
+                        .angle(angle)
                         .userId(userId)
                         .build();
 
-        BeforeImageDto.BeforeImageCreateResponseDto beforeImageCreateResponseDto = beforeImageService.createBeforeImage(beforeImagePostDto);
-        return ResponseEntity.ok().body(beforeImageCreateResponseDto);
+        BeforeImageDto.BeforeImageResponseDto beforeImageResponseDto = beforeImageService.createBeforeImage(beforeImagePostDto);
+        return ResponseEntity.ok().body(beforeImageResponseDto);
     }
 
     @Operation(summary = "변환전 이미지 가져오기", description = "변환전 이미지를 id를 통해서 읽어오는 메소드입니다.")
