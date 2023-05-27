@@ -99,7 +99,7 @@ public class SecurityConfig {
                         /* swagger v3 */
                         "/v3/api-docs/**",
                         "/swagger-ui/**").permitAll()
-                .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**").permitAll()
+                .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**","/ws-stomp/**").permitAll()
 
                 //== URL별 권한 관리 옵션 ==//
                 .anyRequest().authenticated()
@@ -181,7 +181,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(Arrays.asList("*"));
+        config.setAllowedOriginPatterns(Arrays.asList("*"));
+        //config.setAllowedOrigins(Arrays.asList("*"));
         config.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE","PATCH","OPTIONS"));
         config.setAllowedHeaders(Arrays.asList("*"));
         config.setAllowCredentials(true);
