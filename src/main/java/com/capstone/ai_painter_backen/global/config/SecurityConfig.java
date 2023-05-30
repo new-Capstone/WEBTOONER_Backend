@@ -58,18 +58,6 @@ public class SecurityConfig {
 
     private final UserMapper usermapper;
 
-//    @Bean
-//    public void filterChain2(HttpSecurity web) throws Exception {
-//        web.ignoring().antMatchers("/static/css/**, /static/js/**, /favicon.ico, /**/favicon.ico");
-//        web.ignoring().requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-//        // swagger
-//
-//        web.ignoring().antMatchers(
-//                "/v2/api-docs",  "/configuration/ui",
-//                "/swagger-resources", "/configuration/security",
-//                "/swagger-ui.html", "/webjars/**", "/swagger/**",
-//                "/favicon.ico", "/**/favicon.ico");
-//    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
