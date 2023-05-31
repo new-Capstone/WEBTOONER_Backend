@@ -22,7 +22,7 @@ public interface BeforeImageMapper {
                 .beforeImageUri(s3ImageInfo.getFileURI())
                 .userEntity(userEntity)//유저 정보는 따로 넣어야함.
                 .afterImageEntities(new ArrayList<>())//처음 초기화를 해서 null point exception 방지함.
-                .imageContribute(new ImageContribute(beforeImagePostDto.getAngle(), beforeImagePostDto.getExpression()))
+                .imageContribute(new ImageContribute(beforeImagePostDto.getExpression()))
                 .build();
 
     }

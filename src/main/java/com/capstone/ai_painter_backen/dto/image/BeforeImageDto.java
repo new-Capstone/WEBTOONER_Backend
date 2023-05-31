@@ -49,8 +49,10 @@ public class BeforeImageDto {
         MultipartFile beforeImageMultipartFile;
         @Schema(description = "표정")
         String expression;
-        @Schema(description = "각도")
-        int angle;
+        @Schema(description = "생성모델")
+        String model;
+        @Schema(description = "성별")
+        String gender;
     }
 
 }

@@ -19,6 +19,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 
 @Service
@@ -26,10 +27,20 @@ import java.util.*;
 @RequiredArgsConstructor
 public class ClientUtils {
 
-    @Value("${modelServer.url}")
-    private String url;
+    @Value("${modelServer.pixarUrl}")
+    private String pixarUrl;
 
-    public List<MultipartFile> requestImage(MultipartFile multipartFile, String expression) throws Exception {
+    @Value("${modelServer.loraUrl}")
+    private String loraUrl;
+
+    private final String defaultNegativePrompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name";
+    private final String defaultPrompt = "masterpiece, best quality, ";
+    private final int defaultBatchSize = 1;
+
+    private final ConcurrentHashMap<String, String> hashMap = new ConcurrentHashMap<>();
+
+    public List<MultipartFile> requestImage(MultipartFile multipartFile, String expression,
+                                            String model, String gender) throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
         JSONParser parser = new JSONParser();
@@ -45,30 +56,59 @@ public class ClientUtils {
 
         JSONObject parameter = new JSONObject();
 
-        parameter.put("prompt", expression);
+        parameter.put("prompt", defaultPrompt + "1" + gender + ", " + expression);
+        parameter.put("negative_prompt", defaultNegativePrompt);
+        parameter.put("batch_size", defaultBatchSize);
         parameter.put("init_images", wrapper);
+
+        log.info("prompt : {}", defaultPrompt + "1" + gender + ", " + expression);
+        log.info("expression : {}", expression);
+        log.info("model : {}", model);
+        log.info("gender : {}", gender);
 
 
         HttpEntity<String> requestMessage = new HttpEntity<>(parameter.toJSONString(), httpHeaders);
 
         try {
-            HttpEntity<String> response = restTemplate.postForEntity(url, requestMessage, String.class);
+            if (model.equals("lora")) {
+                log.info("internal lora");
+                HttpEntity<String> response = restTemplate.postForEntity(loraUrl, requestMessage, String.class);
 
-            JSONObject object = (JSONObject) parser.parse(response.getBody());
-            JSONArray images = (JSONArray)object.get("images");
+                JSONObject object = (JSONObject) parser.parse(response.getBody());
+                JSONArray images = (JSONArray)object.get("images");
 
-            for(int i = 0; i < images.size(); i++) {
-                String image = (String) images.get(i);
-                byte[] bytes = Base64.getDecoder().decode(image);
+                for(int i = 0; i < images.size(); i++) {
+                    String image = (String) images.get(i);
+                    byte[] bytes = Base64.getDecoder().decode(image);
 
-                MultipartFile customMultipartFile = new CustomMultipartFile(bytes, UUID.randomUUID() + ".png");
-                result.add(customMultipartFile);
+                    MultipartFile customMultipartFile = new CustomMultipartFile(bytes, UUID.randomUUID() + ".png");
+                    result.add(customMultipartFile);
+                }
+
+                return result;
+            } else if (model.equals("pixar")){
+                log.info("internal pixar");
+                HttpEntity<String> response = restTemplate.postForEntity(pixarUrl, requestMessage, String.class);
+
+                JSONObject object = (JSONObject) parser.parse(response.getBody());
+                JSONArray images = (JSONArray)object.get("images");
+
+                for(int i = 0; i < images.size(); i++) {
+                    String image = (String) images.get(i);
+                    byte[] bytes = Base64.getDecoder().decode(image);
+
+                    MultipartFile customMultipartFile = new CustomMultipartFile(bytes, UUID.randomUUID() + ".png");
+                    result.add(customMultipartFile);
+                }
+
+                return result;
+            } else {
+                log.info("invalid model name error");
+                throw new Exception();
             }
 
-            return result;
         } catch (Exception e) {
-            log.info("server communication error");
-            return null;
+            throw new Exception();
         }
     }
 
