@@ -87,7 +87,11 @@ public class SecurityConfig {
                         "/webjars/**",
                         /* swagger v3 */
                         "/v3/api-docs/**",
-                        "/swagger-ui/**").permitAll()
+                        "/swagger-ui/**",
+                        "http://aipainter.iptime.org:7860/sdapi/v1/img2img",
+                        "https://s3.ap-northeast-2.amazonaws.com/capstone-webtooner",
+                        "//capstone-aiwebtooner-database.cm5quhoxavui.ap-northeast-2.rds.amazonaws.com/ai_painter"
+                ).permitAll()
                 .requestMatchers("/","/css/**","/images/**","/js/**","/favicon.ico","/h2-console/**","/ws-stomp/**").permitAll()
 
                 //== URL별 권한 관리 옵션 ==//

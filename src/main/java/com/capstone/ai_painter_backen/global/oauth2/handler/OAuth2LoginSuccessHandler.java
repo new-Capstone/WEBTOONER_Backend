@@ -38,7 +38,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
                 // sendAccessAndRefreshToken() <- 이게 나중에 호출되면 response status 가 200으로 설정됨 -> redirect 안됨
                 jwtService.sendAccessAndRefreshToken(response, accessToken, null);
-                response.sendRedirect("oauth2/sign-up"); // 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
+//                response.sendRedirect("oauth2/sign-up"); // 프론트의 회원가입 추가 정보 입력 폼으로 리다이렉트
 //
 //                User findUser = userRepository.findByEmail(oAuth2User.getEmail())
 //                                .orElseThrow(() -> new IllegalArgumentException("이메일에 해당하는 유저가 없습니다."));
