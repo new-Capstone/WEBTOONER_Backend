@@ -41,4 +41,10 @@ public interface TutorMapper {
                 .build();
     }
 
+    default TutorDto.TutorResponseDtoIdAndImage tutorEntityToTutorResponseDtoIdAndImage(TutorEntity tutorEntity) {
+        return TutorDto.TutorResponseDtoIdAndImage.builder()
+                .tutorId(tutorEntity.getId())
+                .url(tutorEntity.getPortfolioEntities().get(0).getImageUri())
+                .build();
+    }
 }

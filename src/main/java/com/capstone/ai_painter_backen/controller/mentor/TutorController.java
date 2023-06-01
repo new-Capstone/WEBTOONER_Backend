@@ -80,4 +80,9 @@ public class TutorController {
         return ResponseEntity.ok().body("deleted tutorId:"+tutorId);
     }
 
+    //장르치면 이미지, 아이디
+    @GetMapping("/allByCategory")
+    public ResponseEntity<?> getTutorsByCategory(@RequestParam String categoryName) {
+        return ResponseEntity.ok().body(tutorService.getTutorsByCategory(categoryName));
+    }
 }

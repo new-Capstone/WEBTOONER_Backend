@@ -32,7 +32,6 @@ public class BeforeImageController {
     public ResponseEntity<?> createBeforeImage(@RequestParam Long userId, @RequestParam String expression,
                                                @RequestParam String model, @RequestParam String gender,
                                                @RequestParam String loraName, @RequestPart MultipartFile multipartFile){
-
         BeforeImageDto.BeforeImagePostDto beforeImagePostDto =
                 BeforeImageDto.BeforeImagePostDto.builder()
                         .beforeImageMultipartFile(multipartFile)
