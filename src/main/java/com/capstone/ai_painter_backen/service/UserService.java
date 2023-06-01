@@ -23,7 +23,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserService {
     UserMapper userMapper;
     UserRepository userRepository;
-    PasswordEncoder passwordEncoder;
     S3FileService s3FileService;
     private final String DEFAULT_PROFILE = "https://capstone-webtooner.s3.ap-northeast-2.amazonaws.com/a16ce72a-a9ef-448e-842d-bf3e7c948f56_.41.01.png";
     @Transactional
@@ -44,7 +43,7 @@ public class UserService {
             throw new DuplicateNameException();
         }
 
-        userEntity.passwordEncode(passwordEncoder);
+//        userEntity.passwordEncode(passwordEncoder);
 
         return  userMapper.userEntityToUserResponseDto(userRepository.save(userEntity));
     }

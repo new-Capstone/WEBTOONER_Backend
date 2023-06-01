@@ -30,7 +30,7 @@ import java.util.List;
                 columnNames = "user_email"
         )
 )
-public class UserEntity extends BaseEntity implements UserDetails{
+public class UserEntity extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -79,53 +79,6 @@ public class UserEntity extends BaseEntity implements UserDetails{
     public void enrollTutee(TuteeEntity tuteeEntity){this.tuteeEntity = tuteeEntity;}
     public void unrollTutee(){this.tuteeEntity = null;}
 
-    @Override
-    public String toString() {
-        return "User{" + "id=" + id + ", username='" + userEmail + '\'' + ", password='" + password + '\'' + ", authorities="
-                + role + '}';
-    }
-
-    @Override
-    public String getUsername() {
-        return this.userEmail;
-    }
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.name()));
-    }
-
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-
-
-    public void passwordEncode(PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
-    }
 
     public void updateRefreshToken(String updateRefreshToken) {
         this.refreshToken = updateRefreshToken;
