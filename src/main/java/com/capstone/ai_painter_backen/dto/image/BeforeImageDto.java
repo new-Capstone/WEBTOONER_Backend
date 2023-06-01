@@ -53,6 +53,8 @@ public class BeforeImageDto {
         String model;
         @Schema(description = "성별")
         String gender;
+        @Schema(description = "웹툰 이름")
+        String modelName;
     }
 
 }
