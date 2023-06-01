@@ -50,6 +50,11 @@ public class UserService {
     }
 
     public void deleteUser(UserDto.UserDeleteDto deleteDto){
+        UserEntity userEntity = userRepository.findById(deleteDto.getUserId())
+                .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        if(!userEntity.getProfileImage().equals(DEFAULT_PROFILE)){
+            s3FileService.deleteMultiFile(userEntity.getProfileImage());
+        }
         userRepository.deleteById(deleteDto.getUserId());
         log.info("{}: User 삭제됨 !", deleteDto.getUserId());
     }
