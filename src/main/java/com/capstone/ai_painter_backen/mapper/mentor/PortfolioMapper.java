@@ -1,8 +1,10 @@
 package com.capstone.ai_painter_backen.mapper.mentor;
 
+import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import com.capstone.ai_painter_backen.domain.mentor.PortfolioEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
+import com.capstone.ai_painter_backen.dto.mentor.CategoryDto;
 import com.capstone.ai_painter_backen.dto.mentor.PortfolioDto;
 import org.mapstruct.Mapper;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,6 +23,7 @@ public interface PortfolioMapper  {
                 .portfolioId(portfolioEntity.getId())
                 .tutorId(portfolioEntity.getTutorEntity().getId())
                 .imageUri(portfolioEntity.getImageUri())
+                .category(portfolioEntity.getCategory() == null? "no category": portfolioEntity.getCategory().getCategoryName())
                 .build();
     }
 }

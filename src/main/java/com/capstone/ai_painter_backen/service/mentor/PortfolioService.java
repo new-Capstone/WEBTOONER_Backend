@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.service.mentor;
 
+import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import com.capstone.ai_painter_backen.domain.mentor.PortfolioEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
@@ -7,6 +8,7 @@ import com.capstone.ai_painter_backen.dto.mentor.PortfolioDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.mentor.PortfolioMapper;
+import com.capstone.ai_painter_backen.repository.mentor.CategoryRepository;
 import com.capstone.ai_painter_backen.repository.mentor.PortfolioRepository;
 import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
@@ -28,6 +30,8 @@ public class PortfolioService {
     private final PortfolioMapper portfolioMapper;
     private final S3FileService s3FileService;
     private final TutorRepository tutorRepository;
+
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public List<PortfolioDto.PortfolioResponseDto> createPortfolio(PortfolioDto.PortfolioPostDto postDto){
@@ -52,6 +56,33 @@ public class PortfolioService {
 
         return savedPortfolioEntity.stream().map(portfolioMapper::portfolioEntityToResponseDto)
                 .collect(Collectors.toList());
+    }
+
+
+    @Transactional
+    public List<PortfolioDto.PortfolioResponseDto> createPortfolioWithCategory(PortfolioDto.PortfolioPostAndCategoryDto portfolioPostAndCategoryDto){
+        CategoryEntity categoryEntity = categoryRepository.findCategoryEntityByCategoryName(portfolioPostAndCategoryDto.getCategory());
+        if(categoryEntity == null){
+            throw new IllegalArgumentException("there is no kind of category");
+        }
+        List<MultipartFile> portfolios = portfolioPostAndCategoryDto.getMultipartFiles();
+        List<S3ImageInfo> s3ImageInfos = s3FileService.uploadMultiFileList(portfolios);//s3 upload
+
+        TutorEntity tutor = tutorRepository.findById(portfolioPostAndCategoryDto.getTutorId())
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        List<PortfolioEntity> portfolioEntities = s3ImageInfos.stream().map(
+                portfolioMapper::s3ImageInfoToPortfolioEntity
+        ).collect(Collectors.toList());
+
+        for(PortfolioEntity portfolioEntity: portfolioEntities){
+            portfolioEntity.setTutorEntity(tutor);
+            portfolioEntity.setCategory(categoryEntity);
+        }
+
+        List<PortfolioEntity> savedPortfolioEntity = portfolioRepository.saveAll(portfolioEntities);
+
+        return savedPortfolioEntity.stream().map(portfolioMapper::portfolioEntityToResponseDto).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -106,6 +137,11 @@ public class PortfolioService {
         return savedPortfolioEntity2.stream().map(portfolioMapper::portfolioEntityToResponseDto)
                 .collect(Collectors.toList());
     }
+    @Transactional
+    public PortfolioEntity deleteRelation(PortfolioEntity portfolioEntity){
+        portfolioEntity.delete();
+        return portfolioEntity;
+    }
 
     @Transactional
     public String deletePortfolio(PortfolioDto.PortfolioDeleteDto deleteDto){//포트폴리오 전체 삭제...
@@ -116,7 +152,8 @@ public class PortfolioService {
         s3FileService.deleteMultiFileList(tutor.getPortfolioEntities().stream()
                 .map(PortfolioEntity::getImageUri).collect(Collectors.toList()));//사진 삭제 방법
 
-        tutor.getPortfolioEntities().clear();//전체 포트 폴리오를 삭제함. casade type all 적용.
+        List<PortfolioEntity> portfolioEntities = tutor.getPortfolioEntities();//전체 포트 폴리오를 삭제함. casade type all 적용.
+        portfolioEntities.stream().map(this::deleteRelation).collect(Collectors.toList());
         tutorRepository.save(tutor);
 
 

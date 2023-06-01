@@ -55,7 +55,6 @@ public class SecurityConfig {
     private final OAuth2LoginSuccessHandler oAuth2LoginSuccessHandler;
     private final OAuth2LoginFailureHandler oAuth2LoginFailureHandler;
     private final CustomOAuth2UserService customOAuth2UserService;
-
     private final UserMapper usermapper;
 
 
@@ -75,6 +74,7 @@ public class SecurityConfig {
 
                 .authorizeHttpRequests()
                 .requestMatchers(
+                        //todo 경로 추가하고 다시 commit 할것
                         "/**",
                         "**/auth/**",
                         "/swagger-ui/index.html/**",
