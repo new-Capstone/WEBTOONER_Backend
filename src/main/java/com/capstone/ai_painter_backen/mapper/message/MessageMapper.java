@@ -10,6 +10,8 @@ import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.dto.UserDto.UserResponseDto;
 import org.mapstruct.Mapper;
 
+import java.text.SimpleDateFormat;
+
 @Mapper(componentModel = "spring")
 public interface MessageMapper {
 
@@ -24,6 +26,7 @@ public interface MessageMapper {
     }
 
     default MessageDto.MessageResponseDto messageEntityToMessageResponseDto(MessageEntity messageEntity){
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         if (messageEntity == null) {
             return null;
         } else {
@@ -31,6 +34,7 @@ public interface MessageMapper {
                     .messageId(messageEntity.getId())
                     .chatUserId(messageEntity.getChatUserEntity().getId())
                     .content(messageEntity.getContent())
+                    .createdAt(format.format(messageEntity.getRegisteredTime()))
                     .roomId(messageEntity.getId()).build();
         }
     }
