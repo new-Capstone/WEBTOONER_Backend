@@ -61,7 +61,7 @@ public class ClientUtils {
         try {
             if (model.equals("lora")) {
 
-                parameter.put("prompt", "<lora:" + modelName + ":1> " + expression);
+                parameter.put("prompt", "<lora:" + modelName + ":1> " + expression + ", white_background");
                 parameter.put("batch_size", defaultBatchSize);
                 parameter.put("init_images", wrapper);
                 parameter.put("steps", steps);
@@ -84,11 +84,12 @@ public class ClientUtils {
             } else if (model.equals("pixar")){
 
                 log.info("internal pixar");
-                parameter.put("prompt", defaultPrompt + "1" + gender + ", " + expression);
+                parameter.put("prompt", defaultPrompt + ", 1" + gender + ", " + expression + ", face");
                 parameter.put("negative_prompt", defaultNegativePrompt);
                 parameter.put("batch_size", defaultBatchSize);
                 parameter.put("init_images", wrapper);
                 parameter.put("steps", steps);
+
                 HttpEntity<String> requestMessage = new HttpEntity<>(parameter.toJSONString(), httpHeaders);
 
 
