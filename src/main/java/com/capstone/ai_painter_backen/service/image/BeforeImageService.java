@@ -39,7 +39,7 @@ public class BeforeImageService {
 
         try {
             List<MultipartFile> transformedImage = clientUtils.requestImage(multipartFile, beforeImagePostDto.getExpression(),
-                    beforeImagePostDto.getModel().toLowerCase(), beforeImagePostDto.getGender());
+                    beforeImagePostDto.getModel().toLowerCase(), beforeImagePostDto.getGender(), beforeImagePostDto.getModelName());
             BeforeImageEntity beforeImageEntity =
                     beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
                             beforeImagePostDto,
