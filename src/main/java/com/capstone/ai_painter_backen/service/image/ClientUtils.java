@@ -35,12 +35,14 @@ public class ClientUtils {
 
     private final String defaultNegativePrompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name";
     private final String defaultPrompt = "masterpiece, best quality, ";
-    private final int defaultBatchSize = 1;
+    private final int defaultBatchSize = 2;
+
+    private final int steps = 20;
 
     private final ConcurrentHashMap<String, String> hashMap = new ConcurrentHashMap<>();
 
     public List<MultipartFile> requestImage(MultipartFile multipartFile, String expression,
-                                            String model, String gender) throws Exception {
+                                            String model, String gender, String modelName) throws Exception {
 
         RestTemplate restTemplate = new RestTemplate();
         JSONParser parser = new JSONParser();
@@ -56,22 +58,15 @@ public class ClientUtils {
 
         JSONObject parameter = new JSONObject();
 
-        parameter.put("prompt", defaultPrompt + "1" + gender + ", " + expression);
-        parameter.put("negative_prompt", defaultNegativePrompt);
-        parameter.put("batch_size", defaultBatchSize);
-        parameter.put("init_images", wrapper);
-
-        log.info("prompt : {}", defaultPrompt + "1" + gender + ", " + expression);
-        log.info("expression : {}", expression);
-        log.info("model : {}", model);
-        log.info("gender : {}", gender);
-
-
-        HttpEntity<String> requestMessage = new HttpEntity<>(parameter.toJSONString(), httpHeaders);
-
         try {
             if (model.equals("lora")) {
-                log.info("internal lora");
+
+                parameter.put("prompt", "<lora:" + modelName + ":1> " + expression + ", white_background");
+                parameter.put("batch_size", defaultBatchSize);
+                parameter.put("init_images", wrapper);
+                parameter.put("steps", steps);
+
+                HttpEntity<String> requestMessage = new HttpEntity<>(parameter.toJSONString(), httpHeaders);
                 HttpEntity<String> response = restTemplate.postForEntity(loraUrl, requestMessage, String.class);
 
                 JSONObject object = (JSONObject) parser.parse(response.getBody());
@@ -87,7 +82,18 @@ public class ClientUtils {
 
                 return result;
             } else if (model.equals("pixar")){
+
                 log.info("internal pixar");
+                parameter.put("prompt", defaultPrompt + ", 1" + gender + ", " + expression + ", face");
+                parameter.put("negative_prompt", defaultNegativePrompt);
+                parameter.put("batch_size", defaultBatchSize);
+                parameter.put("init_images", wrapper);
+                parameter.put("steps", steps);
+
+                HttpEntity<String> requestMessage = new HttpEntity<>(parameter.toJSONString(), httpHeaders);
+
+
+
                 HttpEntity<String> response = restTemplate.postForEntity(pixarUrl, requestMessage, String.class);
 
                 JSONObject object = (JSONObject) parser.parse(response.getBody());
@@ -96,7 +102,6 @@ public class ClientUtils {
                 for(int i = 0; i < images.size(); i++) {
                     String image = (String) images.get(i);
                     byte[] bytes = Base64.getDecoder().decode(image);
-
                     MultipartFile customMultipartFile = new CustomMultipartFile(bytes, UUID.randomUUID() + ".png");
                     result.add(customMultipartFile);
                 }

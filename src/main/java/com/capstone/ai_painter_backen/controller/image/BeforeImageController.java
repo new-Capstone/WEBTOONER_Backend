@@ -31,13 +31,14 @@ public class BeforeImageController {
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
     public ResponseEntity<?> createBeforeImage(@RequestParam Long userId, @RequestParam String expression,
                                                @RequestParam String model, @RequestParam String gender,
-                                               @RequestPart MultipartFile multipartFile){
+                                               @RequestParam String loraName, @RequestPart MultipartFile multipartFile){
 
         BeforeImageDto.BeforeImagePostDto beforeImagePostDto =
                 BeforeImageDto.BeforeImagePostDto.builder()
                         .beforeImageMultipartFile(multipartFile)
                         .expression(expression)
                         .gender(gender)
+                        .modelName(loraName)
                         .model(model)
                         .userId(userId)
                         .build();
