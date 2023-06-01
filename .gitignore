@@ -6,6 +6,8 @@ build/
 !**/src/test/**/build/
 ##yml
 application-server.yml
+application-dev.yml
+
 application.properties
 application-test.yml
 application.yml

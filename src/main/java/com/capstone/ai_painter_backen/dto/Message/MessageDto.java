@@ -42,6 +42,8 @@ public class MessageDto {
         private Long roomId;
         @Schema
         private Long chatUserId;
+        @Schema
+        private String createdAt;
     }
 
     @Schema

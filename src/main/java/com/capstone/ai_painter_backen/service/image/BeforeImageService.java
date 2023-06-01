@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Locale;
 
 @Service
 @AllArgsConstructor
@@ -37,7 +38,8 @@ public class BeforeImageService {
         log.info(s3ImageInfo.toString());
 
         try {
-            List<MultipartFile> transformedImage = clientUtils.requestImage(multipartFile, beforeImagePostDto.getExpression());
+            List<MultipartFile> transformedImage = clientUtils.requestImage(multipartFile, beforeImagePostDto.getExpression(),
+                    beforeImagePostDto.getModel().toLowerCase(), beforeImagePostDto.getGender());
             BeforeImageEntity beforeImageEntity =
                     beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
                             beforeImagePostDto,

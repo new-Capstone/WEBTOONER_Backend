@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ServerConfig {
-    @Value("${modelServer.url")
-    private String url;
+    @Value("${modelServer.pixarUrl")
+    private String pixarUrl;
+
+    @Value("${modelServer.loraUrl")
+    private String loraUrl;
 }

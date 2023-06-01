@@ -9,7 +9,6 @@ import lombok.Getter;
 @Embeddable
 public class ImageContribute {
 
-    private int angle;
     private String expression;
     /*
     String 으로 받아도 어지간하면 모델이 알아서 다 만들어줄듯?
@@ -17,8 +16,7 @@ public class ImageContribute {
     private Expression expression;
     */
 
-    public ImageContribute(int angle, String expression) {
-        this.angle = angle;
+    public ImageContribute(String expression) {
         this.expression = expression;
     }
 

@@ -14,6 +14,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @Slf4j
 @RequiredArgsConstructor
@@ -49,5 +53,14 @@ public class MessageService {
 
     public MessageDto.MessageResponseDto getMessage(Long messageId){
         return messageMapper.messageEntityToMessageResponseDto(messageRepository.findById(messageId).orElseThrow());
+    }
+
+    public List<MessageDto.MessageResponseDto> getMessages(Long roomId) {
+        RoomEntity roomEntity = roomRepository.findById(roomId).orElseThrow();
+        List<MessageEntity> messages = messageRepository.findAllByRoomEntity(roomEntity);
+
+        return messages.stream()
+                .map(messageMapper::messageEntityToMessageResponseDto)
+                .collect(Collectors.toList());
     }
 }

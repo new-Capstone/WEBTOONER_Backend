@@ -30,13 +30,15 @@ public class BeforeImageController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
     public ResponseEntity<?> createBeforeImage(@RequestParam Long userId, @RequestParam String expression,
-                                               @RequestParam int angle, @RequestPart MultipartFile multipartFile){
+                                               @RequestParam String model, @RequestParam String gender,
+                                               @RequestPart MultipartFile multipartFile){
 
         BeforeImageDto.BeforeImagePostDto beforeImagePostDto =
                 BeforeImageDto.BeforeImagePostDto.builder()
                         .beforeImageMultipartFile(multipartFile)
                         .expression(expression)
-                        .angle(angle)
+                        .gender(gender)
+                        .model(model)
                         .userId(userId)
                         .build();
 
