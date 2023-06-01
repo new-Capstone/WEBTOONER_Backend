@@ -26,28 +26,7 @@ public class UserService {
     PasswordEncoder passwordEncoder;
     S3FileService s3FileService;
     private final String DEFAULT_PROFILE = "https://capstone-webtooner.s3.ap-northeast-2.amazonaws.com/a16ce72a-a9ef-448e-842d-bf3e7c948f56_.41.01.png";
-    @Transactional
-    public UserDto.UserResponseDto createUser(UserDto.UserPostDto userPostDto, MultipartFile profileImage){
-        UserEntity userEntity;
 
-        if(profileImage == null){
-            userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto);
-            userEntity.setProfileImage(DEFAULT_PROFILE);
-        }else{
-
-            S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(profileImage);
-            userEntity = userMapper.userRequestPostDtoToUserEntity(userPostDto, s3ImageInfo);
-        }
-
-
-        if (userRepository.existsByUserEmail(userEntity.getUserEmail())) {
-            throw new DuplicateNameException();
-        }
-
-        userEntity.passwordEncode(passwordEncoder);
-
-        return  userMapper.userEntityToUserResponseDto(userRepository.save(userEntity));
-    }
 
     public void deleteUser(UserDto.UserDeleteDto deleteDto){
         userRepository.deleteById(deleteDto.getUserId());
