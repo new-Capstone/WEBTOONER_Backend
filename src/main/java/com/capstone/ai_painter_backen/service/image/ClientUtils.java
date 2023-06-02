@@ -61,7 +61,7 @@ public class ClientUtils {
         try {
             if (model.equals("lora")) {
 
-                parameter.put("prompt", "<lora:" + modelName + ":1> " + expression + ", white_background");
+                parameter.put("prompt", "<lora:" + modelName + ":1>, " + expression + ", white_background");
                 parameter.put("batch_size", defaultBatchSize);
                 parameter.put("init_images", wrapper);
                 parameter.put("steps", steps);
