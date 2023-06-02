@@ -67,13 +67,15 @@ public class TutorDto {
         List<String> categoryNames;
     }
 
-    @Schema(description = "유저 아이디로 user 에 저장 string type으로 category 받음")
+    @Schema
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
     @Builder
     public static class TutorResponseDtoIdAndImage {
+        @Schema
         private Long tutorId;
+        @Schema
         private String url;
     }
 

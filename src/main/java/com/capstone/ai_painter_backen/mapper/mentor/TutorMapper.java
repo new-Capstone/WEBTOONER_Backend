@@ -42,9 +42,13 @@ public interface TutorMapper {
     }
 
     default TutorDto.TutorResponseDtoIdAndImage tutorEntityToTutorResponseDtoIdAndImage(TutorEntity tutorEntity) {
-        return TutorDto.TutorResponseDtoIdAndImage.builder()
-                .tutorId(tutorEntity.getId())
-                .url(tutorEntity.getPortfolioEntities().get(0).getImageUri())
-                .build();
+        try {
+            return TutorDto.TutorResponseDtoIdAndImage.builder()
+                    .tutorId(tutorEntity.getId())
+                    .url(tutorEntity.getPortfolioEntities().get(0).getImageUri())
+                    .build();
+        } catch (Exception e){
+            return null;
+        }
     }
 }
