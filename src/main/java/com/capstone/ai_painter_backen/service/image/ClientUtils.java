@@ -35,7 +35,7 @@ public class ClientUtils {
 
     private final String defaultNegativePrompt = "lowres, bad anatomy, bad hands, text, error, missing fingers, extra digit, fewer digits, cropped, worst quality, low quality, normal quality, jpeg artifacts, signature, watermark, username, blurry, artist name";
     private final String defaultPrompt = "masterpiece, best quality, ";
-    private final int defaultBatchSize = 2;
+    private final int defaultBatchSize = 1;
 
     private final int steps = 20;
 
