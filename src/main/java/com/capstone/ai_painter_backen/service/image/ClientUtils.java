@@ -61,10 +61,14 @@ public class ClientUtils {
         try {
             if (model.equals("lora")) {
 
-                parameter.put("prompt", "<lora:" + modelName + ":1>, " + expression + ", white_background");
+                parameter.put("prompt", "<lora:" + modelName + ":1>, " + "(" + expression + ":1.5)" + ", white_background");
                 parameter.put("batch_size", defaultBatchSize);
                 parameter.put("init_images", wrapper);
                 parameter.put("steps", steps);
+                parameter.put("denoising_strength", 0.5);
+                parameter.put("cfg_scale", 6);
+                log.info("prompt : {}", "<lora:" + modelName + ":1>, " + "(" + expression + ":1.5)" + ", white_background");
+
 
                 HttpEntity<String> requestMessage = new HttpEntity<>(parameter.toJSONString(), httpHeaders);
                 HttpEntity<String> response = restTemplate.postForEntity(loraUrl, requestMessage, String.class);
