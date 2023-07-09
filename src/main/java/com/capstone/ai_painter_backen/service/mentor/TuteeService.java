@@ -33,13 +33,23 @@ public class TuteeService {
 
     @Transactional
     public TuteeResponseDto saveTutee(TuteeRequestSaveDto tuteeRequestSaveDto) {
-        // TODO :: mapper 로 작성하기
-        // mapper에 repository 넣는게 맞는지 모르겠어서 일단 service 에 구현
+
         UserEntity user = userRepository.findById(tuteeRequestSaveDto.getUserId())
                 .orElseThrow(()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
+        //중복 튜티 등록 처리
+        if (user.getTuteeEntity() != null) {
+            throw new BusinessLogicException(ExceptionCode.DUPLICATE_TUTEE);
+        }
+
+        //튜티 등록하는 user가 Tutor로 등록돼 있는데 자기 자신을 Tutor로 설정하는 경우 처리
+        if (user.getTutorEntity() != null && user.getTutorEntity().getId() == tuteeRequestSaveDto.getTutorId()) {
+            throw new BusinessLogicException(ExceptionCode.INVALID_REGISTER_TUTEE);
+        }
+
+
         TutorEntity tutor = tutorRepository.findById(tuteeRequestSaveDto.getTutorId()).orElseThrow(()->
-                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                new BusinessLogicException(ExceptionCode.TUTOR_NOT_FOUND));
 
         TuteeEntity tutee = TuteeEntity.builder()
                 .userEntity(user)
@@ -47,7 +57,6 @@ public class TuteeService {
                 .build();
 
         user.enrollTutee(tutee);
-
 
         return tuteeMapper.entityToTuteeResponseDto(tuteeRepository.save(tutee));
     }
@@ -58,10 +67,10 @@ public class TuteeService {
 
         TuteeEntity savedTuteeEntity = tuteeRepository
                 .findById(tuteeRequestUpdateDto.getId()).orElseThrow(
-                        ()-> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                        ()-> new BusinessLogicException(ExceptionCode.TUTEE_NOT_FOUND));
 
         TutorEntity savedTutorEntity = tutorRepository.findById(tuteeRequestUpdateDto.getTutorId())
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TUTOR_NOT_FOUND));
 
         savedTuteeEntity.update(savedTutorEntity);
 
@@ -72,7 +81,7 @@ public class TuteeService {
     @Transactional
     public String deleteTutee(TuteeRequestDeleteDto tuteeRequestDeleteDto) {
         TuteeEntity tutee = tuteeRepository.findById(tuteeRequestDeleteDto.getTuteeId()).orElseThrow(()->
-                new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                new BusinessLogicException(ExceptionCode.TUTEE_NOT_FOUND));
 
         UserEntity userEntity = userRepository.findById(tutee.getUserEntity().getId())
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
@@ -85,7 +94,7 @@ public class TuteeService {
 
     public TuteeResponseDto findTuteeById(Long id) {
         TuteeEntity tutee = tuteeRepository.findById(id)
-                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+                .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TUTEE_NOT_FOUND));
 
         return tuteeMapper.entityToTuteeResponseDto(tutee);
     }

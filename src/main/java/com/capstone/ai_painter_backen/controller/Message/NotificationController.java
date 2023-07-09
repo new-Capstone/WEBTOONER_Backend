@@ -2,6 +2,7 @@ package com.capstone.ai_painter_backen.controller.Message;
 
 import com.capstone.ai_painter_backen.dto.Message.NotificationDto;
 import com.capstone.ai_painter_backen.dto.Message.RoomDto;
+import com.capstone.ai_painter_backen.dto.Result;
 import com.capstone.ai_painter_backen.service.Message.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -30,8 +31,8 @@ public class NotificationController {
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public List<NotificationDto.NotificationResponseDto> getNotifications(@RequestParam Long userId) {
-        return notificationService.getNotificationsByUserId(userId);
+    public Result getNotifications(@RequestParam Long userId) {
+        return new Result(notificationService.getNotificationsByUserId(userId));
     }
 
     @Operation(summary = "Notification 삭제 api", description = "userId 해당 유저 모든 알림 제거")

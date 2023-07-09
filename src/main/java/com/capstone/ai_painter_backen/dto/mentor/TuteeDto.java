@@ -1,8 +1,8 @@
 package com.capstone.ai_painter_backen.dto.mentor;
 
-import com.capstone.ai_painter_backen.domain.UserEntity;
-import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 @Getter
 public class TuteeDto {
@@ -12,8 +12,10 @@ public class TuteeDto {
     @Builder
     @AllArgsConstructor
     public static class TuteeRequestSaveDto {
-         Long userId;
-         Long tutorId;
+        @NotNull(message = "유저 ID는 필수값입니다.")
+        Long userId;
+        @NotNull(message = "튜터 ID는 필수값입니다.")
+        Long tutorId;
     }
     @Schema
     @Data
@@ -24,8 +26,11 @@ public class TuteeDto {
         // TODO :: dto 로 변경
         // user 는 수정 불가
         @Schema
+        @NotNull
         Long id; // tutee id
+
         @Schema
+        @NotNull
         Long tutorId;
     }
     @Schema

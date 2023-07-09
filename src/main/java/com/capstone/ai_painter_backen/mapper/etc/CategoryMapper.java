@@ -21,7 +21,6 @@ public interface CategoryMapper {
         return ResponseDto.builder()
                 .id(entity.getId())
                 .categoryName(entity.getCategoryName())
-                .categoryTutorEntities(entity.getCategoryTutorEntities())
                 .build();
     }
 }
