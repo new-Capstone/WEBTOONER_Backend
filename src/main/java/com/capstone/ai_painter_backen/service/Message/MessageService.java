@@ -5,6 +5,8 @@ import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.MessageDto;
+import com.capstone.ai_painter_backen.exception.BusinessLogicException;
+import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.message.MessageMapper;
 import com.capstone.ai_painter_backen.repository.message.MessageRepository;
 import com.capstone.ai_painter_backen.repository.message.RoomRepository;
@@ -56,7 +58,10 @@ public class MessageService {
     }
 
     public List<MessageDto.MessageResponseDto> getMessages(Long roomId) {
-        RoomEntity roomEntity = roomRepository.findById(roomId).orElseThrow();
+        RoomEntity roomEntity = roomRepository.findById(roomId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.ROOM_NOT_FOUND));
+
+        //ORDER BY로 조회해야 함. 일단 합치고 나서 수정할 예정
         List<MessageEntity> messages = messageRepository.findAllByRoomEntity(roomEntity);
 
         return messages.stream()

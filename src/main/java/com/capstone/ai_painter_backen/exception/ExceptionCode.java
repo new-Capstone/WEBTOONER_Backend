@@ -17,6 +17,8 @@ public enum ExceptionCode {
     FORBIDDEN_WORD_USED(BAD_REQUEST, "금지된 단어가 사용되었습니다 다시 입력해주세요"),
     ALREADY_FOLLOWED(BAD_REQUEST, "이미 팔로우되어 있습니다."),
     INVALID_REGISTER_TUTEE(BAD_REQUEST, "튜티 등록 시 자기 자신을 튜터로 등록할 수 없습니다."),
+    TYPE_MISMATCH(BAD_REQUEST, "잘못된 타입을 입력했습니다."),
+
     /* 401 UNAUTHORIZED : 인증되지 않은 사용자 */
     INVALID_AUTH_TOKEN(UNAUTHORIZED, "권한 정보가 없는 토큰입니다"),
     UNAUTHORIZED_MEMBER(UNAUTHORIZED, "현재 내 계정 정보가 존재하지 않습니다"),

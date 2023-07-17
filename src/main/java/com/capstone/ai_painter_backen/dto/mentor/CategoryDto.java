@@ -30,9 +30,8 @@ public class CategoryDto {
      @Schema
 
      public static class RequestUpdateDto {
-          @NotBlank
+          @NotBlank(message = "카테고리 이름은 필수입니다.")
           String categoryName;
-          //TODO :: Tutor 합칠 때 변경
      }
 
      @Getter

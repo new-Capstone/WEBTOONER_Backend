@@ -11,6 +11,8 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -38,6 +40,15 @@ public class GlobalExceptionAdvice {// 프로젝트 전역에서 발생하는 �
 
             return new ResponseEntity<>(response, HttpStatus.valueOf(e.getExceptionCode().getHttpStatus().value())
                 );
+    }
+
+    @ExceptionHandler
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ErrorResponse handleMethodArgumentTypeMismatchException(MethodArgumentTypeMismatchException e) {
+            final ErrorResponse response = ErrorResponse.of(ExceptionCode.TYPE_MISMATCH.getHttpStatus().value(),
+                    ExceptionCode.TYPE_MISMATCH.getMessage());
+
+            return response;
     }
 
     @ExceptionHandler
