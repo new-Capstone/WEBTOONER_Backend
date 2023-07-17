@@ -2,6 +2,7 @@ package com.capstone.ai_painter_backen.domain.mentor;
 
 import com.capstone.ai_painter_backen.domain.BaseEntity;
 import com.capstone.ai_painter_backen.domain.UserEntity;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -34,11 +35,22 @@ public class TutorEntity extends BaseEntity {
     @OneToMany(mappedBy = "tutorEntity",cascade = CascadeType.ALL, orphanRemoval=true)
     private List<PortfolioEntity> portfolioEntities = new ArrayList<>();
 
+    @Column
+    String tutorName;
+
+    @Column
+    String tutorEmail;
+
     public void update(String description, List<CategoryTutorEntity> categoryTutorEntities){//변경 메소드 작성
         //원래 들어 있던 리스트의 값을 비운 후에 update 를 진행해야 orphand 오류를 피할 수 있다.
         this.description = description;
         for(CategoryTutorEntity categoryTutorEntity: categoryTutorEntities){
             this.categoryTutorEntities.add(categoryTutorEntity);
         }
+    }
+
+    public void update(String tutorName, String tutorEmail){//변경 메소드 작성
+        this.tutorEmail = tutorEmail;
+        this.tutorName = tutorName;
     }
 }
