@@ -75,7 +75,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests()
                 .requestMatchers(
                         //todo 경로 추가하고 다시 commit 할것
+                        "**/**",
                         "/**",
+                "/tutees/**",
                         "**/auth/**",
                         "/swagger-ui/index.html/**",
                         "/v2/api-docs",

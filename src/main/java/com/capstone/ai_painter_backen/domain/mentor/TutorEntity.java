@@ -5,6 +5,7 @@ import com.capstone.ai_painter_backen.domain.UserEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class TutorEntity extends BaseEntity {
 
     private String description;
 
+    @BatchSize(size=10)
     @OneToMany(mappedBy = "tutorEntity")
     private List<TuteeEntity> tuteeEntities = new ArrayList<>();
 

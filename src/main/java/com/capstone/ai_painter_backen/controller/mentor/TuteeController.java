@@ -1,6 +1,7 @@
 package com.capstone.ai_painter_backen.controller.mentor;
 
-import com.capstone.ai_painter_backen.dto.Message.NotificationDto;
+
+import com.capstone.ai_painter_backen.dto.Result;
 import com.capstone.ai_painter_backen.dto.mentor.TuteeDto;
 import com.capstone.ai_painter_backen.dto.mentor.TuteeDto.TuteeResponseDto;
 import com.capstone.ai_painter_backen.service.mentor.TuteeService;
@@ -9,9 +10,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 import static com.capstone.ai_painter_backen.dto.mentor.TuteeDto.*;
 
@@ -43,6 +47,7 @@ public class TuteeController {//swagger 때문에 dto class 이름 바꿀것
     @ResponseStatus(HttpStatus.OK)
     @GetMapping("/{id}")
     public TuteeResponseDto getTuteeInfo(@PathVariable Long id) {
+
         return tuteeService.findTuteeById(id);
     }
 
@@ -68,4 +73,31 @@ public class TuteeController {//swagger 때문에 dto class 이름 바꿀것
     public void deleteTutee(@PathVariable Long id) {
         tuteeService.deleteTutee(TuteeRequestDeleteDto.builder().tuteeId(id).build());
     }
+
+
+    @Operation(summary = "Tutee 가져오기 api", description = "tuteeId 받아서 삭제")
+    @ApiResponse(responseCode = "200", description = "OK")
+    @ApiResponse(responseCode = "400", description = "Client Error")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+    @ResponseStatus(HttpStatus.OK)
+    @GetMapping("/bytutorId")
+    public ResponseEntity<Result<List<TuteeResponseDto>>> getTuteeByTutorId(@RequestParam Long tutorId,
+                                                                            @RequestParam int page,
+                                                                            @RequestParam int size){
+//        try{
+        Pageable pageable = PageRequest.of(page,size);
+            Result<List<TuteeResponseDto>> tuteeEntities = tuteeService.findTuteeByTutorId(tutorId ,pageable);
+            return ResponseEntity.ok().body(tuteeEntities);
+//        }catch (Exception e){
+//            return ResponseEntity.badRequest().body(Result.<List<TuteeResponseDto>>builder()
+//                    .message("there is no tutee")
+//                    .success(false)
+//                    .build());
+//        }
+
+    }
+
+
+
+
 }

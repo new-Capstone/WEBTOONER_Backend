@@ -1,6 +1,8 @@
 package com.capstone.ai_painter_backen.service.init;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
+import com.capstone.ai_painter_backen.domain.image.AfterImageEntity;
+import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryTutorEntity;
 import com.capstone.ai_painter_backen.domain.mentor.PortfolioEntity;
@@ -8,6 +10,7 @@ import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.junit.Before;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,8 +22,8 @@ import java.util.List;
 public class InitDb {
 
     private final InitService initService;
-    @PostConstruct
     @Transactional
+    @PostConstruct
     public void init(){
         initService.dbInit1();
     }
@@ -77,14 +80,47 @@ public class InitDb {
 
 
             PortfolioEntity portfolioEntity1 = createPortfolioEntity("image1",categoryEntity1,tutorEntity1);
-            PortfolioEntity portfolioEntity2 = createPortfolioEntity("image2",categoryEntity1,tutorEntity2);
-            PortfolioEntity portfolioEntity3 = createPortfolioEntity("image3",categoryEntity1,tutorEntity3);
-            PortfolioEntity portfolioEntity4 = createPortfolioEntity("image4",categoryEntity1,tutorEntity4);
+            PortfolioEntity portfolioEntity2 = createPortfolioEntity("image2",categoryEntity2,tutorEntity2);
+            PortfolioEntity portfolioEntity3 = createPortfolioEntity("image3",categoryEntity3,tutorEntity3);
+            PortfolioEntity portfolioEntity4 = createPortfolioEntity("image4",categoryEntity4,tutorEntity4);
 
             entityManager.persist(portfolioEntity1);
             entityManager.persist(portfolioEntity2);
             entityManager.persist(portfolioEntity3);
             entityManager.persist(portfolioEntity4);
+
+            BeforeImageEntity beforeImageEntity1 = createBeforeImageEntity("beforeImageEntity1", userEntity1);
+            BeforeImageEntity beforeImageEntity2 = createBeforeImageEntity("beforeImageEntity2", userEntity2);
+            BeforeImageEntity beforeImageEntity3 = createBeforeImageEntity("beforeImageEntity3", userEntity3);
+            BeforeImageEntity beforeImageEntity4 = createBeforeImageEntity("beforeImageEntity4", userEntity4);
+
+            entityManager.persist(beforeImageEntity1);
+            entityManager.persist(beforeImageEntity2);
+            entityManager.persist(beforeImageEntity3);
+            entityManager.persist(beforeImageEntity4);
+
+
+            AfterImageEntity afterImageEntity1 = createAfterImageEntity("afterImage1",beforeImageEntity1);
+            AfterImageEntity afterImageEntity2 = createAfterImageEntity("afterImage2",beforeImageEntity1);
+
+            AfterImageEntity afterImageEntity3 = createAfterImageEntity("afterImage3",beforeImageEntity2);
+            AfterImageEntity afterImageEntity4 = createAfterImageEntity("afterImage4",beforeImageEntity2);
+
+            AfterImageEntity afterImageEntity5 = createAfterImageEntity("afterImage5",beforeImageEntity3);
+            AfterImageEntity afterImageEntity6 = createAfterImageEntity("afterImage6",beforeImageEntity3);
+
+            AfterImageEntity afterImageEntity7 = createAfterImageEntity("afterImage7",beforeImageEntity4);
+            AfterImageEntity afterImageEntity8 = createAfterImageEntity("afterImage8",beforeImageEntity4);
+
+            entityManager.persist(afterImageEntity1);
+            entityManager.persist(afterImageEntity2);
+            entityManager.persist(afterImageEntity3);
+            entityManager.persist(afterImageEntity4);
+            entityManager.persist(afterImageEntity5);
+            entityManager.persist(afterImageEntity6);
+            entityManager.persist(afterImageEntity7);
+            entityManager.persist(afterImageEntity8);
+
 
             entityManager.flush();
         }
@@ -115,6 +151,22 @@ public class InitDb {
                     .tutorName(tutorName)
                     .userEntity(user)
                     .portfolioEntities(new ArrayList<>())
+                    .build();
+        }
+
+
+        private BeforeImageEntity createBeforeImageEntity(String beforeImageUri, UserEntity userEntity){
+            return BeforeImageEntity.builder()
+                    .beforeImageUri(beforeImageUri)
+                    .userEntity(userEntity)
+                    .build();
+        }
+
+
+        private AfterImageEntity createAfterImageEntity(String imageUri, BeforeImageEntity beforeImageEntity){
+            return AfterImageEntity.builder()
+                    .imageURI(imageUri)
+                    .beforeImageEntity(beforeImageEntity)
                     .build();
         }
 

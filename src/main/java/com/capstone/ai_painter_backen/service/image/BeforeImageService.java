@@ -1,6 +1,7 @@
 package com.capstone.ai_painter_backen.service.image;
 
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
+import com.capstone.ai_painter_backen.dto.Result;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
@@ -9,14 +10,18 @@ import com.capstone.ai_painter_backen.mapper.image.BeforeImageMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
-import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.Locale;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -62,7 +67,7 @@ public class BeforeImageService {
             return null;
         }
     }
-
+    @Transactional
     public BeforeImageDto.BeforeImageResponseDto readBeforeImage(Long beforeImageId){
 
         BeforeImageEntity beforeImageEntity = beforeImageRepository.findById(beforeImageId)
@@ -81,5 +86,23 @@ public class BeforeImageService {
 
 
         return "delete complete : "+ String.valueOf(beforeImageId)+"   deletedFileName: "+deletedFileName;
+    }
+
+    @Transactional(readOnly=true)
+    public Page<BeforeImageDto.BeforeImageResponseDto> readBeforeImageEntityByUserId(Pageable pageable, Long userId){
+
+        try{
+            Page<BeforeImageEntity> beforeImageEntities = beforeImageRepository.findAllByUserEntityId(userId, pageable);
+            List<BeforeImageDto.BeforeImageResponseDto> beforeImageResponseDtos = beforeImageEntities
+                    .stream().map(beforeImageMapper::BeforeImageEntityToBeforeImageResponseDto)
+                    .collect(Collectors.toList());
+
+            return new PageImpl<>(beforeImageResponseDtos,
+                    beforeImageEntities.getPageable(),
+                    beforeImageEntities.getNumber());
+
+        }catch (Exception e){
+            throw new IllegalArgumentException("there is no user");
+        }
     }
 }
