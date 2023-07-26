@@ -13,10 +13,12 @@ import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -67,5 +69,20 @@ public class AfterImageService {
 
         afterImageRepository.deleteById(afterImageDeleteDto.getAfterImageId());
         return "fileName: " +deletedFileName+" afterImageId: "+afterImageDeleteDto.getAfterImageId();
+    }
+
+
+    public List<AfterImageDto.AfterImageResponseDto> readAfterImageList(Long beforeImageId){
+        try{
+            List<AfterImageEntity> afterImageRepositories =
+                    afterImageRepository.findAllByBeforeImageEntityId(beforeImageId);
+
+            List<AfterImageDto.AfterImageResponseDto> afterImageResponseDtos = afterImageRepositories
+                    .stream().map(afterImageMapper::afterImageEntityToAfterImageDto).collect(Collectors.toList());
+
+            return afterImageResponseDtos;
+        }catch (Exception e){
+            throw new NoSuchElementException("there is no kind of memeber");
+        }
     }
 }
