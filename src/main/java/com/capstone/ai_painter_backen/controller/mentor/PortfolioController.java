@@ -70,6 +70,29 @@ public class PortfolioController {
        return ResponseEntity.ok().body(portfolioService.createPortfolio(postDto));
     }
 
+
+    @PostMapping(value={"/category"}, consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "튜터 포트폴리오 저장 메소드", description = "튜터 아이디와 이미지 배열을 이용해서 한번에 여러장의 포트폴리오를 생성하는 메소드입니다.")
+    @ApiResponses({@ApiResponse(responseCode = "201" ,description = "사진이 정상 등록됨",
+            content = {
+                    @Content(array = @ArraySchema ( schema  = @Schema (implementation = PortfolioDto.PortfolioResponseDto.class))),
+            } ),
+            @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
+            @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
+            @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
+    public ResponseEntity creatPortfolioWithCategory(@RequestParam Long tutorId,
+                                                     @RequestParam String categoryName,
+                                                     @RequestPart List<MultipartFile> multipartFileList){
+
+        PortfolioDto.PortfolioPostAndCategoryDto postDto = PortfolioDto.PortfolioPostAndCategoryDto.builder()
+                .category(categoryName)
+                .multipartFiles(multipartFileList)
+                .tutorId(tutorId)
+                .build();
+
+        return ResponseEntity.ok().body(portfolioService.createPortfolioWithCategory(postDto));
+    }
+
     @PatchMapping (consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "튜터 포트폴리오 수정 메소드", description = "튜터 아이디와 이미지 배열을 이용해서 한번에 여러장의 포트폴리오를 수정하는! 메소드입니다.")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "사진이 정상 등록됨",
@@ -86,6 +109,8 @@ public class PortfolioController {
                 .build();
         return ResponseEntity.ok().body(portfolioService.updatePortfolio(portfolioUpdateDto));
     }
+
+
     @Operation(summary = "튜터 포트폴리오 이미지 삭제", description = "포트폴리오 아이디 하나를 통해서 포트폴리오 이미지 하나를 삭제하는! 메소드입니다.")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "포트폴리오 이미지가 정상적으로 삭제된 파일의 문자열이 전송됨",
             content = @Content),

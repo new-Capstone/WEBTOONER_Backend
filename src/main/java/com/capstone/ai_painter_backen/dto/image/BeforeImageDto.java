@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.dto.image;
 
+import com.capstone.ai_painter_backen.domain.image.ImageContribute;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +21,20 @@ public class BeforeImageDto {
         List<AfterImageDto.AfterImageResponseDto> afterImageAfterImageResponseDtos = new ArrayList<>();
     }
 
+    /*
+    TODO : refactoring (AfterImageService, BeforeImageService 분리)
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @Builder
+    public static class BeforeImageCreateResponseDto {
+        Long beforeImageId;
+        Long userId;
+        String beforeImageUri;
+        List<MultipartFile> createdImages = new ArrayList<>();
+    }
+    */
 
     @AllArgsConstructor
     @NoArgsConstructor
@@ -32,5 +47,14 @@ public class BeforeImageDto {
         Long userId;
         @Schema(description = "사진파일")
         MultipartFile beforeImageMultipartFile;
+        @Schema(description = "표정")
+        String expression;
+        @Schema(description = "생성모델")
+        String model;
+        @Schema(description = "성별")
+        String gender;
+        @Schema(description = "웹툰 이름")
+        String modelName;
     }
+
 }

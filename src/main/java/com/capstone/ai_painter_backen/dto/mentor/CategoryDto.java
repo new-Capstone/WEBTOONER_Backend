@@ -2,6 +2,7 @@ package com.capstone.ai_painter_backen.dto.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.CategoryTutorEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +19,7 @@ public class CategoryDto {
      @Schema
 
      public static class RequestSaveDto {
+          @NotBlank(message = "카테고리 이름은 필수입니다.")
           String categoryName;
      }
 
@@ -28,8 +30,8 @@ public class CategoryDto {
      @Schema
 
      public static class RequestUpdateDto {
-           String categoryName;
-          //TODO :: Tutor 합칠 때 변경
+          @NotBlank(message = "카테고리 이름은 필수입니다.")
+          String categoryName;
      }
 
      @Getter
@@ -49,7 +51,7 @@ public class CategoryDto {
      public static class ResponseDto {
           Long id;
           String categoryName;
-          List<CategoryTutorEntity> categoryTutorEntities;
+          //List<CategoryTutorEntity> categoryTutorEntities;
      }
 }
 

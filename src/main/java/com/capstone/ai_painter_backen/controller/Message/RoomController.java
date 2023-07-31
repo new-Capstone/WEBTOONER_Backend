@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class RoomController {
     @ApiResponse(responseCode = "400", description = "Client Error")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @PostMapping("/new")
-    public ResponseEntity<?> createRoom(@RequestBody @Schema(implementation = RoomDto.RoomPostDto.class)RoomDto.RoomPostDto postDto){
+    public ResponseEntity<?> createRoom(@Valid @RequestBody @Schema(implementation = RoomDto.RoomPostDto.class)RoomDto.RoomPostDto postDto){
         return ResponseEntity.ok().body(roomService.createRoom(postDto));
     }
 
@@ -38,12 +39,17 @@ public class RoomController {
     @ApiResponse(responseCode = "400", description = "Client Error")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @DeleteMapping("/delete")
-    public ResponseEntity<?> deleteRoom(@RequestBody @Schema(implementation = RoomDto.RoomDeleteDto.class) RoomDto.RoomDeleteDto deleteDto){
+    public ResponseEntity<?> deleteRoom(@Valid @RequestBody @Schema(implementation = RoomDto.RoomDeleteDto.class) RoomDto.RoomDeleteDto deleteDto){
         roomService.deleteRoom(deleteDto);
         return ResponseEntity.ok().body("deleted RoomId:"+deleteDto.getRoomId());
     }
 
-    //사용X
+
+    @Operation(summary = "RoomId로 Room 조회 api", description = "roomId로 Room 조회")
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(schema = @Schema(implementation = RoomDto.RoomResponseDto.class)))
+    @ApiResponse(responseCode = "400", description = "Client Error")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @GetMapping
     public ResponseEntity<?> getRoom(@RequestParam Long roomId){
         return ResponseEntity.ok().body(roomService.getRoom(roomId));

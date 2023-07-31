@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.dto.Message;
 
+import com.capstone.ai_painter_backen.constant.MessageType;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.RoomDto.RoomResponseDto;
@@ -17,6 +18,8 @@ public class MessageDto {
     @NoArgsConstructor
     @Builder
     public static class MessagePostDto {
+        @Schema
+        private MessageType type;
         @Schema
         private String content;
         @Schema
@@ -42,6 +45,8 @@ public class MessageDto {
         private Long roomId;
         @Schema
         private Long chatUserId;
+        @Schema
+        private String createdAt;
     }
 
     @Schema

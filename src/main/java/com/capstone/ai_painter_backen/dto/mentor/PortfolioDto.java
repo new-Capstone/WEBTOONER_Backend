@@ -19,6 +19,7 @@ public class PortfolioDto {
         Long portfolioId;
         String imageUri;
         Long tutorId;
+        String category;
     }
 
     @Builder
@@ -29,6 +30,18 @@ public class PortfolioDto {
     @Schema
     public static class PortfolioPostDto{// todo controller 에서 multipart file 받을 것
         Long tutorId;
+        List<MultipartFile> multipartFiles = new ArrayList<>();
+    }
+
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Getter
+    @Setter
+    @Schema
+    public static class PortfolioPostAndCategoryDto{//category 를 포함하는 포트폴리오
+        Long tutorId;
+        String category;
         List<MultipartFile> multipartFiles = new ArrayList<>();
     }
 

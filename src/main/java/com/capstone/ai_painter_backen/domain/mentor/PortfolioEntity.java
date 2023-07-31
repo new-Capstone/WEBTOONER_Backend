@@ -15,12 +15,13 @@ public class PortfolioEntity { //todo 삭제할 때 s3 사진도 삭제 가능�
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
     @Column
     String imageUri;
 
     @ManyToOne(fetch = FetchType.LAZY)
     TutorEntity tutorEntity;
+    @ManyToOne(fetch = FetchType.LAZY)
+    CategoryEntity category;
 
     public void setImageUri(String imageUri){
         this.imageUri = imageUri;
@@ -30,5 +31,15 @@ public class PortfolioEntity { //todo 삭제할 때 s3 사진도 삭제 가능�
         this.tutorEntity  = tutor;
     }
     public void setTutorNull(){this.tutorEntity = null;}
+
+    public void setCategory(CategoryEntity categoryEntity){
+        this.category = categoryEntity;
+    }
+
+    public void delete(){
+        this.category = null;
+        this.tutorEntity = null;
+    }
+
 
 }

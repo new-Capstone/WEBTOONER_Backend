@@ -5,6 +5,8 @@ import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.domain.message.NotificationEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.NotificationDto;
+import com.capstone.ai_painter_backen.exception.BusinessLogicException;
+import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.message.NotificationMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.message.MessageRepository;
@@ -32,8 +34,10 @@ public class NotificationService {
 
     @Transactional
     public void createNotification(NotificationDto.NotificationPostDto notificationPostDto) {
-        RoomEntity savedRoomEntity = roomRepository.findById(notificationPostDto.getRoodEntityId()).orElseThrow();
-        MessageEntity savedMessageEntity = messageRepository.findById(notificationPostDto.getMessageEntityId()).orElseThrow();
+        RoomEntity savedRoomEntity = roomRepository.findById(notificationPostDto.getRoodEntityId()).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.ROOM_NOT_FOUND));
+        MessageEntity savedMessageEntity = messageRepository.findById(notificationPostDto.getMessageEntityId()).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MESSAGE_NOT_FOUND));
 
         NotificationEntity notificationEntity = NotificationEntity.builder()
                 .checked(false)
@@ -41,10 +45,12 @@ public class NotificationService {
                 .build();
 
         if (savedRoomEntity.getOwner().getId() == notificationPostDto.getChatUserEntityId()) {
-            UserEntity savedUserEntity = userRepository.findById(savedRoomEntity.getVisitor().getId()).orElseThrow();
+            UserEntity savedUserEntity = userRepository.findById(savedRoomEntity.getVisitor().getId()).orElseThrow(
+                    () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
             notificationEntity.setUser(savedUserEntity);
         } else {
-            UserEntity savedUserEntity = userRepository.findById(savedRoomEntity.getOwner().getId()).orElseThrow();
+            UserEntity savedUserEntity = userRepository.findById(savedRoomEntity.getOwner().getId()).orElseThrow(
+                    () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
             notificationEntity.setUser(savedUserEntity);
         }
 
@@ -53,7 +59,9 @@ public class NotificationService {
 
     @Transactional
     public List<NotificationDto.NotificationResponseDto> getNotificationsByUserId(Long userId) {
-        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow();
+        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
         List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(savedUserEntity, false);
 
         //알림 조회할 때 check
@@ -67,7 +75,8 @@ public class NotificationService {
 
     @Transactional
     public void deleteNotificationByUserId(Long userId) {
-        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow();
+        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         //조회된 알림 list
         List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(savedUserEntity, true);

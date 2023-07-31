@@ -2,6 +2,7 @@ package com.capstone.ai_painter_backen.controller.Message;
 
 import com.capstone.ai_painter_backen.dto.Message.NotificationDto;
 import com.capstone.ai_painter_backen.dto.Message.RoomDto;
+import com.capstone.ai_painter_backen.dto.Result;
 import com.capstone.ai_painter_backen.service.Message.NotificationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

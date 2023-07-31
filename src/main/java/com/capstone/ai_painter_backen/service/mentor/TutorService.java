@@ -3,6 +3,7 @@ package com.capstone.ai_painter_backen.service.mentor;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryTutorEntity;
+import com.capstone.ai_painter_backen.domain.mentor.PortfolioEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import com.capstone.ai_painter_backen.dto.mentor.TutorDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static com.amazonaws.services.cloudformation.model.Replacement.True;
 
@@ -108,5 +110,18 @@ public class TutorService {
         return tutorResponseDto;
     }
 
+    @Transactional(readOnly = true)
+    public List<TutorDto.TutorResponseDto> getTutors() {
+        return tutorRepository.findAll().stream()
+                .map(m -> tutorMapper.tutorEntityToTutorResponseDto(m))
+                .collect(Collectors.toList());
+    }
 
+    public List<TutorDto.TutorResponseDtoIdAndImage> getTutorsByCategory(String categoryName) {
+        List<TutorEntity> tutors = tutorRepository.findAllByCategoryName(categoryName);
+
+        return tutors.stream()
+                .map(t -> tutorMapper.tutorEntityToTutorResponseDtoIdAndImage(t))
+                .collect(Collectors.toList());
+    }
 }

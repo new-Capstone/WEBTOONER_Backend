@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.controller.mentor;
 
+import com.capstone.ai_painter_backen.dto.Result;
 import com.capstone.ai_painter_backen.dto.mentor.CategoryDto;
 import com.capstone.ai_painter_backen.dto.mentor.CategoryDto.RequestSaveDto;
 import com.capstone.ai_painter_backen.dto.mentor.TuteeDto;
@@ -10,6 +11,11 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +39,7 @@ public class CategoryController {
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping("/new")
-    public ResponseEntity createCategory(@RequestBody @Schema(implementation = RequestSaveDto.class) RequestSaveDto requestSaveDto) {
+    public ResponseEntity createCategory(@Valid @RequestBody @Schema(implementation = RequestSaveDto.class) RequestSaveDto requestSaveDto) {
         return ResponseEntity.ok().body(categoryService.saveCategory(requestSaveDto));
     }
 
@@ -68,7 +74,7 @@ public class CategoryController {
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @ResponseStatus(HttpStatus.OK)
     @PatchMapping("/{id}/edit")
-    public ResponseDto updateCategory(@PathVariable Long id, @RequestBody RequestUpdateDto requestUpdateDto) {
+    public ResponseDto updateCategory(@PathVariable Long id, @Valid @RequestBody RequestUpdateDto requestUpdateDto) {
         return categoryService.updateCategory(id, requestUpdateDto);
     }
 

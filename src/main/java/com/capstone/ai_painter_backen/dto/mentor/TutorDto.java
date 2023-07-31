@@ -20,7 +20,12 @@ public class TutorDto {
         String description;
         @Schema
         List<String> categoryNames;
+        @Schema//todo front end 요규사항
+        String tutorName;
+        @Schema
+        String tutorEmail;
     }
+
     @Schema
     @Data
     @AllArgsConstructor
@@ -35,6 +40,11 @@ public class TutorDto {
         List<String> categoryNames = new ArrayList<>();
         @Schema
         List<TuteeDto.TuteeResponseDto> tuteeResponseDtos = new ArrayList<>();
+
+        @Schema//todo front end 요규사항
+        String tutorName;
+        @Schema
+        String tutorEmail;
     }
 
     @Schema
@@ -66,5 +76,18 @@ public class TutorDto {
         String description;
         List<String> categoryNames;
     }
+
+    @Schema
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class TutorResponseDtoIdAndImage {
+        @Schema
+        private Long tutorId;
+        @Schema
+        private String url;
+    }
+
 
 }

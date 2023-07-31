@@ -1,5 +1,6 @@
 package com.capstone.ai_painter_backen.mapper;
 
+import com.capstone.ai_painter_backen.constant.Role;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
@@ -17,10 +18,24 @@ public interface UserMapper {
             return null;
         } else {
             return UserEntity.builder()
-                    .loginId(userPostDto.getLoginId())
+                    .userEmail(userPostDto.getUserEmail())
                     .password(userPostDto.getPassword())
-                    .username(userPostDto.getUsername())
-                    .profileUri(s3ImageInfo.getFileURI())
+                    .profileImage(s3ImageInfo.getFileURI())
+                    .userRealName(userPostDto.getUsername())
+                    .role(Role.USER)
+                    .description(userPostDto.getDescription()).build();
+        }
+    }
+
+    default UserEntity userRequestPostDtoToUserEntity(UserDto.UserPostDto userPostDto) {
+        if (userPostDto == null) {
+            return null;
+        } else {
+            return UserEntity.builder()
+                    .userEmail(userPostDto.getUserEmail())
+                    .password(userPostDto.getPassword())
+                    .userRealName(userPostDto.getUsername())
+                    .role(Role.USER)
                     .description(userPostDto.getDescription()).build();
         }
     }
@@ -30,11 +45,11 @@ public interface UserMapper {
             return null;
         } else {
             return UserDto.UserResponseDto.builder()
-                    .userid(userEntity.getId())
-                    .loginId(userEntity.getLoginId())
-                    .username(userEntity.getUsername())
+                    .userId(userEntity.getId())
+                    .userEmail(userEntity.getUserEmail())
+                    .username(userEntity.getUserRealName())
                     .description(userEntity.getDescription())
-                    .profileUri(userEntity.getProfileUri())
+                    .profileImage(userEntity.getProfileImage())
                     .build();
         }
     }

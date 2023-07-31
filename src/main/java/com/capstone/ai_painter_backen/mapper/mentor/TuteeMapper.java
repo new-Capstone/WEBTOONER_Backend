@@ -12,9 +12,9 @@ public interface TuteeMapper {
     default TuteeDto.TuteeResponseDto entityToTuteeResponseDto(TuteeEntity tutee){
         return TuteeResponseDto.builder()
                 .tuteeId(tutee.getId())
-                .tuteeName(tutee.getUserEntity().getUsername())
+                .tuteeName(tutee.getUserEntity().getUserRealName())
                 .tutorId(tutee.getTutorEntity().getId())
-                .tutorName(tutee.getTutorEntity().getUserEntity().getUsername())
+                .tutorName(tutee.getTutorEntity().getUserEntity().getUserRealName())
                 .build();
     }
 }
