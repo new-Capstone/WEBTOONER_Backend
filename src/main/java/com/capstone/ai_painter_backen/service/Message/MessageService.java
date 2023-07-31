@@ -48,13 +48,9 @@ public class MessageService {
         UserEntity userEntity = userRepository.findById(postDto.getChatUserEntityId()).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        RoomEntity roomEntity = roomRepository.findRoomByUserId(
-                postDto.getChatUserEntityId()).orElseThrow(
+        RoomEntity roomEntity = roomRepository.findRoomByUserIdAndRoomId(
+                postDto.getChatUserEntityId(), postDto.getRoomEntityId()).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_AT_ROOM));
-
-        if (roomEntity.getId() != postDto.getRoomEntityId()) {
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_AT_ROOM);
-        }
 
         postDto.setWriter(userEntity.getUserRealName());
 

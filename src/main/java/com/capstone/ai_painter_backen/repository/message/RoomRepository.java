@@ -12,11 +12,6 @@ import java.util.Optional;
 public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
     List<RoomEntity> findAllByOwnerOrVisitor(UserEntity owner, UserEntity visitor);
 
-    @Query("select r from RoomEntity r join UserEntity u where r.visitor.id = :userId or r.owner.id = :userId")
-    Optional<RoomEntity> findRoomByUserId(Long userId);
-
-
-    //notification 삭제 용도, 페이징 X
-    @Query("select r from RoomEntity r join fetch r.messageEntities ms")
-    Optional<RoomEntity> findRoomByIdWithMessage(Long roomId);
+    @Query("select r from RoomEntity r where (r.visitor.id = :userId or r.owner.id = :userId) and r.id = :roomId")
+    Optional<RoomEntity> findRoomByUserIdAndRoomId(Long userId, Long roomId);
 }
