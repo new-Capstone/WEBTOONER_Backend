@@ -144,4 +144,16 @@ public class UserEntity extends BaseEntity implements UserDetails{
         this.profileImage = profileImageUrl;
     }
 
+
+    public static UserEntity createUserEssential(String userEmail, String userRealName, String password){
+        return UserEntity.builder()
+                .userEmail(userEmail)
+                .userRealName(userRealName)
+                .password(password)
+                .build();
+    }
+
+
+
+
 }

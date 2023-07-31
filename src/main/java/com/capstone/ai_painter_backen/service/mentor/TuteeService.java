@@ -3,6 +3,7 @@ package com.capstone.ai_painter_backen.service.mentor;
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
+import com.capstone.ai_painter_backen.dto.Result;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.mentor.TuteeMapper;
@@ -11,11 +12,13 @@ import com.capstone.ai_painter_backen.repository.mentor.TutorRepository;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static com.capstone.ai_painter_backen.dto.mentor.TuteeDto.*;
 
@@ -97,5 +100,23 @@ public class TuteeService {
                 .orElseThrow(() -> new BusinessLogicException(ExceptionCode.TUTEE_NOT_FOUND));
 
         return tuteeMapper.entityToTuteeResponseDto(tutee);
+    }
+
+    public Result<List<TuteeResponseDto>> findTuteeByTutorId(Long tutorId, Pageable pageable) {
+
+            Page<TuteeEntity> tuteeEntities = tuteeRepository.findAllByTutorEntityIdWithPagination(tutorId, pageable);
+            List<TuteeResponseDto> tuteeResponseDtos = tuteeEntities.stream()
+                    .map(tuteeMapper::entityToTuteeResponseDto)
+                    .collect(Collectors.toList());
+
+            Result r = Result.builder()
+                    .data(tuteeResponseDtos)
+                    .number(tuteeEntities.getNumber())
+                    .size(tuteeEntities.getSize())
+                    .total(tuteeEntities.getTotalPages())
+                    .build();
+
+
+            return r;
     }
 }

@@ -17,6 +17,8 @@ public interface TutorMapper {
                 .description(tutorPostDto.getDescription())
                 .tuteeEntities(new ArrayList<>())
                 .categoryTutorEntities(new ArrayList<>()) // todo 나중에 문자열을 카테고리고 변환하는 mapper 필요
+                .tutorEmail(tutorPostDto.getTutorEmail())
+                .tutorName(tutorPostDto.getTutorName())
                 .build();
     }
 
@@ -26,7 +28,7 @@ public interface TutorMapper {
     default TuteeDto.TuteeResponseDto entityToTuteeResponseDtoAtTutor(TuteeEntity tutee){
         return TuteeDto.TuteeResponseDto.builder()
                 .tuteeId(tutee.getId())
-                .tuteeName(tutee.getUserEntity().getUsername())//유저 이메일
+                .tuteeName(tutee.getUserEntity().getUserEmail())//유저 이메일
                 .build();
     }
 
@@ -38,6 +40,8 @@ public interface TutorMapper {
                         .collect(Collectors.toList()))
                 .tutorId(tutorEntity.getId())
                 .description(tutorEntity.getDescription())
+                .tutorEmail(tutorEntity.getTutorEmail())
+                .tutorName(tutorEntity.getTutorName())
                 .build();
     }
 

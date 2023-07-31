@@ -15,13 +15,11 @@ public class PortfolioEntity { //todo 삭제할 때 s3 사진도 삭제 가능�
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
-
     @Column
     String imageUri;
 
     @ManyToOne(fetch = FetchType.LAZY)
     TutorEntity tutorEntity;
-
     @ManyToOne(fetch = FetchType.LAZY)
     CategoryEntity category;
 
