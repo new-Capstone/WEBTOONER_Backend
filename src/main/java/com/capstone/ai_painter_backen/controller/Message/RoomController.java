@@ -44,9 +44,14 @@ public class RoomController {
         return ResponseEntity.ok().body("deleted RoomId:"+deleteDto.getRoomId());
     }
 
-    //사용X
+
+    @Operation(summary = "RoomId로 Room 조회 api", description = "roomId로 Room 조회")
+    @ApiResponse(responseCode = "200", description = "OK",
+            content = @Content(schema = @Schema(implementation = RoomDto.RoomResponseDto.class)))
+    @ApiResponse(responseCode = "400", description = "Client Error")
+    @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @GetMapping
-    public ResponseEntity<?> getRoom(@PathVariable Long roomId){
+    public ResponseEntity<?> getRoom(@RequestParam Long roomId){
         return ResponseEntity.ok().body(roomService.getRoom(roomId));
     }
 

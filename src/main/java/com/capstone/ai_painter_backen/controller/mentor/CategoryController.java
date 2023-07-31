@@ -51,8 +51,8 @@ public class CategoryController {
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @ResponseStatus(HttpStatus.OK)
     @GetMapping
-    public Result getCategoryInfos() {
-        return new Result(categoryService.findAllCategory());
+    public List<ResponseDto> getCategoryInfos() {
+        return categoryService.findAllCategory();
     }
 
     @Operation(summary = "Category 조회 api", description = "categoryId로 조회")

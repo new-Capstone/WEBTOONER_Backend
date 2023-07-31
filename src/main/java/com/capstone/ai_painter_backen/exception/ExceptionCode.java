@@ -26,6 +26,7 @@ public enum ExceptionCode {
 
     /* 404 NOT_FOUND : Resource 를 찾을 수 없음 */
     MEMBER_NOT_FOUND(NOT_FOUND, "해당 유저 정보를 찾을 수 없습니다"),
+    MEMBER_NOT_AT_ROOM(NOT_FOUND, "해당 유저가 해당 방에 존재하지 않습니다."),
     TUTOR_NOT_FOUND(NOT_FOUND, "해당 튜터를 찾을 수 없습니다"),
     TUTEE_NOT_FOUND(NOT_FOUND, "해당 튜티를 찾을 수 없습니다"),
     ROOM_NOT_FOUND(NOT_FOUND, "해당 룸을 찾을 수 없습니다"),

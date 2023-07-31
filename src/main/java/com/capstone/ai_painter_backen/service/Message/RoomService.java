@@ -33,6 +33,7 @@ public class RoomService {
     private final RoomMapper roomMapper;
     private final RoomRepository roomRepository;
     private final UserRepository userRepository;
+    private final NotificationRepository notificationRepository;
 
     @Transactional
     public RoomDto.RoomResponseDto createRoom(RoomDto.RoomPostDto postDto) {
@@ -64,6 +65,15 @@ public class RoomService {
     @Transactional
     public void deleteRoom(RoomDto.RoomDeleteDto deleteDto) {
         //Room 삭제할 때 message 같이 삭제 orphanRemoval
+        RoomEntity roomEntity = roomRepository.findRoomByIdWithMessage(deleteDto.getRoomId()).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.ROOM_NOT_FOUND));
+
+        List<MessageEntity> messageEntities = roomEntity.getMessageEntities();
+        for (MessageEntity messageEntity : messageEntities) {
+            NotificationEntity notificationEntity = notificationRepository.findByMessage(messageEntity);
+            notificationRepository.delete(notificationEntity);
+        }
+
         roomRepository.deleteById(deleteDto.getRoomId());
         log.info("{}: Room 삭제됨 !", deleteDto.getRoomId());
     }
