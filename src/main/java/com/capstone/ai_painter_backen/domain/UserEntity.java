@@ -66,7 +66,7 @@ public class UserEntity extends BaseEntity implements UserDetails{
         this.password = patchDto.getPassword();
         this.description = patchDto.getDescription();
         this.profileImage = s3ImageInfo.getFileURI();
-
+        this.userRealName = patchDto.getNickname();
     }
 
     //==TutorEnroll==//

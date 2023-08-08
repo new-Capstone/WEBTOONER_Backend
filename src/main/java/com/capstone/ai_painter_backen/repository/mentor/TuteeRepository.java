@@ -13,6 +13,6 @@ import org.springframework.data.repository.query.Param;
 public interface TuteeRepository extends JpaRepository<TuteeEntity, Long> {
 
     TutorEntity findByUserEntity_Id(Long userId);
-    @Query(value = "select t from TuteeEntity t where t.tutorEntity.id =: tutorId")
+    @Query(value = "select t from TuteeEntity t where t.tutorEntity.id = :tutorId")
     Page<TuteeEntity> findAllByTutorEntityIdWithPagination(@Param("tutorId") Long tutorId, Pageable pageable);
 }

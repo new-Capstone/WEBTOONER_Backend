@@ -81,14 +81,23 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(userId));
     }
 
-    @PatchMapping("/edit")
+    @PatchMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "유저 정보 수정", description = "유저 정보를 반환하는 메서드")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "유저 정보 정상 수정딤",
             content = @Content(schema = @Schema(implementation = UserDto.UserResponseDto.class))),
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    public ResponseEntity<?> modifyUser(@RequestBody UserDto.UserPatchDto patchDto){
+    public ResponseEntity<?> modifyUser(@RequestParam Long userId, @RequestParam(required = false) String nickname,
+                                        @RequestParam(required = false) String password, @RequestParam(required = false) String description,
+                                        @RequestPart(required = false) MultipartFile profileImage){
+        UserDto.UserPatchDto patchDto = UserDto.UserPatchDto.builder()
+                .userId(userId)
+                .nickname(nickname)
+                .password(password)
+                .description(description)
+                .profileImage(profileImage)
+                .build();
         return ResponseEntity.ok().body(userService.modifyUser(patchDto));
     }
 

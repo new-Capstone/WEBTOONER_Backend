@@ -9,9 +9,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface BeforeImageRepository extends JpaRepository<BeforeImageEntity, Long> {
-    @Query(value = "SELECT DISTINCT b FROM BeforeImageEntity b JOIN FETCH b.afterImageEntities WHERE b.userEntity.id = ?1",
+    @Query(value = "SELECT b FROM BeforeImageEntity b WHERE b.userEntity.id = ?1",
             countQuery = "SELECT COUNT(b) FROM BeforeImageEntity b WHERE b.userEntity.id = ?1")
     Page<BeforeImageEntity> findAllByUserEntityId(Long userId, Pageable pageable);
+
+
 }
 
 
