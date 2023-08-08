@@ -79,6 +79,8 @@ public class UserDto {
         @Schema
         private Long userId;
         @Schema
+        private String nickname;
+        @Schema
         private String password;
         @Schema
         private String description;

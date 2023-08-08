@@ -62,14 +62,34 @@ public class UserService {
     @Transactional
     public UserDto.UserResponseDto modifyUser(UserDto.UserPatchDto patchDto){
 
-        UserEntity userEntity = userRepository.findById(patchDto.getUserId()).orElseThrow();
-//        if(!sample.isPresent()) {    ---->orElseThrow()와 동일
-//            throw new IllegalArgumentException();
-//        }
+        UserEntity userEntity = userRepository.findById(patchDto.getUserId()).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
-        String imgUrl = s3FileService.findImgUrl(userEntity.getProfileImage());
-        s3FileService.deleteMultiFile(imgUrl);
-        S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(patchDto.getProfileImage());
+        S3ImageInfo s3ImageInfo;
+
+        if (patchDto.getProfileImage() == null) { // 프로필 이미지 변경 X
+            s3ImageInfo = S3ImageInfo.builder().fileURI(userEntity.getProfileImage()).build();
+        } else { // 프로필 이미지도 변경
+            try {
+                //기존 이미지 제거
+                String imgUrl = s3FileService.findImgUrl(userEntity.getProfileImage());
+                s3FileService.deleteMultiFile(imgUrl);
+            } catch (Exception e) {
+                log.info("FILE_IS_NOT_EXIST_IN_BUCKET");
+            }
+
+            s3ImageInfo = s3FileService.uploadMultiFile(patchDto.getProfileImage());
+        }
+
+        if (patchDto.getDescription() == null) {
+            patchDto.setDescription(userEntity.getDescription());
+        }
+        if (patchDto.getNickname() == null) {
+            patchDto.setNickname(userEntity.getUserRealName());
+        }
+        if (patchDto.getPassword() == null) {
+            patchDto.setNickname(userEntity.getPassword());
+        }
 
         userEntity.update(patchDto, s3ImageInfo);
         return userMapper.userEntityToUserResponseDto(userEntity);
