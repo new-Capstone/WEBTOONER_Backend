@@ -88,7 +88,7 @@ public class UserService {
             patchDto.setNickname(userEntity.getUserRealName());
         }
         if (patchDto.getPassword() == null) {
-            patchDto.setNickname(userEntity.getPassword());
+            patchDto.setPassword(userEntity.getPassword());
         }
 
         userEntity.update(patchDto, s3ImageInfo);
