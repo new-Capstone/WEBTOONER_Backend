@@ -10,8 +10,13 @@ import java.util.List;
 import java.util.Optional;
 
 public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
-    List<RoomEntity> findAllByOwnerOrVisitor(UserEntity owner, UserEntity visitor);
+    @Override
+    @Query("select r from RoomEntity r join fetch r.messageEntities join fetch r.owner join fetch r.visitor where r.id = :id")
+    Optional<RoomEntity> findById(@Param("id") Long id);
 
-    @Query("select r from RoomEntity r where (r.visitor.id = :userId or r.owner.id = :userId) and r.id = :roomId")
+    @Query("select r from RoomEntity r join fetch r.messageEntities join fetch r.owner join fetch r.visitor where r.owner = :owner or r.visitor = :visitor")
+    List<RoomEntity> findAllByOwnerOrVisitor(@Param("owner") UserEntity owner, @Param("visitor") UserEntity visitor);
+
+    @Query("select r from RoomEntity r join fetch r.messageEntities join fetch r.owner join fetch r.visitor where (r.visitor.id = :userId or r.owner.id = :userId) and r.id = :roomId")
     Optional<RoomEntity> findRoomByUserIdAndRoomId(Long userId, Long roomId);
 }

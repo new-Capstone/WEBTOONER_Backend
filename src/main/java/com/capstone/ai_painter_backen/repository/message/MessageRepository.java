@@ -9,10 +9,15 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface MessageRepository extends JpaRepository<MessageEntity,Long> {
 
-    @Query("select m from MessageEntity m where m.roomEntity.id = :roomId")
+    @Override
+    @Query("select m from MessageEntity m join fetch m.chatUserEntity join fetch m.roomEntity where m.roomEntity.id = :id")
+    Optional<MessageEntity> findById(@Param("id") Long id);
+
+    @Query("select m from MessageEntity m join fetch m.chatUserEntity join fetch m.roomEntity where m.roomEntity.id = :roomId")
     List<MessageEntity> findAllByRoomId(Long roomId);
 
     @Query(value = "select m from MessageEntity  m " +

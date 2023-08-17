@@ -27,6 +27,7 @@ public class TutorEntity extends BaseEntity {
     @OneToMany(mappedBy = "tutorEntity")
     private List<TuteeEntity> tuteeEntities = new ArrayList<>();
 
+    @BatchSize(size=10)
     @OneToMany(mappedBy = "tutorEntity", cascade = CascadeType.ALL,orphanRemoval=true)
     private List<CategoryTutorEntity> categoryTutorEntities = new ArrayList<>();
 
@@ -34,6 +35,7 @@ public class TutorEntity extends BaseEntity {
     private UserEntity userEntity;
 
     @Column
+    @BatchSize(size=10)
     @OneToMany(mappedBy = "tutorEntity",cascade = CascadeType.ALL, orphanRemoval=true)
     private List<PortfolioEntity> portfolioEntities = new ArrayList<>();
 
