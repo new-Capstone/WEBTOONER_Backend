@@ -11,6 +11,7 @@ import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.junit.Before;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,9 +23,12 @@ import java.util.List;
 public class InitDb {
 
     private final InitService initService;
+    @Value("${spring.jpa.hibernate.ddl-auto}")
+    private String DDL;
     @Transactional
     @PostConstruct
     public void init(){
+        if(DDL.equals("create")||DDL.equals("create-drop"))
         initService.dbInit1();
     }
 

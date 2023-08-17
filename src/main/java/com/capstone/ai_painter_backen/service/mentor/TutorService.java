@@ -44,7 +44,7 @@ public class TutorService {
         UserEntity savedUserEntity  = userRepository.findById(tutorPostDto.getUserId()).orElseThrow();
         TutorEntity savedTutorEntity = tutorRepository.save(tutorEntity);
         savedUserEntity.enrollTutor(tutorEntity);//user tutor mapping
-
+        userRepository.save(savedUserEntity);
 
         tutorEntity.setCategoryTutorEntities(
                 getCategoryTutorEntityList(tutorPostDto.getCategoryNames()
