@@ -10,11 +10,16 @@ import static com.capstone.ai_painter_backen.dto.mentor.TuteeDto.*;
 public interface TuteeMapper {
 
     default TuteeDto.TuteeResponseDto entityToTuteeResponseDto(TuteeEntity tutee){
+        String tutorName;
+        if((tutorName = tutee.getTutorEntity().getUserEntity().getUserRealName()) == null){
+            tutorName = "튜터 이름을 등록해주세요";
+        }
+
         return TuteeResponseDto.builder()
                 .tuteeId(tutee.getId())
                 .tuteeName(tutee.getUserEntity().getUserRealName())
                 .tutorId(tutee.getTutorEntity().getId())
-                .tutorName(tutee.getTutorEntity().getUserEntity().getUserRealName())
+                .tutorName(tutorName)
                 .build();
     }
 }

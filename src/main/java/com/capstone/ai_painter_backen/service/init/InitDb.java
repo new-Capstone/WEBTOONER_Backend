@@ -63,6 +63,11 @@ public class InitDb {
             TutorEntity tutorEntity3 = createTutorEntity("tutor3",userEntity3);
             TutorEntity tutorEntity4 = createTutorEntity("tutor4",userEntity4);
 
+            userEntity1.enrollTutor(tutorEntity1);
+            userEntity2.enrollTutor(tutorEntity2);
+            userEntity3.enrollTutor(tutorEntity3);
+            userEntity4.enrollTutor(tutorEntity4);
+
             entityManager.persist(tutorEntity1);
             entityManager.persist(tutorEntity2);
             entityManager.persist(tutorEntity3);

@@ -60,8 +60,9 @@ public class TuteeService {
                 .build();
 
         user.enrollTutee(tutee);
+        TuteeEntity tuteeEntity = tuteeRepository.save(tutee);
 
-        return tuteeMapper.entityToTuteeResponseDto(tuteeRepository.save(tutee));
+        return tuteeMapper.entityToTuteeResponseDto(tuteeEntity);
     }
 
 

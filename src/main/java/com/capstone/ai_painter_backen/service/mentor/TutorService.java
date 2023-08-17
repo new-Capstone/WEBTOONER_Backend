@@ -45,9 +45,13 @@ public class TutorService {
         TutorEntity savedTutorEntity = tutorRepository.save(tutorEntity);
         savedUserEntity.enrollTutor(tutorEntity);//user tutor mapping
 
-        tutorEntity.setCategoryTutorEntities(getCategoryTutorEntityList(tutorPostDto.getCategoryNames(),tutorEntity));
 
+        tutorEntity.setCategoryTutorEntities(
+                getCategoryTutorEntityList(tutorPostDto.getCategoryNames()
+                        ,tutorEntity));
         return  tutorMapper.tutorEntityToTutorResponseDto(tutorEntity);// jpa cacade 로 user 자동 저장
+
+
     }
 
     private List<CategoryTutorEntity> getCategoryTutorEntityList(List<String> categoryNames, TutorEntity tutorEntity){

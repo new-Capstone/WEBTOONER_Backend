@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -30,7 +31,7 @@ public class TutorController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
     public ResponseEntity<?> createTutor(@RequestBody @Schema(implementation = TutorDto.TutorPostDto.class)
-                                             TutorDto.TutorPostDto tutorPostDto){
+                                             @Valid TutorDto.TutorPostDto tutorPostDto){
         return ResponseEntity.ok().body(tutorService.createTutor(tutorPostDto));
     }
 

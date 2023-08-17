@@ -2,6 +2,7 @@ package com.capstone.ai_painter_backen.dto.mentor;
 
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class TutorDto {
         @Schema
         String description;
         @Schema
+        @NotEmpty
         List<String> categoryNames;
         @Schema//todo front end 요규사항
         String tutorName;

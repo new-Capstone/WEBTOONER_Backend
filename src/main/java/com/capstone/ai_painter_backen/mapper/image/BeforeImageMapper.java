@@ -8,10 +8,8 @@ import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.AfterImageDto;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import org.mapstruct.Mapper;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
@@ -38,7 +36,7 @@ public interface BeforeImageMapper {
     default BeforeImageDto.BeforeImageResponseDto BeforeImageEntityToBeforeImageResponseDto(BeforeImageEntity beforeImageEntity) {
 
         return BeforeImageDto.BeforeImageResponseDto.builder()
-                .afterImageAfterImageResponseDtos(beforeImageEntity.getAfterImageEntities().stream()
+                .afterImageResponseDtos(beforeImageEntity.getAfterImageEntities().stream()
                         .map(this::afterImageEntityToAfterImageResponseDto).collect(Collectors.toList()))//dto 로 변환해서 전송함.
                 .beforeImageId(beforeImageEntity.getId())
                 .beforeImageUri(beforeImageEntity.getBeforeImageUri())
