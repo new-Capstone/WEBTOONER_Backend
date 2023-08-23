@@ -3,7 +3,9 @@ package com.capstone.ai_painter_backen.dto;
 import com.capstone.ai_painter_backen.domain.mentor.TuteeEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 import lombok.*;
+import org.springframework.data.relational.core.mapping.Embedded;
 import org.springframework.web.multipart.MultipartFile;
 
 public class UserDto {
@@ -38,6 +40,16 @@ public class UserDto {
         private String userEmail;
 
     }
+    @Schema
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class TeachingInformationDto{//tutor 정보와 tutee 정보를 유저에서 emmbbeam type 으로 변환해서 반환하기 위해 dto
+        private Long tutorId;
+        private Long tuteeId;
+    }
 
     @Schema
     @Getter
@@ -56,6 +68,8 @@ public class UserDto {
         private String description;
         @Schema
         private String profileImage;
+        @Schema @Nullable
+        private TeachingInformationDto teachingInformationDto;
     }
 
     @Schema

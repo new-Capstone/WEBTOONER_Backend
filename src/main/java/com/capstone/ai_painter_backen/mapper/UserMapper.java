@@ -39,6 +39,21 @@ public interface UserMapper {
                     .description(userPostDto.getDescription()).build();
         }
     }
+    default UserDto.TeachingInformationDto extractingTeachingInformation(UserEntity user){
+        Long tuteeId = null;
+        Long tutorId = null;
+        if(user.getTuteeEntity() != null){
+            tuteeId = user.getTuteeEntity().getId();
+        }
+
+        if(user.getTutorEntity() != null){
+            tutorId = user.getTutorEntity().getId();
+        }
+        return UserDto.TeachingInformationDto.builder()
+                .tuteeId(tuteeId)
+                .tutorId(tutorId)
+                .build();
+    }
 
     default UserDto.UserResponseDto userEntityToUserResponseDto(UserEntity userEntity){
         if (userEntity == null) {
@@ -50,6 +65,7 @@ public interface UserMapper {
                     .username(userEntity.getUserRealName())
                     .description(userEntity.getDescription())
                     .profileImage(userEntity.getProfileImage())
+                    .teachingInformationDto(extractingTeachingInformation(userEntity))
                     .build();
         }
     }
