@@ -20,6 +20,7 @@ public interface AfterImageRepository extends JpaRepository<AfterImageEntity, Lo
 //    @Query(value = "SELECT DISTINCT a FROM AfterImageEntity a WHERE a.beforeImageEntity.id IN ?1",
 //            countQuery = "SELECT COUNT(a) FROM AfterImageEntity a WHERE a.beforeImageEntity.id IN ?1")
 //    Page<AfterImageEntity> findAllByBeforeImageEntityIdes(Long... beforeImageEntityIds);
+
 }
 
 

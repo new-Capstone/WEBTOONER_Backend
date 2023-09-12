@@ -83,7 +83,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(userId));
     }
 
-    @PatchMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "유저 정보 수정", description = "유저 정보를 반환하는 메서드")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "유저 정보 정상 수정딤",
             content = @Content(schema = @Schema(implementation = UserDto.UserResponseDto.class))),
