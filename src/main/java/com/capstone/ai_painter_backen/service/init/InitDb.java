@@ -7,11 +7,15 @@ import com.capstone.ai_painter_backen.domain.mentor.CategoryEntity;
 import com.capstone.ai_painter_backen.domain.mentor.CategoryTutorEntity;
 import com.capstone.ai_painter_backen.domain.mentor.PortfolioEntity;
 import com.capstone.ai_painter_backen.domain.mentor.TutorEntity;
+import com.capstone.ai_painter_backen.domain.message.MessageEntity;
+import com.capstone.ai_painter_backen.domain.message.NotificationEntity;
+import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import jakarta.annotation.PostConstruct;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.junit.Before;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +24,7 @@ import java.util.List;
 
 @Component
 @RequiredArgsConstructor
+@Profile("local")
 public class InitDb {
 
     private final InitService initService;
@@ -129,7 +134,6 @@ public class InitDb {
             entityManager.persist(afterImageEntity6);
             entityManager.persist(afterImageEntity7);
             entityManager.persist(afterImageEntity8);
-
 
             entityManager.flush();
         }
