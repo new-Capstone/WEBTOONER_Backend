@@ -36,7 +36,7 @@ public class TutorService {
     UserRepository userRepository;
     CategoryRepository categoryRepository;
     CategoryTutorRepository categoryTutorRepository;
-
+    //todo 자기 자신 막는 것 설정할 것
     @Transactional
     public TutorDto.TutorResponseDto createTutor(TutorDto.TutorPostDto tutorPostDto){
 
