@@ -51,6 +51,8 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
     implementation 'org.reactivestreams:reactive-streams:1.0.4'
+    implementation 'org.springframework.security:spring-security-test'
+
 }
 
 tasks.named('test') {

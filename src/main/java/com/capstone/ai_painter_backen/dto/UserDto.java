@@ -101,4 +101,18 @@ public class UserDto {
         @Schema
         private MultipartFile profileImage;
     }
+
+    @Schema
+    @Getter
+    @Setter
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    public static class CusTomUserPrincipalDto{
+
+        @Schema
+        private Long userId;
+        @Schema
+        private String email;
+    }
 }
