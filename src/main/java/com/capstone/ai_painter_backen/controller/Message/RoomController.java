@@ -50,8 +50,8 @@ public class RoomController {
             content = @Content(schema = @Schema(implementation = RoomDto.RoomResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Client Error")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
-    @GetMapping
-    public ResponseEntity<?> getRoom(@RequestParam Long roomId){
+    @GetMapping("/{roomId}")
+    public ResponseEntity<?> getRoom(@PathVariable Long roomId){
         return ResponseEntity.ok().body(roomService.getRoom(roomId));
     }
 
@@ -60,8 +60,8 @@ public class RoomController {
             content = @Content(schema = @Schema(implementation = RoomDto.RoomResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Client Error")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
-    @GetMapping("/{userId}")
-    public List<RoomDto.RoomResponseDto> getRooms(@PathVariable Long userId) {
-        return roomService.getRoomsByUserId(userId);
+    @GetMapping
+    public List<RoomDto.RoomResponseDto> getRooms() {
+        return roomService.getRooms();
     }
 }

@@ -1,7 +1,9 @@
 package com.capstone.ai_painter_backen.service.image;
 
+import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
 import com.capstone.ai_painter_backen.dto.Result;
+import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
@@ -10,6 +12,7 @@ import com.capstone.ai_painter_backen.mapper.image.BeforeImageMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
+import com.capstone.ai_painter_backen.service.security.SecurityUserInfoService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -28,15 +31,20 @@ import java.util.stream.Collectors;
 @Slf4j
 public class BeforeImageService {
 
-    BeforeImageRepository beforeImageRepository;
-    BeforeImageMapper beforeImageMapper;
-    S3FileService s3FileService;
-    UserRepository userRepository;
-    ClientUtils clientUtils;
-    AfterImageService afterImageService;
+    private BeforeImageRepository beforeImageRepository;
+    private BeforeImageMapper beforeImageMapper;
+    private S3FileService s3FileService;
+    private UserRepository userRepository;
+    private ClientUtils clientUtils;
+    private AfterImageService afterImageService;
+    private SecurityUserInfoService securityUserInfoService;
 
 
     public BeforeImageDto.BeforeImageResponseDto createBeforeImage(BeforeImageDto.BeforeImagePostDto beforeImagePostDto){
+        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+
+        UserEntity userEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         MultipartFile multipartFile = beforeImagePostDto.getBeforeImageMultipartFile();
         S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(multipartFile);
@@ -49,17 +57,14 @@ public class BeforeImageService {
                     beforeImageMapper.BeforeImagePostDtoToBeforeImageEntity(
                             beforeImagePostDto,
                             s3ImageInfo,
-                            userRepository.findById(beforeImagePostDto.getUserId())//유저 정보 없으면 오류 던짐.
-                                    .orElseThrow(() -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
+                            userEntity);
 
 
             BeforeImageEntity savedBeforeImageEntity =
                     beforeImageRepository.save(beforeImageEntity);
 
-            //TODO : refactoring (AfterImageService, BeforeImageService 분리)
             afterImageService.createAfterImageList(savedBeforeImageEntity.getId(), transformedImage);
 
-            //생성되는 이미지 dto에 추가해서 return
             return beforeImageMapper.BeforeImageEntityToBeforeImageResponseDto(savedBeforeImageEntity);
 
         }catch (Exception e) {
@@ -89,10 +94,14 @@ public class BeforeImageService {
     }
 
     @Transactional(readOnly=true)
-    public Page<BeforeImageDto.BeforeImageResponseDto> readBeforeImageEntityByUserId(Pageable pageable, Long userId){
+    public Page<BeforeImageDto.BeforeImageResponseDto> readBeforeImageEntityByUserId(Pageable pageable){
 
         try{
-            Page<BeforeImageEntity> beforeImageEntities = beforeImageRepository.findAllByUserEntityId(userId, pageable);
+            UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+            UserEntity userEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
+                    () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+            Page<BeforeImageEntity> beforeImageEntities = beforeImageRepository.findAllByUserEntityId(userEntity.getId(), pageable);
             List<BeforeImageDto.BeforeImageResponseDto> beforeImageResponseDtos = beforeImageEntities
                     .stream().map(beforeImageMapper::BeforeImageEntityToBeforeImageResponseDto)
                     .collect(Collectors.toList());

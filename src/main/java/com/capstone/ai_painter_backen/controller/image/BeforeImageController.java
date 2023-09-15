@@ -40,7 +40,7 @@ public class BeforeImageController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    public ResponseEntity<?> createBeforeImage(@RequestParam Long userId, @RequestParam String expression,
+    public ResponseEntity<?> createBeforeImage(@RequestParam String expression,
                                                @RequestParam String model, @RequestParam String gender,
                                                @RequestParam String loraName, @RequestPart MultipartFile multipartFile){
         BeforeImageDto.BeforeImagePostDto beforeImagePostDto =
@@ -50,7 +50,6 @@ public class BeforeImageController {
                         .gender(gender)
                         .modelName(loraName)
                         .model(model)
-                        .userId(userId)
                         .build();
 
         BeforeImageDto.BeforeImageResponseDto beforeImageResponseDto = beforeImageService.createBeforeImage(beforeImagePostDto);
@@ -63,8 +62,8 @@ public class BeforeImageController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    @GetMapping
-    public ResponseEntity<?> getBeforeImage(@RequestParam Long beforeImageId){
+    @GetMapping("/{beforeImageId}")
+    public ResponseEntity<?> getBeforeImage(@PathVariable Long beforeImageId){
         return ResponseEntity.ok().body(beforeImageService.readBeforeImage(beforeImageId));
     }
 
@@ -76,15 +75,14 @@ public class BeforeImageController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    @GetMapping("/userId")
-    public ResponseEntity<?> getByUserId(@RequestParam Long userId,
-                                         @RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNum,
+    @GetMapping
+    public ResponseEntity<?> getByUserId(@RequestParam(value = "pageNo", defaultValue = "0", required = false) Integer pageNum,
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize){
         try{
             Pageable pageable = PageRequest.of( pageNum ,pageSize, Sort.by("id"));
 
             Page<BeforeImageDto.BeforeImageResponseDto> responseDtos = beforeImageService
-                    .readBeforeImageEntityByUserId(pageable, userId);
+                    .readBeforeImageEntityByUserId(pageable);
             Result<List<BeforeImageDto.BeforeImageResponseDto>> responseDtoResult = Result.createPage(responseDtos);
             return ResponseEntity.ok().body(responseDtoResult);
 

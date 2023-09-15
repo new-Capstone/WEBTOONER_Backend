@@ -43,17 +43,5 @@ public interface BeforeImageMapper {
                 .userId(beforeImageEntity.getUserEntity().getId())
                 .build();
     }
-
-    /* TODO : refactoring (AfterImageService, BeforeImageService 분리)
-    default BeforeImageDto.BeforeImageCreateResponseDto BeforeImageEntityToBeforeImageCreateResponseDto(
-            BeforeImageEntity beforeImageEntity, List<MultipartFile> transformedImages) {
-        return BeforeImageDto.BeforeImageCreateResponseDto.builder()
-                .createdImages(transformedImages)
-                .beforeImageId(beforeImageEntity.getId())
-                .beforeImageUri(beforeImageEntity.getBeforeImageUri())
-                .userId(beforeImageEntity.getUserEntity().getId())
-                .build();
-    }
-    */
 }
 

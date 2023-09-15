@@ -5,6 +5,7 @@ import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.domain.message.NotificationEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.NotificationDto;
+import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.message.NotificationMapper;
@@ -12,6 +13,7 @@ import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.message.MessageRepository;
 import com.capstone.ai_painter_backen.repository.message.NotificationRepository;
 import com.capstone.ai_painter_backen.repository.message.RoomRepository;
+import com.capstone.ai_painter_backen.service.security.SecurityUserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,7 @@ public class NotificationService {
     private final UserRepository userRepository;
     private final MessageRepository messageRepository;
     private final NotificationMapper notificationMapper;
+    private final SecurityUserInfoService securityUserInfoService;
 
     @Transactional
     public void createNotification(NotificationDto.NotificationPostDto notificationPostDto) {
@@ -58,8 +61,9 @@ public class NotificationService {
     }
 
     @Transactional
-    public List<NotificationDto.NotificationResponseDto> getNotificationsByUserId(Long userId) {
-        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow(
+    public List<NotificationDto.NotificationResponseDto> getNotifications() {
+        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+        UserEntity savedUserEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(savedUserEntity, false);
@@ -74,8 +78,10 @@ public class NotificationService {
     }
 
     @Transactional
-    public void deleteNotificationByUserId(Long userId) {
-        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow(
+    public void deleteNotification() {
+        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+
+        UserEntity savedUserEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         //조회된 알림 list

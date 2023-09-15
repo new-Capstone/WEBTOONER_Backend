@@ -42,8 +42,6 @@ public class BeforeImageDto {
     @Builder
     @Schema(description = "image file POST DTO")
     public static class BeforeImagePostDto {
-        @Schema(description = "userId")
-        Long userId;
         @Schema(description = "사진파일")
         MultipartFile beforeImageMultipartFile;
         @Schema(description = "표정")

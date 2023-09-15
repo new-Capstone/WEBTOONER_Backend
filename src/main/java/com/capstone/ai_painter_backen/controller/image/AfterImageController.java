@@ -41,10 +41,10 @@ public class AfterImageController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.")})
     public ResponseEntity getAfterImage(@RequestParam Long afterImageId){
-        log.info("1");
         return ResponseEntity.ok().body(afterImageService.readAfterImage(afterImageId));
     }
 
+    //실제론 이 API를 호출할 일이 없음. beforeImage 등록하면 자동으로 연관관계 세팅되고 값 들어감.
     @PostMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "변환후의 이미지 스냅샷 저장 메소드", description = "변환 후의 이미지 스냅샷을 저장하는 메소드입니다.")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "사진이 정상 등록됨",
@@ -79,8 +79,8 @@ public class AfterImageController {
             @ApiResponse(responseCode = "400", description = "BAD REQUEST !!", content = @Content),
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
-    @GetMapping("/userId")
-    public ResponseEntity<?> getByUserId(@RequestParam Long beforeImageId){
+    @GetMapping("/{beforeImageId}")
+    public ResponseEntity<?> getByBeforeImageId(@PathVariable Long beforeImageId){
         try{
             List<AfterImageDto.AfterImageResponseDto> afterImageResponseDtos = afterImageService.
                     readAfterImageList(beforeImageId);

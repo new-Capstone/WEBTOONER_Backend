@@ -5,6 +5,7 @@ import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.domain.message.NotificationEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.RoomDto;
+import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.message.RoomMapper;
@@ -13,6 +14,7 @@ import com.capstone.ai_painter_backen.repository.message.NotificationRepository;
 import com.capstone.ai_painter_backen.repository.message.RoomRepository;
 
 import com.capstone.ai_painter_backen.repository.UserRepository;
+import com.capstone.ai_painter_backen.service.security.SecurityUserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,12 +37,15 @@ public class RoomService {
     private final UserRepository userRepository;
     private final NotificationRepository notificationRepository;
     private final MessageRepository messageRepository;
+    private final SecurityUserInfoService securityUserInfoService;
 
     @Transactional
     public RoomDto.RoomResponseDto createRoom(RoomDto.RoomPostDto postDto) {
+        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+
         RoomEntity roomEntity = roomMapper.roomRequestPostDtoToRoomEntity(postDto);
 
-        roomEntity.setOwner(userRepository.findById(postDto.getOwnerId()).orElseThrow(
+        roomEntity.setOwner(userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
 
         roomEntity.setVisitor(userRepository.findById(postDto.getVisitorId()).orElseThrow(
@@ -54,8 +59,10 @@ public class RoomService {
                 () -> new BusinessLogicException(ExceptionCode.ROOM_NOT_FOUND)));
     }
 
-    public List<RoomDto.RoomResponseDto> getRoomsByUserId(Long userId) {
-        UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow(
+    public List<RoomDto.RoomResponseDto> getRooms() {
+        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+
+        UserEntity savedUserEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
         List<RoomEntity> roomEntities = roomRepository.findAllByOwnerOrVisitor(savedUserEntity, savedUserEntity);
@@ -65,7 +72,6 @@ public class RoomService {
 
     @Transactional
     public void deleteRoom(RoomDto.RoomDeleteDto deleteDto) {
-        //Room 삭제할 때 message 같이 삭제 orphanRemoval
         if (!roomRepository.existsById(deleteDto.getRoomId())) {
             throw new BusinessLogicException(ExceptionCode.ROOM_NOT_FOUND);
         }

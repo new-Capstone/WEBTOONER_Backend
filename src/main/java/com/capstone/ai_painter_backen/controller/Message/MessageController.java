@@ -34,6 +34,10 @@ public class MessageController {
 
     //채팅
     @MessageMapping("chat/message")
+    /**
+     * TODO : chatPreHandler 구현하기
+     * chatPreHandler -> jwt token 파싱하고 context에 user정보 저장
+     */
     public ResponseEntity<?> message(MessageDto.MessagePostDto messagePostDto) {
         log.info("pub/chat/message");
         return ResponseEntity.ok().body(messageService.createMessage(messagePostDto));

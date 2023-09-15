@@ -21,27 +21,24 @@ public class NotificationController {
 
     private final NotificationService notificationService;
 
-    //pass
-    //조회할 때 checked 값이 바뀜 -> PostMapping
-
-    @Operation(summary = "Notification 조회 api", description = "userId로 해당 유저 알림 모두 조회")
+    @Operation(summary = "Notification 조회 api", description = "유저 알림 모두 조회")
     @ApiResponse(responseCode = "200", description = "OK",
             content = @Content(schema = @Schema(implementation = NotificationDto.NotificationResponseDto.class)))
     @ApiResponse(responseCode = "400", description = "Client Error")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @ResponseStatus(HttpStatus.OK)
     @PostMapping
-    public List<NotificationDto.NotificationResponseDto> getNotifications(@RequestParam Long userId) {
-        return notificationService.getNotificationsByUserId(userId);
+    public List<NotificationDto.NotificationResponseDto> getNotifications() {
+        return notificationService.getNotifications();
     }
 
-    @Operation(summary = "Notification 삭제 api", description = "userId 해당 유저 모든 알림 제거")
+    @Operation(summary = "Notification 삭제 api", description = "유저 모든 알림 제거")
     @ApiResponse(responseCode = "200", description = "OK")
     @ApiResponse(responseCode = "400", description = "Client Error")
     @ApiResponse(responseCode = "500", description = "Internal Server Error")
     @ResponseStatus(HttpStatus.OK)
     @DeleteMapping
-    public void deleteNotifications(@RequestParam Long userId) {
-        notificationService.deleteNotificationByUserId(userId);
+    public void deleteNotifications() {
+        notificationService.deleteNotification();
     }
 }

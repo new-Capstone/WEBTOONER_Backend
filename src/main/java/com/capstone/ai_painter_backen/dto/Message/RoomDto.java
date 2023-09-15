@@ -17,9 +17,6 @@ public class RoomDto {
     @Builder
     public static class RoomPostDto {
         @Schema
-        @NotNull(message = "채팅방 생성 유저 아이디는 필수값입니다.")
-        private Long ownerId;
-        @Schema
         @NotNull(message = "채팅방 참여 유저 아이디는 필수값입니다.")
         private Long visitorId;
     }
