@@ -5,7 +5,6 @@ import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.domain.message.NotificationEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.NotificationDto;
-import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.message.NotificationMapper;
@@ -62,11 +61,9 @@ public class NotificationService {
 
     @Transactional
     public List<NotificationDto.NotificationResponseDto> getNotifications() {
-        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
-        UserEntity savedUserEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        UserEntity userEntity = securityUserInfoService.getLoginUser();
 
-        List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(savedUserEntity, false);
+        List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(userEntity, false);
 
         //알림 조회할 때 check
         for (NotificationEntity notificationEntity : notificationEntities) {
@@ -79,13 +76,10 @@ public class NotificationService {
 
     @Transactional
     public void deleteNotification() {
-        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
-
-        UserEntity savedUserEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        UserEntity userEntity = securityUserInfoService.getLoginUser();
 
         //조회된 알림 list
-        List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(savedUserEntity, true);
+        List<NotificationEntity> notificationEntities = notificationRepository.findALlByUserAndChecked(userEntity, true);
 
         for (NotificationEntity notificationEntity : notificationEntities) {
             notificationRepository.delete(notificationEntity);

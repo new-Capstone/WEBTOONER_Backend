@@ -5,7 +5,6 @@ import com.capstone.ai_painter_backen.domain.message.MessageEntity;
 import com.capstone.ai_painter_backen.domain.message.NotificationEntity;
 import com.capstone.ai_painter_backen.domain.message.RoomEntity;
 import com.capstone.ai_painter_backen.dto.Message.RoomDto;
-import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.message.RoomMapper;
@@ -41,13 +40,11 @@ public class RoomService {
 
     @Transactional
     public RoomDto.RoomResponseDto createRoom(RoomDto.RoomPostDto postDto) {
-        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+        UserEntity userEntity = securityUserInfoService.getLoginUser();
 
         RoomEntity roomEntity = roomMapper.roomRequestPostDtoToRoomEntity(postDto);
 
-        roomEntity.setOwner(userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
-
+        roomEntity.setOwner(userEntity);
         roomEntity.setVisitor(userRepository.findById(postDto.getVisitorId()).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND)));
 
@@ -60,12 +57,9 @@ public class RoomService {
     }
 
     public List<RoomDto.RoomResponseDto> getRooms() {
-        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
+        UserEntity userEntity = securityUserInfoService.getLoginUser();
 
-        UserEntity savedUserEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
-
-        List<RoomEntity> roomEntities = roomRepository.findAllByOwnerOrVisitor(savedUserEntity, savedUserEntity);
+        List<RoomEntity> roomEntities = roomRepository.findAllByOwnerOrVisitor(userEntity, userEntity);
 
        return roomEntities.stream().map(roomMapper::roomEntityToRoomResponseDto).collect(Collectors.toList());
     }

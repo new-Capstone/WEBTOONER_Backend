@@ -2,14 +2,11 @@ package com.capstone.ai_painter_backen.service.image;
 
 import com.capstone.ai_painter_backen.domain.UserEntity;
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
-import com.capstone.ai_painter_backen.dto.Result;
-import com.capstone.ai_painter_backen.dto.UserDto;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.image.BeforeImageMapper;
-import com.capstone.ai_painter_backen.repository.UserRepository;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
 import com.capstone.ai_painter_backen.service.security.SecurityUserInfoService;
@@ -17,7 +14,6 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,17 +30,13 @@ public class BeforeImageService {
     private BeforeImageRepository beforeImageRepository;
     private BeforeImageMapper beforeImageMapper;
     private S3FileService s3FileService;
-    private UserRepository userRepository;
     private ClientUtils clientUtils;
     private AfterImageService afterImageService;
     private SecurityUserInfoService securityUserInfoService;
 
 
     public BeforeImageDto.BeforeImageResponseDto createBeforeImage(BeforeImageDto.BeforeImagePostDto beforeImagePostDto){
-        UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
-
-        UserEntity userEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
-                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+        UserEntity userEntity = securityUserInfoService.getLoginUser();
 
         MultipartFile multipartFile = beforeImagePostDto.getBeforeImageMultipartFile();
         S3ImageInfo s3ImageInfo = s3FileService.uploadMultiFile(multipartFile);
@@ -97,9 +89,7 @@ public class BeforeImageService {
     public Page<BeforeImageDto.BeforeImageResponseDto> readBeforeImageEntityByUserId(Pageable pageable){
 
         try{
-            UserDto.CusTomUserPrincipalDto cusTomUserPrincipalDto = securityUserInfoService.getUserInfoFromSecurityContextHolder();
-            UserEntity userEntity = userRepository.findByUserEmail(cusTomUserPrincipalDto.getEmail()).orElseThrow(
-                    () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+            UserEntity userEntity = securityUserInfoService.getLoginUser();
 
             Page<BeforeImageEntity> beforeImageEntities = beforeImageRepository.findAllByUserEntityId(userEntity.getId(), pageable);
             List<BeforeImageDto.BeforeImageResponseDto> beforeImageResponseDtos = beforeImageEntities

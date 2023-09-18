@@ -10,10 +10,8 @@ import com.capstone.ai_painter_backen.mapper.image.AfterImageMapper;
 import com.capstone.ai_painter_backen.repository.image.AfterImageRepository;
 import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
