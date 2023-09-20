@@ -44,16 +44,20 @@ public class RoomController {
         return ResponseEntity.ok().body("deleted RoomId:"+deleteDto.getRoomId());
     }
 
+    /**
+     * roomId로 조회는 필요 없을 듯
+     * userId로 roomId 다 가져오고 이 roomId로 채팅 가져오고 채팅하고 다 할 수 있음.
+     */
 
-    @Operation(summary = "RoomId로 Room 조회 api", description = "roomId로 Room 조회")
-    @ApiResponse(responseCode = "200", description = "OK",
-            content = @Content(schema = @Schema(implementation = RoomDto.RoomResponseDto.class)))
-    @ApiResponse(responseCode = "400", description = "Client Error")
-    @ApiResponse(responseCode = "500", description = "Internal Server Error")
-    @GetMapping
-    public ResponseEntity<?> getRoom(@RequestParam Long roomId){
-        return ResponseEntity.ok().body(roomService.getRoom(roomId));
-    }
+//    @Operation(summary = "RoomId로 Room 조회 api", description = "roomId로 Room 조회")
+//    @ApiResponse(responseCode = "200", description = "OK",
+//            content = @Content(schema = @Schema(implementation = RoomDto.RoomResponseDto.class)))
+//    @ApiResponse(responseCode = "400", description = "Client Error")
+//    @ApiResponse(responseCode = "500", description = "Internal Server Error")
+//    @GetMapping
+//    public ResponseEntity<?> getRoom(@RequestParam Long roomId){
+//        return ResponseEntity.ok().body(roomService.getRoom(roomId));
+//    }
 
     @Operation(summary = "Room 조회 api", description = "userId로 Room 조회")
     @ApiResponse(responseCode = "200", description = "OK",
