@@ -1,20 +1,18 @@
 package com.capstone.ai_painter_backen.service.image;
 
 import com.capstone.ai_painter_backen.domain.image.BeforeImageEntity;
-import com.capstone.ai_painter_backen.dto.Result;
 import com.capstone.ai_painter_backen.dto.image.S3ImageInfo;
 import com.capstone.ai_painter_backen.dto.image.BeforeImageDto;
 import com.capstone.ai_painter_backen.exception.BusinessLogicException;
 import com.capstone.ai_painter_backen.exception.ExceptionCode;
 import com.capstone.ai_painter_backen.mapper.image.BeforeImageMapper;
 import com.capstone.ai_painter_backen.repository.UserRepository;
-import com.capstone.ai_painter_backen.repository.image.BeforeImageRepository;
+import com.capstone.ai_painter_backen.repository.image.beforeimage.BeforeImageRepository;
 import com.capstone.ai_painter_backen.service.awsS3.S3FileService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
