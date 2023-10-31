@@ -58,7 +58,7 @@ public class NotificationService {
     }
 
     @Transactional
-    public List<NotificationDto.NotificationResponseDto> getNotificationsByUserId(Long userId) {
+    public void getNotificationsByUserId(Long userId) {
         UserEntity savedUserEntity = userRepository.findById(userId).orElseThrow(
                 () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
 
@@ -69,8 +69,8 @@ public class NotificationService {
             notificationEntity.check();
         }
 
-        return notificationEntities.stream()
-                .map(notificationMapper::notificationEntityToNotificationResponseDto).collect(Collectors.toList());
+        //return notificationEntities.stream()
+        //        .map(notificationMapper::notificationEntityToNotificationResponseDto).collect(Collectors.toList());
     }
 
     @Transactional

@@ -8,7 +8,7 @@ import org.springframework.security.core.userdetails.User;
 
 import java.util.Optional;
 
-public interface UserRepository extends JpaRepository<UserEntity, Long> {
+public interface UserRepository extends JpaRepository<UserEntity, Long>, UserRepositoryCustom{
 //    public void deleteByLoginId(String loginid);
 
     boolean existsByUserEmail(String userEmail);

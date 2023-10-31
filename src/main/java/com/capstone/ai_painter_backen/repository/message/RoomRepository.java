@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 import java.util.Optional;
 
-public interface RoomRepository extends JpaRepository<RoomEntity, Long> {
+public interface RoomRepository extends JpaRepository<RoomEntity, Long>, RoomRepositoryCustom {
     List<RoomEntity> findAllByOwnerOrVisitor(UserEntity owner, UserEntity visitor);
 
     @Query("select r from RoomEntity r where (r.visitor.id = :userId or r.owner.id = :userId) and r.id = :roomId")
