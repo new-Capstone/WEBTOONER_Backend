@@ -12,6 +12,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,10 +27,12 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
+@Slf4j
 @RequestMapping("afterimage")
 public class AfterImageController {
 
     private final AfterImageService afterImageService;
+
     @GetMapping
     @Operation(summary = "변환 후의 이미지를 아이디를 통해서 가져오는 메소드")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "사진이 정상 등록됨",
@@ -38,6 +41,7 @@ public class AfterImageController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!"),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.")})
     public ResponseEntity getAfterImage(@RequestParam Long afterImageId){
+        log.info("1");
         return ResponseEntity.ok().body(afterImageService.readAfterImage(afterImageId));
     }
 

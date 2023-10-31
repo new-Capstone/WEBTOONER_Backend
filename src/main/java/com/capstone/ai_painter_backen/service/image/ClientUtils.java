@@ -50,7 +50,7 @@ public class ClientUtils {
         HttpHeaders httpHeaders = new HttpHeaders();
 
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-        httpHeaders.set("accept","application/json");
+        httpHeaders.set("accept", "application/json");
 
         String imageFileString = getBase64String(multipartFile);
         List<String> wrapper = new ArrayList<>();
@@ -74,9 +74,9 @@ public class ClientUtils {
                 HttpEntity<String> response = restTemplate.postForEntity(loraUrl, requestMessage, String.class);
 
                 JSONObject object = (JSONObject) parser.parse(response.getBody());
-                JSONArray images = (JSONArray)object.get("images");
+                JSONArray images = (JSONArray) object.get("images");
 
-                for(int i = 0; i < images.size(); i++) {
+                for (int i = 0; i < images.size(); i++) {
                     String image = (String) images.get(i);
                     byte[] bytes = Base64.getDecoder().decode(image);
 
@@ -85,7 +85,7 @@ public class ClientUtils {
                 }
 
                 return result;
-            } else if (model.equals("pixar")){
+            } else if (model.equals("pixar")) {
 
                 log.info("internal pixar");
                 parameter.put("prompt", defaultPrompt + ", 1" + gender + ", " + expression + ", face");
@@ -97,13 +97,12 @@ public class ClientUtils {
                 HttpEntity<String> requestMessage = new HttpEntity<>(parameter.toJSONString(), httpHeaders);
 
 
-
                 HttpEntity<String> response = restTemplate.postForEntity(pixarUrl, requestMessage, String.class);
 
                 JSONObject object = (JSONObject) parser.parse(response.getBody());
-                JSONArray images = (JSONArray)object.get("images");
+                JSONArray images = (JSONArray) object.get("images");
 
-                for(int i = 0; i < images.size(); i++) {
+                for (int i = 0; i < images.size(); i++) {
                     String image = (String) images.get(i);
                     byte[] bytes = Base64.getDecoder().decode(image);
                     MultipartFile customMultipartFile = new CustomMultipartFile(bytes, UUID.randomUUID() + ".png");
@@ -121,7 +120,7 @@ public class ClientUtils {
         }
     }
 
-    private String getBase64String(MultipartFile multipartFile) throws Exception{
+    private String getBase64String(MultipartFile multipartFile) throws Exception {
         byte[] bytes = multipartFile.getBytes();
         return Base64.getEncoder().encodeToString(bytes);
     }

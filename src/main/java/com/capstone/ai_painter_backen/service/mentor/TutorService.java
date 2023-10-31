@@ -36,17 +36,26 @@ public class TutorService {
     UserRepository userRepository;
     CategoryRepository categoryRepository;
     CategoryTutorRepository categoryTutorRepository;
-
+    //todo 자기 자신 막는 것 설정할 것
     @Transactional
     public TutorDto.TutorResponseDto createTutor(TutorDto.TutorPostDto tutorPostDto){
 
+        UserEntity savedUserEntity  = userRepository.findById(tutorPostDto.getUserId()).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND));
+
+        //이미 튜터로 등록했던 유저인 경우 throw
+        if (savedUserEntity.getTutorEntity() != null) {
+            throw new BusinessLogicException(ExceptionCode.ALREADY_TUTOR);
+        }
+
         TutorEntity tutorEntity = tutorMapper.tutorRequestPostDtoToTutorEntity(tutorPostDto);
-        UserEntity savedUserEntity  = userRepository.findById(tutorPostDto.getUserId()).orElseThrow();
-        TutorEntity savedTutorEntity = tutorRepository.save(tutorEntity);
+
+        tutorRepository.save(tutorEntity);
         savedUserEntity.enrollTutor(tutorEntity);//user tutor mapping
 
-        tutorEntity.setCategoryTutorEntities(getCategoryTutorEntityList(tutorPostDto.getCategoryNames(),tutorEntity));
-
+        tutorEntity.setCategoryTutorEntities(
+                getCategoryTutorEntityList(tutorPostDto.getCategoryNames()
+                        ,tutorEntity));
         return  tutorMapper.tutorEntityToTutorResponseDto(tutorEntity);// jpa cacade 로 user 자동 저장
     }
 
@@ -68,23 +77,17 @@ public class TutorService {
         }catch (BusinessLogicException b){
             throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
         }
-
-
     }
-
 
     @Transactional
     public String deleteTutor(TutorDto.TutorDeleteDto tutorDeleteDto){
-        Optional<TutorEntity> tutor = tutorRepository.findById(tutorDeleteDto.getTutorId());
-        if(tutor.isPresent()){
-            Long userId  = tutor.get().getUserEntity().getId();
-            userRepository.findById(userId).orElseThrow().unrollTutor();//연관 관계 삭제
-            tutorRepository.deleteById(tutorDeleteDto.getTutorId());
-            log.info("{}: 삭제됨 !", tutorDeleteDto.getTutorId());
-            return  tutorDeleteDto.toString();
-        }else{
-            throw new BusinessLogicException(ExceptionCode.MEMBER_NOT_FOUND);
-        }
+        TutorEntity tutor = tutorRepository.findById(tutorDeleteDto.getTutorId()).orElseThrow(
+                () -> new BusinessLogicException(ExceptionCode.TUTOR_NOT_FOUND));
+
+        tutor.getUserEntity().unrollTutor();
+        tutorRepository.delete(tutor);
+        log.info("{}: 삭제됨 !", tutorDeleteDto.getTutorId());
+        return tutorDeleteDto.toString();
     }
 
     @Transactional

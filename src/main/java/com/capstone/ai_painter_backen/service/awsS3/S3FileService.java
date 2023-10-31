@@ -112,7 +112,7 @@ public class S3FileService implements FileServiceCRUD{
 
             InputStream inputStream = new BufferedInputStream(multipartFile.getInputStream());
             final PutObjectRequest putObjectRequest =
-                    new PutObjectRequest(s3BucketName, fileName, inputStream,null);
+                    new PutObjectRequest(s3BucketName, fileName, inputStream,null); //todo metadata 에 사이즈값 추가하기
             putObjectRequest.setCannedAcl(CannedAccessControlList.PublicRead);//configure upload file permission
             PutObjectResult putObjectResult = amazonS3.putObject(putObjectRequest);//now send the data to S3
             System.out.println("File " + fileName + " was uploaded.");

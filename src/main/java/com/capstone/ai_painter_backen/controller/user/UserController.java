@@ -11,6 +11,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -23,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("user")
+@Slf4j
 public class UserController {
 
     private final UserService userService;
@@ -59,7 +61,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "NOT FOUND !!", content = @Content),
             @ApiResponse(responseCode = "500", description = "서버에서 에러가 발생하였습니다.", content = @Content)})
     public String jwtTest(@AuthenticationPrincipal UserEntity userEntity) {
-
+        log.info("userEntity : ", userEntity);
         return "jwtTest 요청 성공";
     }
 
@@ -81,7 +83,7 @@ public class UserController {
         return ResponseEntity.ok().body(userService.getUser(userId));
     }
 
-    @PatchMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/edit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     @Operation(summary = "유저 정보 수정", description = "유저 정보를 반환하는 메서드")
     @ApiResponses({@ApiResponse(responseCode = "201" ,description = "유저 정보 정상 수정딤",
             content = @Content(schema = @Schema(implementation = UserDto.UserResponseDto.class))),

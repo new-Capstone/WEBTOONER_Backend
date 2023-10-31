@@ -9,13 +9,16 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface NotificationMapper {
 
+    /*
     default NotificationDto.NotificationResponseDto notificationEntityToNotificationResponseDto(NotificationEntity notificationEntity) {
         return NotificationDto.NotificationResponseDto.builder()
                 .NotificationId(notificationEntity.getId())
                 .messageResponseDto(messageEntityToMessageResponseDto(notificationEntity.getMessage()))
                 .userId(notificationEntity.getUser().getId()).build();
     }
+    */
 
+    /*
     default MessageDto.MessageResponseDto messageEntityToMessageResponseDto(MessageEntity messageEntity) {
         return MessageDto.MessageResponseDto.builder()
                 .messageId(messageEntity.getId())
@@ -24,4 +27,6 @@ public interface NotificationMapper {
                 .content(messageEntity.getContent())
                 .build();
     }
+    */
+
 }
